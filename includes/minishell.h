@@ -36,6 +36,12 @@ typedef struct s_cul
 	struct s_cul	*next;
 }	t_cul;
 
+typedef enum s_quote {
+	outside,
+	inside_single_quote,
+	inside_double_quote
+}	t_enum_quote;
+
 typedef enum s_token_parse {
 	token_cmd,
 	token_redir_in,
@@ -49,7 +55,7 @@ typedef enum s_token_parse {
 }	t_enum_token;
 
 typedef struct s_token {
-	char			*value; 
+	char			*value;
 	t_enum_token	type;
 }	t_token;
 

@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 16:37:31 by wailas            #+#    #+#             */
-/*   Updated: 2025/04/08 18:19:46 by wailas           ###   ########.fr       */
+/*   Updated: 2025/04/10 13:54:52 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,25 +68,25 @@ int	before_space(const char *str)
 char	*input_with_space(const char *str)
 {
 	int		i;
-	char	*result;
 	int		j;
+	int		length;
+	char	*result;
 
-	result = malloc(sizeof(char) * (before_space(str) + 1));
 	i = 0;
 	j = 0;
+	length = before_space(str);
+	result = malloc(sizeof(char) * (length + 1));
 	while (str[i])
 	{
 		if (str[i] == '|' || str[i] == '>' || str[i] == '<')
 		{
 			result[j++] = ' ';
-			result[j++] = str[i];
+			result[j++] = str[i++];
 			result[j++] = ' ';
-			i++;
 		}
 		else
 			result[j++] = str[i++];
 	}
-	printf("la phrase avec les espaces : [%s]\n", result);
 	result[j] = '\0';
 	return (result);
 }
@@ -99,6 +99,11 @@ void	parse_command(const char *input)
 
 	input_copy = input_with_space(input);
 	token_value = ft_strtok(input_copy, " \t\n");
+	if (!token_value)
+	{
+		free(input_copy);
+		return ;
+	}
 	while (token_value != NULL)
 	{
 		if (ft_strcmp(token_value, "|") == 0)
@@ -109,8 +114,8 @@ void	parse_command(const char *input)
 			token = create_token(token_redir_in, token_value);
 		else
 			token = create_token(token_arg, token_value);
-		ft_printf("Token: %s\n", token->value);
-		//free_token(token);
+		free_token(token);
 		token_value = ft_strtok(NULL, " \t\n");
 	}
+	free(input_copy);
 }
