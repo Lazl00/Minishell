@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:49:35 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/04/08 17:48:28 by wailas           ###   ########.fr       */
+/*   Updated: 2025/04/11 19:05:07 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,6 @@
 # include "../libft/include/libft.h"
 # include "../libft/include/ft_printf.h"
 # include "../libft/include/get_next_line.h"
-
-typedef struct s_cul
-{
-	int				cul;
-	struct s_cul	*next;
-}	t_cul;
 
 typedef enum s_quote {
 	outside,
@@ -59,6 +53,11 @@ typedef struct s_token {
 	t_enum_token	type;
 }	t_token;
 
+t_token	*create_token(t_enum_token type, const char *value);
+void	free_token(t_token *token);
+char	*input_with_space(const char *str);
+void	add_token(const char *token_value, t_enum_token type);
 void	parse_command(const char *input);
+char	*handle_quotes(const char *str);
 
 #endif
