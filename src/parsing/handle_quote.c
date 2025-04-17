@@ -3,44 +3,71 @@
 /*                                                        :::      ::::::::   */
 /*   handle_quote.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 18:33:37 by wailas            #+#    #+#             */
-/*   Updated: 2025/04/11 18:35:33 by wailas           ###   ########.fr       */
+/*   Updated: 2025/04/16 13:37:08 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*handle_quotes(const char *str)
+bool	valid_quotes(char *line)
 {
-	int				i;
-	int				j;
-	t_enum_quote	state;
-	char			*result;
+	bool	single_quote;
+	bool	double_quote;
+	int		i;
+
+	i = -1;
+	single_quote = 0;
+	double_quote = 0;
+	while (line[++i])
+	{
+		if (line[i] == '\'' && double_quote == 0)
+		{
+			if (single_quote == 1)
+				single_quote = 0;
+			else
+				single_quote = 1;
+		}
+		if (line[i] == '\"' && single_quote == 0)
+		{
+			if (double_quote == 1)
+				double_quote = 0;
+			else
+				double_quote = 1;
+		}
+	}
+	return (!(single_quote || double_quote));
+}
+
+bool	check_quote_state(char *line, int	pos, char c)
+{
+	int i;
+	bool	single_quote;
+	bool	double_quote;
 
 	i = 0;
-	j = 0;
-	state = outside;
-	result = malloc(ft_strlen(str) * (2 + 1));
-	if (!result)
-		return (NULL);
-	while (str[i])
+	while (i < pos)
 	{
-		if (str[i] == '\'' && state == outside)
-			state = inside_single_quote;
-		else if (str[i] == '\'' && state == inside_single_quote)
-			state = outside;
-		else if (str[i] == '\"' && state == outside)
-			state = inside_double_quote;
-		else if (str[i] == '\"' && state == inside_double_quote)
-			state = outside;
-		if (str[i] == ' ' && state != outside)
-			result[j++] = 1;
-		else
-			result[j++] = str[i];
+		if (line[i] == '\'' && double_quote == 0)
+		{
+			if (single_quote == 1)
+				single_quote = 0;
+			else
+				single_quote = 1;
+		}
+		if (line[i] == '\"' && single_quote == 0)
+		{
+			if (double_quote == 1)
+				double_quote = 0;
+			else
+				double_quote = 1;
+		}
 		i++;
 	}
-	result[j] = '\0';
-	return (result);
+	if (c == '\'')
+		return (single_quote);
+	else
+		return (double_quote);
 }

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 16:37:31 by wailas            #+#    #+#             */
-/*   Updated: 2025/04/11 18:50:42 by wailas           ###   ########.fr       */
+/*   Updated: 2025/04/16 13:30:37 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-t_token	*create_token(t_enum_token type, const char *value)
+/*t_token	*create_token(t_enum_token type, const char *value)
 {
 	t_token	*token;
 
@@ -81,3 +81,4 @@ char	*input_with_space(const char *str)
 	result[j] = '\0';
 	return (result);
 }
+*/

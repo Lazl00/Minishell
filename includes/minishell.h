@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:49:35 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/04/11 19:05:07 by wailas           ###   ########.fr       */
+/*   Updated: 2025/04/16 17:47:15 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <string.h>
 # include <sys/types.h>
 # include <unistd.h>
+# include <stdbool.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../libft/include/libft.h"
@@ -53,11 +54,26 @@ typedef struct s_token {
 	t_enum_token	type;
 }	t_token;
 
-t_token	*create_token(t_enum_token type, const char *value);
+typedef struct s_data {
+	char	**env;
+	t_token	*tokens;
+	char	*path;
+	int		fd[2];
+}	t_data;
+
+t_token	*create_token(t_enum_token type, char *value);
 void	free_token(t_token *token);
-char	*input_with_space(const char *str);
-void	add_token(const char *token_value, t_enum_token type);
-void	parse_command(const char *input);
-char	*handle_quotes(const char *str);
+char	*input_with_space(char *str);
+void	add_token(char *token_value, t_enum_token type);
+void	parse_command(t_data data, char *input);
+bool	valid_quotes(char *line);
+bool	check_quote_state(char *line, int	pos, char c);
+bool    expend_vars(t_data data, char *line);
+char    *simple_expend(t_data data, char *line, char *var);
+char	*get_path(char **envp);
+char	*ft_getenv(char *str, char **envp);
+char	*modified_var(t_data data, char	*var);
+bool	is_separator(char c);
+char	*cut_var(char *var);
 
 #endif

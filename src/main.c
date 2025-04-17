@@ -6,27 +6,44 @@
 /*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:48:31 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/04/08 16:09:03 by wailas           ###   ########.fr       */
+/*   Updated: 2025/04/16 18:02:57 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	main(void)
+t_data	init_data(char **env)
 {
-	char	*rl;
+	t_data	data;
+	
+	data.env = env;
+	data.tokens = NULL;
+	data.fd[0] = -1;
+	data.fd[1] = -1;
+	data.path = get_path(data.env);
+	
+	return (data);
+}
 
+int		main(int argc, char **argv, char **env)
+{
+	char	*line;
+	t_data	data;
+
+	(void)argc;
+	(void)argv;
+	data = init_data(env);
 	while (1)
 	{
-		rl = readline("minishell 👅👀> ");
-		if (rl == NULL)
+		line = readline("minishell 👅👀> ");
+		if (line == NULL)
 		{
 			printf("exit");
 			break ;
 		}
-		add_history(rl);
-		parse_command(rl);
-		free(rl);
+		add_history(line);
+		parse_command(data, line);
+		free(line);
 	}
 	exit(EXIT_FAILURE);
 }

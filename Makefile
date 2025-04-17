@@ -18,6 +18,8 @@ SRCS =    main.c \
 		  parsing/handle_quote.c \
 		  parsing/free_token.c \
 		  parsing/tokens.c \
+		  parsing/expend_vars.c \
+		  utils.c \
 
 OBJS   := $(addprefix $(DIR_OBJS)/, $(SRCS:.c=.o))
 INCS   := $(addprefix $(DIR_INCS)/, minishell.h)
