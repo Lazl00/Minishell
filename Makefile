@@ -3,7 +3,7 @@ NAME = minishell
 
 # -----------------------------  DIRECTORIES  ------------------------------------------------------#
 CC          := cc
-CFLAGS      := -Wall -Wextra -Werror -g3 -Iincludes
+CFLAGS      := -Wall -Wextra -Werror -g -Iincludes
 LDFLAGS     := -lreadline -lpthread
 
 LIBFT       := libft/libft.a
@@ -20,6 +20,7 @@ SRCS =    main.c \
 		  parsing/tokens.c \
 		  parsing/expend_vars.c \
 		  utils.c \
+		  builtin/echo.c \
 
 OBJS   := $(addprefix $(DIR_OBJS)/, $(SRCS:.c=.o))
 INCS   := $(addprefix $(DIR_INCS)/, minishell.h)

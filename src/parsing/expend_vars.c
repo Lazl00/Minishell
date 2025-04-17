@@ -6,7 +6,7 @@
 /*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:25:57 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/04/16 18:06:29 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/04/17 14:29:24 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ bool	is_separator(char c)
 	if (c >= 'a' && c <= 'z')
 		return (false);
 	if (c >= 'A' && c <= 'Z')
+		return (false);
+	if (c >= '0' && c <= '9')
 		return (false);
 	if (c == '_')
 		return (false);
@@ -71,8 +73,8 @@ char    *simple_expend(t_data data, char *line, char *var)
 	(void)line;
 	new_var = cut_var(++var);
 	clean_var = modified_var(data, new_var);
-	printf("%s\n", clean_var);
-	return(NULL);
+	printf("%s", clean_var);
+	return (NULL);
 }
 
 bool    expend_vars(t_data data, char *line)
@@ -82,12 +84,12 @@ bool    expend_vars(t_data data, char *line)
 
     i = 0;
 	(void)data;
-    while(line[i])
+    while (line[i])
     {
         if (line[i] == '$' && check_quote_state(line, i, '\'') == 0)
         {
             expended_line = simple_expend(data, line, &line[i]);
-            free(line);
+            free(expended_line);
         }
 		i++;
 	}
