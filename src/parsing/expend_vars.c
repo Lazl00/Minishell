@@ -6,7 +6,7 @@
 /*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:25:57 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/04/17 14:29:24 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/04/17 17:46:57 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,38 @@ char    *simple_expend(t_data data, char *line, char *var)
 {
 	char	*new_var;
 	char	*clean_var;
+	char	*new_line;
+	int i;
+	int j;
 	
-	(void)line;
+	j = 0;
+	i = 0;
 	new_var = cut_var(++var);
 	clean_var = modified_var(data, new_var);
-	printf("%s", clean_var);
+	new_line = malloc(ft_strlen(line) - ft_strlen(new_var) + ft_strlen(clean_var) + 1000);
+	while (line < var)
+	{
+		new_line[i] = *line;
+		line++;
+		i++;
+	}
+	line += ft_strlen(new_var);
+	i--;
+	while (clean_var[j])
+	{
+		new_line[i] = clean_var[j];
+		j++;
+		i++;
+	}
+	while (*line)
+	{
+		new_line[i] = *line;
+		line++;
+		i++;
+	}
+	new_line[i] = '\0';
+	printf("%s\n", new_line);
+
 	return (NULL);
 }
 

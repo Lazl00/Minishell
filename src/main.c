@@ -6,7 +6,7 @@
 /*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:48:31 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/04/17 14:41:56 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/04/17 16:20:23 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int		main(int argc, char **argv, char **env)
 	data = init_data(env);
 	while (1)
 	{
-		printf("\n");
 		line = readline("minishell 👅👀>  ");
 		if (line == NULL)
 		{

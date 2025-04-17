@@ -6,7 +6,7 @@
 /*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 14:47:00 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/04/17 15:04:30 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/04/17 16:17:05 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int display_echo(t_data, char **av, int count)
             if (check_quote_state(av[i], i, "\""))
                write(1, av[i], 1);
             i++;
+        }
     }
 }
 

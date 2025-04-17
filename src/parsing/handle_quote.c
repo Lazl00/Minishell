@@ -6,7 +6,7 @@
 /*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 18:33:37 by wailas            #+#    #+#             */
-/*   Updated: 2025/04/16 13:37:08 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/04/17 16:38:40 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ bool	check_quote_state(char *line, int	pos, char c)
 	bool	single_quote;
 	bool	double_quote;
 
+	single_quote = 0;
+	double_quote = 0;
 	i = 0;
 	while (i < pos)
 	{
