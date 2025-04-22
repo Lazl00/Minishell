@@ -6,7 +6,7 @@
 /*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:49:35 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/04/16 17:47:15 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/04/22 17:50:19 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	add_token(char *token_value, t_enum_token type);
 void	parse_command(t_data data, char *input);
 bool	valid_quotes(char *line);
 bool	check_quote_state(char *line, int	pos, char c);
-bool    expend_vars(t_data data, char *line);
+char	*expend_vars(t_data data, char *line);
 char    *simple_expend(t_data data, char *line, char *var);
 char	*get_path(char **envp);
 char	*ft_getenv(char *str, char **envp);
