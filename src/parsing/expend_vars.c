@@ -6,7 +6,7 @@
 /*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:25:57 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/04/23 16:43:58 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/04/23 17:21:29 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ char    *simple_expend(t_data data, char *line, char *var)
 	new_line = NULL;
 	if (*(var + 1) == '\0' || is_separator(*(var + 1)))
 	{
-		new_line = malloc(sizeof(char) + 2);
+		new_line = malloc(sizeof(char) + 70000);
 		while (line < var)
 			new_line[i++] = *line++;
 		new_line[i++] = '$';
@@ -118,24 +118,18 @@ char    *simple_expend(t_data data, char *line, char *var)
 	return (new_line);
 }
 
-char    *expend_vars(t_data data, char *line)
-{
-    int     i;
-    char    *expended_line;
+char *expend_vars(t_data data, char *line) {
+    int i = 0;
+    char *expended_line = NULL;
 
-    i = 0;
-    while (line[i])
-    {
+    while (line[i]) {
         if (line[i] == '$' && check_quote_state(line, i, '\'') == 0)
-        {
+		{
             expended_line = simple_expend(data, line, &line[i]);
             free(line);
-            line = ft_strdup(expended_line);
-            free(expended_line);
-            i = 0;
+            line = expended_line;
         }
-        else
-            i++;
+    	i++;
     }
     return (line);
 }
