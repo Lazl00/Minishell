@@ -6,7 +6,7 @@
 /*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:25:57 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/04/22 17:58:57 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/04/23 16:43:58 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,29 +118,24 @@ char    *simple_expend(t_data data, char *line, char *var)
 	return (new_line);
 }
 
-char	*expend_vars(t_data data, char *line)
+char    *expend_vars(t_data data, char *line)
 {
     int     i;
     char    *expended_line;
-	char	*tmp;
 
-	tmp = line;
     i = 0;
     while (line[i])
     {
         if (line[i] == '$' && check_quote_state(line, i, '\'') == 0)
         {
             expended_line = simple_expend(data, line, &line[i]);
-			free(line);
-			line = ft_strdup(expended_line);
-			free(expended_line);
+            free(line);
+            line = ft_strdup(expended_line);
+            free(expended_line);
+            i = 0;
         }
-		i++;
-	}
-	return (line);
+        else
+            i++;
+    }
+    return (line);
 }
-
-// si pas de suite a "$"							->	affiche le '$'
-// si pas de var correspondantes a la suite de $	->	affiche rien
-
-// actuellement les deux cas SIGSEGV

@@ -6,7 +6,7 @@
 /*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 18:47:32 by wailas            #+#    #+#             */
-/*   Updated: 2025/04/22 17:58:26 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/04/23 15:41:24 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	parse_command(t_data data, char *input)
 	line = expend_vars(data, input);
 	if (!line)
 		return ;
-	printf("%s\n", line);
+	ft_printf("%s\n", input);
 }
 
 // && !create_token_list(input)
