@@ -6,7 +6,7 @@
 /*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:25:57 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/04/23 18:51:49 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/04/24 16:51:45 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,21 +76,9 @@ char    *simple_expend(t_data data, char *line, char *var)
 	j = 0;
 	i = 0;
 	new_line = NULL;
-	if (*(var + 1) == '\0' || is_separator(*(var + 1)))
-	{
-		new_line = malloc(sizeof(char) + 7000);
-		while (line < var)
-			new_line[i++] = *line++;
-		new_line[i++] = '$';
-		line++;
-		while (*line)
-			new_line[i++] = *line++;
-		new_line[i] = '\0';
-		return (new_line);
-	}
-	ft_printf("var = %s\n", var);
+	if (*(var + 1) == '\0' || is_separator(*(var + 1)) == true)
+		return (NULL);
 	new_var = cut_var(++var);
-	ft_printf("cleaned var = %s\n", new_var);
 	clean_var = modified_var(data, new_var);
 	new_line = malloc(ft_strlen(line) - ft_strlen(new_var) + ft_strlen(clean_var));
 	while (line < var)
@@ -117,6 +105,7 @@ char    *simple_expend(t_data data, char *line, char *var)
 		i++;
 	}
 	new_line[i] = '\0';
+	free(new_var);
 	return (new_line);
 }
 
@@ -127,16 +116,21 @@ char *expend_vars(t_data data, char *line)
 
 	expended_line = NULL;
 	i = 0;
-	ft_printf("\n\n");
     while (line[i])
 	{
         if (line[i] == '$' && check_quote_state(line, i, '\'') == 0)
 		{
             expended_line = simple_expend(data, line, &line[i]);
-            free(line);
-            line = expended_line;
+            if (expended_line)
+			{
+				free(line);
+            	line = expended_line;
+			}
+			else
+				i++;
         }
-		i++;
+		else
+			i++;
     }
     return (line);
 }

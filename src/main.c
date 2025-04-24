@@ -6,7 +6,7 @@
 /*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:48:31 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/04/23 15:40:10 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/04/24 17:10:28 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,13 @@ int		main(int argc, char **argv, char **env)
 	while (1)
 	{
 		line = readline("minishell 👅👀>  ");
+		add_history(line);
 		if (*line == '\0')
 		{
 			free(line);
 			printf("exit");
-			break ;
+			exit(EXIT_FAILURE);
 		}
-		add_history(line);
 		parse_command(data, line);
 	}
 	free(line);
