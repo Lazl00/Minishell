@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbrbase.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 11:58:14 by wailas            #+#    #+#             */
-/*   Updated: 2025/01/07 09:44:36 by wailas           ###   ########.fr       */
+/*   Updated: 2025/04/24 18:09:22 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	ft_putnbrbase(unsigned long long nbr, char const *base)
 	int			size_base;
 	char		result;
 
-	size_base = ft_strlen(base);
+	size_base = len(base);
 	if (nbr < 0)
 	{
 		write(1, "-", 1);

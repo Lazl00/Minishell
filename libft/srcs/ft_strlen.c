@@ -6,13 +6,13 @@
 /*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 12:39:26 by wailas            #+#    #+#             */
-/*   Updated: 2025/04/22 14:12:37 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/04/24 18:02:02 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/libft.h"
 
-size_t	ft_strlen(const char *str)
+size_t	len(const char *str)
 {
 	int	i;
 

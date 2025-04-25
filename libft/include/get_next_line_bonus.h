@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 11:43:28 by wailas            #+#    #+#             */
-/*   Updated: 2024/12/26 12:49:34 by wailas           ###   ########.fr       */
+/*   Updated: 2025/04/24 18:09:56 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 
 /*	Fonction get_next_line	*/
 
-size_t	ft_strlen(const char *s);
+size_t	len(const char *s);
 char	*get_next_line(int fd);
 //char	*ft_strjoin(char *s1, const char *s2);
 char	*update_buffer(char *buffer);
@@ -40,7 +40,6 @@ int		ft_found2(const char *str);
 char	*ft_ligne(char *buffer);
 void	*ft_calloc(size_t nmemb, size_t size);
 
-size_t	ft_strlen(const char *s);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 char	*str_join_and_free(char *s1, const char *s2);
 char	*get_next_line(int fd);

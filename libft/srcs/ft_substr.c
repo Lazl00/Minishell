@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 14:23:50 by wailas            #+#    #+#             */
-/*   Updated: 2025/01/09 11:33:14 by wailas           ###   ########.fr       */
+/*   Updated: 2025/04/24 18:06:11 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,24 +28,24 @@ static unsigned long	ft_min(long x, long y)
 		return (y);
 }
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substr(char const *s, unsigned int start, size_t lenght)
 {
 	size_t	i;
 	char	*result;
 	int		taille;
 
-	taille = ft_max((ft_strlen(s) - start), 0);
-	if (len >= (size_t)taille)
-		len = taille;
-	result = malloc(sizeof(char) * (ft_min(taille, len) + 1));
+	taille = ft_max((len(s) - start), 0);
+	if (lenght >= (size_t)taille)
+		lenght = taille;
+	result = malloc(sizeof(char) * (ft_min(taille, lenght) + 1));
 	if (!result)
 		return (NULL);
 	i = 0;
-	while (i < ft_min(taille, len))
+	while (i < ft_min(taille, lenght))
 	{
 		result[i] = s[start + i];
 		i++;
 	}
-	result[ft_min(taille, len)] = '\0';
+	result[ft_min(taille, lenght)] = '\0';
 	return (result);
 }

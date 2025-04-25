@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 14:27:05 by wailas            #+#    #+#             */
-/*   Updated: 2025/04/08 16:05:22 by wailas           ###   ########.fr       */
+/*   Updated: 2025/04/24 18:02:19 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ typedef struct s_list
 
 /* libft functions */
 int		ft_atoi(const char *str);
-size_t	ft_strlen(const char *str);
+size_t	len(const char *str);
 int		ft_toupper(int c);
 int		ft_tolower(int c);
 void	ft_bzero(void *s, size_t n);

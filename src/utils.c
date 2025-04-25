@@ -6,7 +6,7 @@
 /*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:20:44 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/04/16 17:58:10 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/04/24 18:07:24 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*ft_getenv(char *str, char **envp)
 		while (envp[i][j] && envp[i][j] != '=')
 			j++;
 		sub = ft_substr(envp[i], 0, j);
-		if (ft_strncmp(sub, str, ft_strlen(sub)) == 0)
+		if (ft_strncmp(sub, str, len(sub)) == 0)
 		{
 			free(sub);
 			return (&envp[i][j + 1]);

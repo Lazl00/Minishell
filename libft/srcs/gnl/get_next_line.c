@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 15:35:05 by wailas            #+#    #+#             */
-/*   Updated: 2024/12/26 13:17:59 by wailas           ###   ########.fr       */
+/*   Updated: 2025/04/24 18:10:36 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	*update_buffer(char *buffer)
 		i++;
 	if (buffer[i] == '\n')
 		i++;
-	str = ft_calloc(ft_strlen(buffer) - i + 1, sizeof(char));
+	str = ft_calloc(len(buffer) - i + 1, sizeof(char));
 	if (!str)
 		return (NULL);
 	j = 0;

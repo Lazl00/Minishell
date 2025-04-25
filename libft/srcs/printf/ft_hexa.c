@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_hexa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 13:52:47 by wailas            #+#    #+#             */
-/*   Updated: 2025/01/07 09:44:00 by wailas           ###   ########.fr       */
+/*   Updated: 2025/04/24 18:09:13 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	ft_putnbrbase_hexa(unsigned int nbr, char const *base)
 	int			size_base;
 	char		result;
 
-	size_base = ft_strlen(base);
+	size_base = len(base);
 	if (nbr < 0)
 	{
 		write(1, "-", 1);

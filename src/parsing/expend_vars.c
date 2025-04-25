@@ -6,7 +6,7 @@
 /*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:25:57 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/04/24 16:51:45 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/04/25 18:25:03 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*modified_var(t_data data, char	*var)
 {
 	int	line;
 	int	i;
-	
+
 	line = 0;
 	i = 0;
 	while (data.env[line])
@@ -65,72 +65,56 @@ char	*cut_var(char *var)
 	return (cropped_var);
 }
 
-char    *simple_expend(t_data data, char *line, char *var)
+char	*simple_expend(t_data data, char *line, char *var)
 {
 	char	*new_var;
 	char	*clean_var;
 	char	*new_line;
-	int i;
-	int j;
-	
+	int		i;
+	int		j;
+
 	j = 0;
 	i = 0;
-	new_line = NULL;
-	if (*(var + 1) == '\0' || is_separator(*(var + 1)) == true)
+	if (*(var + 1) == '\0' || is_separator(*(var + 1)))
 		return (NULL);
 	new_var = cut_var(++var);
 	clean_var = modified_var(data, new_var);
-	new_line = malloc(ft_strlen(line) - ft_strlen(new_var) + ft_strlen(clean_var));
+	new_line = malloc(len(line) - len(new_var) + len(clean_var));
 	while (line < var)
-	{
-		new_line[i] = *line;
-		line++;
-		i++;
-	}
-	line += ft_strlen(new_var);
+		new_line[i++] = *line++;
+	line += len(new_var);
 	i--;
-	if (clean_var != NULL)
-	{	
+	if (clean_var)
 		while (clean_var[j])
-		{
-			new_line[i] = clean_var[j];
-			j++;
-			i++;
-		}
-	}
+			new_line[i++] = clean_var[j++];
 	while (*line)
-	{
-		new_line[i] = *line;
-		line++;
-		i++;
-	}
+		new_line[i++] = *line++;
 	new_line[i] = '\0';
-	free(new_var);
 	return (new_line);
 }
 
-char *expend_vars(t_data data, char *line)
+char	*expend_vars(t_data data, char *line)
 {
-    int i;
-    char *expended_line;
+	int		i;
+	char	*expended_line;
 
 	expended_line = NULL;
 	i = 0;
-    while (line[i])
+	while (line[i])
 	{
-        if (line[i] == '$' && check_quote_state(line, i, '\'') == 0)
+		if (line[i] == '$' && check_quote_state(line, i, '\'') == 0)
 		{
-            expended_line = simple_expend(data, line, &line[i]);
-            if (expended_line)
+			expended_line = simple_expend(data, line, &line[i]);
+			if (expended_line)
 			{
 				free(line);
-            	line = expended_line;
+				line = expended_line;
 			}
 			else
 				i++;
-        }
+		}
 		else
 			i++;
-    }
-    return (line);
+	}
+	return (line);
 }
