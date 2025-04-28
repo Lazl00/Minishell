@@ -6,7 +6,7 @@
 /*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:25:57 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/04/28 18:09:12 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/04/28 18:51:09 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ char	*expend_vars(t_data data, char *line)
 {
 	int		i;
 	char	*expended_line;
-	char	*final_line;
+	//char	*final_line;
 
 	expended_line = NULL;
 	i = 0;
@@ -117,6 +117,6 @@ char	*expend_vars(t_data data, char *line)
 		else
 			i++;
 	}
-	final_line = quotes_remover(line);
-	return (final_line);
+	//final_line = quotes_remover(line);
+	return (line);
 }
