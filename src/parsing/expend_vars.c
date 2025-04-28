@@ -6,7 +6,7 @@
 /*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:25:57 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/04/28 17:47:35 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/04/28 18:09:12 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ char	*expend_vars(t_data data, char *line)
 	int		i;
 	char	*expended_line;
 	char	*final_line;
+
 	expended_line = NULL;
 	i = 0;
 	while (line[i])
@@ -118,45 +119,4 @@ char	*expend_vars(t_data data, char *line)
 	}
 	final_line = quotes_remover(line);
 	return (final_line);
-}
-
-char	*quotes_remover(char *line)
-{
-	int		i;
-	int		j;
-	char	*final_line;
-
-	i = 0;
-	j = 0;
-	final_line = malloc(len(line) - quote_counter(line) + 1); 
-	while (line[i]) 
-	{
-		if (line[i] == '\'' && check_quote_state(line, i, '\''))
-			i++;
-		else if (line[i] == '\"' && check_quote_state(line, i, '\"'))
-			i++;
-		else
-			final_line[j++] = line[i++];
-	}
-	final_line[j] = '\0';
-	free (line);
-	return (final_line);
-}
-
-int	quote_counter(char *line)
-{
-	int	total;
-	int i;
-
-	total = 0;
-	i = 0;
-	while (line[i])
-	{
-		if (line[i] == '\'' && check_quote_state(line, i, '\''))
-			total++;
-		else if (line[i] == '\"' && check_quote_state(line, i, '\"'))
-			total++;
-		i++;
-	}
-	return (total);
 }

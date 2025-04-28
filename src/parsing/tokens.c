@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 16:37:31 by wailas            #+#    #+#             */
-/*   Updated: 2025/04/28 16:13:44 by wailas           ###   ########.fr       */
+/*   Updated: 2025/04/28 18:44:33 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,9 @@ char	*input_with_space(char *str)
 	result = malloc(sizeof(char) * (length + 1));
 	while (str[i])
 	{
-		if ((str[i] == '|' || str[i] == '>' || str[i] == '<') && ((check_quote_state(&str[i], i, '\'') == 0) || (check_quote_state(&str[i], i, '\"') == 0)))
+		if ((str[i] == '|' || str[i] == '>' || str[i] == '<') \
+				&& ((check_quote_state(&str[i], i, '\'') == 0) \
+					|| (check_quote_state(&str[i], i, '\"') == 0)))
 		{
 			result[j++] = ' ';
 			result[j++] = str[i++];

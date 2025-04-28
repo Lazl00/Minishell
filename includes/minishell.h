@@ -6,7 +6,7 @@
 /*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:49:35 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/04/28 17:46:56 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/04/28 18:23:53 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ int		ft_echo(char *av);
 int		ft_exec(char *line);
 bool	token(char *input);
 char	*quotes_remover(char *line);
-int	quote_counter(char *line);
+int		quote_counter(char *line);
+bool    in_any_quote(char *line, int pos);
 
 #endif
