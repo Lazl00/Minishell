@@ -6,26 +6,31 @@
 /*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 14:47:00 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/04/24 17:56:48 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/04/28 12:38:27 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	display_echo(t_data data, char **av, int count)
+void	display_echo(char *av)
 {
+	int	back_slash;
+	int	i;
+
+	i = 0;
+	back_slash = 0;
 	while (av[i])
 	{
-		if (av[i] == '-')
-		{
-			if (check_quote_state(av[i], i, "\""))
-				write(1, av[i], 1);
-			i++;
-		}
+		if (ft_strcmp(av, "-n"))
+			back_slash = 1;
+		write(1, &av[i], 1);
+		i++;
 	}
+	if (back_slash == 0)
+		write(1, "\n", 1);
 }
 
-int	ft_echo(t_data data, char **av)
+int	ft_echo(char *av)
 {
 	int	i;
 
@@ -33,6 +38,6 @@ int	ft_echo(t_data data, char **av)
 	while (av[i])
 		i++;
 	i = 0;
-	display_echo(data, av, i);
+	display_echo(av);
 	return (0);
 }

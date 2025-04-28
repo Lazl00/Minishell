@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:49:35 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/04/22 17:50:19 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/04/28 15:10:40 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,16 @@ char	*input_with_space(char *str);
 void	add_token(char *token_value, t_enum_token type);
 void	parse_command(t_data data, char *input);
 bool	valid_quotes(char *line);
-bool	check_quote_state(char *line, int	pos, char c);
+bool	check_quote_state(char *line, int pos, char c);
 char	*expend_vars(t_data data, char *line);
-char    *simple_expend(t_data data, char *line, char *var);
+char	*simple_expend(t_data data, char *line, char *var);
 char	*get_path(char **envp);
 char	*ft_getenv(char *str, char **envp);
 char	*modified_var(t_data data, char	*var);
 bool	is_separator(char c);
 char	*cut_var(char *var);
+int		ft_echo(char *av);
+int		ft_exec(char *line);
+bool	token(char *input);
 
 #endif

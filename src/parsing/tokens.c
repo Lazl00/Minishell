@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 16:37:31 by wailas            #+#    #+#             */
-/*   Updated: 2025/04/16 13:30:37 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/04/28 16:13:44 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-/*t_token	*create_token(t_enum_token type, const char *value)
+t_token	*create_token(t_enum_token type, char *value)
 {
 	t_token	*token;
 
@@ -33,7 +33,7 @@
 	return (token);
 }
 
-int	before_space(const char *str)
+int	before_space(char *str)
 {
 	int	i;
 	int	count;
@@ -56,7 +56,7 @@ int	before_space(const char *str)
 	return (count);
 }
 
-char	*input_with_space(const char *str)
+char	*input_with_space(char *str)
 {
 	int		i;
 	int		j;
@@ -69,7 +69,7 @@ char	*input_with_space(const char *str)
 	result = malloc(sizeof(char) * (length + 1));
 	while (str[i])
 	{
-		if (str[i] == '|' || str[i] == '>' || str[i] == '<')
+		if ((str[i] == '|' || str[i] == '>' || str[i] == '<') && ((check_quote_state(&str[i], i, '\'') == 0) || (check_quote_state(&str[i], i, '\"') == 0)))
 		{
 			result[j++] = ' ';
 			result[j++] = str[i++];
@@ -81,4 +81,37 @@ char	*input_with_space(const char *str)
 	result[j] = '\0';
 	return (result);
 }
-*/
+
+bool	token(char *input)
+{
+	char	*input_copy;
+	char	*token_value;
+	t_token	*token;
+	int		i;
+
+	i = 0;
+	input_copy = input_with_space(input);
+	token_value = ft_strtok(input_copy, " \t\n");
+	if (!token_value)
+	{
+		free(input_copy);
+		return (false);
+	}
+	while (token_value != NULL)
+	{
+		if ((ft_strcmp(token_value, "|") && (check_quote_state(token_value, i, '\'') == 0)) || (check_quote_state(token_value, i, '\"') == 0))
+			token = create_token(token_pipe, token_value);
+		else if (ft_strcmp(token_value, ">") == 0)
+			token = create_token(token_redir_out, token_value);
+		else if (ft_strcmp(token_value, "<") == 0)
+			token = create_token(token_redir_in, token_value);
+		else
+			token = create_token(token_arg, token_value);
+		i++;
+		printf("Token: %s | Type: %d\n", token->value, token->type);
+		free_token(token);
+		token_value = ft_strtok(NULL, " \t\n");
+	}
+	free(input_copy);
+	return (true);
+}

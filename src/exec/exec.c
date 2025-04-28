@@ -1,26 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/11 18:47:32 by wailas            #+#    #+#             */
-/*   Updated: 2025/04/28 16:30:15 by wailas           ###   ########.fr       */
+/*   Created: 2025/04/28 12:25:16 by wailas            #+#    #+#             */
+/*   Updated: 2025/04/28 12:38:03 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	parse_command(t_data data, char *input)
+int	ft_exec(char *line)
 {
-	char	*line;
+	int	i;
 
-	if (!valid_quotes(input))
-		return ;
-	line = expend_vars(data, input);
-	//token(line);
-	if (!*line)
-		return ;
-	ft_printf("%s\n", line);
+	i = 0;
+	if (ft_strncmp(line, "echo", 4) == 0)
+		ft_echo(line);
+	return (1);
 }

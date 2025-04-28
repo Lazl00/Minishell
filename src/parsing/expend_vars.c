@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expend_vars.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:25:57 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/04/25 18:25:03 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/04/28 16:30:30 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ char	*expend_vars(t_data data, char *line)
 {
 	int		i;
 	char	*expended_line;
-
+	//char	*final_line;
 	expended_line = NULL;
 	i = 0;
 	while (line[i])
@@ -116,5 +116,6 @@ char	*expend_vars(t_data data, char *line)
 		else
 			i++;
 	}
+	//final_line =  patch_quotes(line);
 	return (line);
 }
