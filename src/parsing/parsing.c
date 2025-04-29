@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 18:47:32 by wailas            #+#    #+#             */
-/*   Updated: 2025/04/28 16:30:15 by wailas           ###   ########.fr       */
+/*   Updated: 2025/04/29 15:07:18 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	parse_command(t_data data, char *input)
 	if (!valid_quotes(input))
 		return ;
 	line = expend_vars(data, input);
-	//token(line);
+	token(line);
 	if (!*line)
 		return ;
-	ft_printf("%s\n", line);
+	//ft_printf("%s\n", line);
 }

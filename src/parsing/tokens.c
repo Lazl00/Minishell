@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 16:37:31 by wailas            #+#    #+#             */
-/*   Updated: 2025/04/28 18:44:33 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/04/29 16:53:45 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,36 +84,64 @@ char	*input_with_space(char *str)
 	return (result);
 }
 
-bool	token(char *input)
+bool token(char *input)
 {
-	char	*input_copy;
-	char	*token_value;
-	t_token	*token;
-	int		i;
+	char			*input_copy;
+	char			*token_value;
+	t_token			*new_token;
+	t_token_node	*head = NULL;
+	t_token_node	*last = NULL;
+	t_token_node	*new_node;
+	int				i;
+	int				quotes;
 
-	i = 0;
 	input_copy = input_with_space(input);
-	token_value = ft_strtok(input_copy, " \t\n");
-	if (!token_value)
-	{
-		free(input_copy);
+	if (!input_copy)
 		return (false);
-	}
+	token_value = ft_strtok(input_copy, " \t\n");
 	while (token_value != NULL)
 	{
-		if ((ft_strcmp(token_value, "|") && (check_quote_state(token_value, i, '\'') == 0)) || (check_quote_state(token_value, i, '\"') == 0))
-			token = create_token(token_pipe, token_value);
-		else if (ft_strcmp(token_value, ">") == 0)
-			token = create_token(token_redir_out, token_value);
-		else if (ft_strcmp(token_value, "<") == 0)
-			token = create_token(token_redir_in, token_value);
+		quotes = 0;
+		i = 0;
+		while (token_value[i])
+		{
+			if (token_value[i] == '\'' || token_value[i] == '"')
+				quotes = 1;
+			i++;
+		}
+		if (quotes == 0)
+		{
+			if (ft_strcmp(token_value, "|") == 0)
+				new_token = create_token(token_pipe, token_value);
+			else if (ft_strcmp(token_value, ">") == 0)
+				new_token = create_token(token_redir_out, token_value);
+			else if (ft_strcmp(token_value, "<") == 0)
+				new_token = create_token(token_redir_in, token_value);
+			else
+				new_token = create_token(token_arg, token_value);
+		}
 		else
-			token = create_token(token_arg, token_value);
-		i++;
-		printf("Token: %s | Type: %d\n", token->value, token->type);
-		free_token(token);
+			new_token = create_token(token_arg, token_value);
+		new_node = malloc(sizeof(t_token_node));
+		new_node->token = new_token;
+		new_node->next = NULL;
+		if (!head)
+			head = new_node;
+		else
+			last->next = new_node;
+		last = new_node;
+
 		token_value = ft_strtok(NULL, " \t\n");
 	}
 	free(input_copy);
+	token_remove_quote(head);
+	access_token_cmd(head);
+	t_token_node *tmp = head;
+	while (tmp)
+	{
+		ft_printf("Token : %s | Type : %d\n", tmp->token->value, tmp->token->type);
+		tmp = tmp->next;
+	}
 	return (true);
 }
+

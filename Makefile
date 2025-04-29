@@ -22,6 +22,7 @@ SRCS =    main.c \
 		  utils.c \
 		  builtin/echo.c \
 		  exec/exec.c \
+		  parsing/token_utils.c \
 
 OBJS   := $(addprefix $(DIR_OBJS)/, $(SRCS:.c=.o))
 INCS   := $(addprefix $(DIR_INCS)/, minishell.h)

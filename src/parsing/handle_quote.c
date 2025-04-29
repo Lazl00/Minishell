@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_quote.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 18:33:37 by wailas            #+#    #+#             */
-/*   Updated: 2025/04/28 18:22:23 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/04/29 16:46:22 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ char	*quotes_remover(char *line)
 			final_line[j++] = line[i++];
 	}
 	final_line[j] = '\0';
-	free (line);
 	return (final_line);
 }
 

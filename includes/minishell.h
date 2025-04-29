@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:49:35 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/04/28 18:23:53 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/04/29 16:54:05 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,12 @@ typedef struct s_token {
 	t_enum_token	type;
 }	t_token;
 
+typedef struct s_token_node {
+	t_token              *token;
+	struct s_token_node  *next;
+}	t_token_node;
+
+
 typedef struct s_data {
 	char	**env;
 	t_token	*tokens;
@@ -81,5 +87,7 @@ bool	token(char *input);
 char	*quotes_remover(char *line);
 int		quote_counter(char *line);
 bool    in_any_quote(char *line, int pos);
+void	token_remove_quote(t_token_node *list);
+void		access_token_cmd(t_token_node *list);
 
 #endif
