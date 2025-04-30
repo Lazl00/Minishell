@@ -3,20 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:17:06 by wailas            #+#    #+#             */
-/*   Updated: 2025/04/29 17:10:15 by wailas           ###   ########.fr       */
+/*   Updated: 2025/04/30 14:15:30 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void token_remove_quote(t_token_node *list)
+void	token_remove_quote(t_token_node *list)
 {
-	t_token_node *tmp = list;
-	char *new_line;
+	t_token_node	*tmp;
+	char			*new_line;
 
+	tmp = list;
 	while (tmp != NULL)
 	{
 		if (tmp->token->type == token_arg)
@@ -29,22 +30,22 @@ void token_remove_quote(t_token_node *list)
 	}
 }
 
-void access_token_cmd(t_token_node *list)
+void	access_token_cmd(t_token_node *list)
 {
-    t_token_node    *tmp;
-    
-    tmp = list;
-    while (tmp != NULL)
-    {
-        if (tmp->token->type == token_arg)
-        {
-            printf("ta valeur tiens : %s\n", tmp->token->value);
-            if (access(tmp->token->value, X_OK) == 0)
-            {
-                tmp->token->type = token_cmd;
-                printf("ta les droits chef\n");
-            }
-        }
-        tmp = tmp->next;
-    }
+	t_token_node	*tmp;
+
+	tmp = list;
+	while (tmp != NULL)
+	{
+		if (tmp->token->type == token_arg)
+		{
+			printf("ta valeur tiens : %s\n", tmp->token->value);
+			if (access(tmp->token->value, X_OK) == 0)
+			{
+				tmp->token->type = token_cmd;
+				printf("ta les droits chef\n");
+			}
+		}
+		tmp = tmp->next;
+	}
 }

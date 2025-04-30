@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 16:37:31 by wailas            #+#    #+#             */
-/*   Updated: 2025/04/29 16:53:45 by wailas           ###   ########.fr       */
+/*   Updated: 2025/04/30 14:09:54 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,17 +84,19 @@ char	*input_with_space(char *str)
 	return (result);
 }
 
-bool token(char *input)
+bool	token(char *input)
 {
 	char			*input_copy;
 	char			*token_value;
 	t_token			*new_token;
-	t_token_node	*head = NULL;
-	t_token_node	*last = NULL;
+	t_token_node	*head;
+	t_token_node	*last;
 	t_token_node	*new_node;
 	int				i;
 	int				quotes;
 
+	head = NULL;
+	last = NULL;
 	input_copy = input_with_space(input);
 	if (!input_copy)
 		return (false);
@@ -130,7 +132,6 @@ bool token(char *input)
 		else
 			last->next = new_node;
 		last = new_node;
-
 		token_value = ft_strtok(NULL, " \t\n");
 	}
 	free(input_copy);
@@ -144,4 +145,3 @@ bool token(char *input)
 	}
 	return (true);
 }
-

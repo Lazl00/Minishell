@@ -13,16 +13,17 @@ BN_DIR_SRCS := bonus
 DIR_OBJS    := .objs
 DIR_INCS    := includes
 
-SRCS =    main.c \
-		  parsing/parsing.c \
-		  parsing/handle_quote.c \
-		  parsing/free_token.c \
-		  parsing/tokens.c \
-		  parsing/expend_vars.c \
-		  utils.c \
-		  builtin/echo.c \
-		  exec/exec.c \
-		  parsing/token_utils.c \
+SRCS =  main.c \
+		utils.c \
+		parsing/expend_vars.c \
+		parsing/free_token.c \
+		parsing/handle_quote.c \
+		parsing/parsing.c \
+		parsing/tokens.c \
+		parsing/token_utils.c \
+		builtin/echo.c \
+		builtin/builtin_utils.c \
+		exec/exec.c \
 
 OBJS   := $(addprefix $(DIR_OBJS)/, $(SRCS:.c=.o))
 INCS   := $(addprefix $(DIR_INCS)/, minishell.h)
