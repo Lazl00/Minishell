@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 16:37:31 by wailas            #+#    #+#             */
-/*   Updated: 2025/04/30 14:09:54 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/04/30 16:43:20 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,115 +33,72 @@ t_token	*create_token(t_enum_token type, char *value)
 	return (token);
 }
 
-int	before_space(char *str)
+void	add_operator_with_spaces(char *new_input, char *input, int *i, int *j)
 {
-	int	i;
-	int	count;
-
-	i = 0;
-	count = 0;
-	while (str[i])
+	if ((input[*i] == '<' && input[*i + 1] == '<') || (input[*i] == '>' && input[*i + 1] == '>'))
 	{
-		if (str[i] == '|' || str[i] == '>' || str[i] == '<')
-		{
-			count += 3;
-			i++;
-		}
-		else
-		{
-			count++;
-			i++;
-		}
+		new_input[(*j)++] = ' ';
+		new_input[(*j)++] = input[(*i)++];
+		new_input[(*j)++] = input[(*i)++];
+		new_input[(*j)++] = ' ';
 	}
-	return (count);
+	else
+	{
+		new_input[(*j)++] = ' ';
+		new_input[(*j)++] = input[(*i)++];
+		new_input[(*j)++] = ' ';
+	}
 }
 
-char	*input_with_space(char *str)
+char	*input_with_space(char *input)
 {
-	int		i;
-	int		j;
-	int		length;
-	char	*result;
+	int		i = 0;
+	int		j = 0;
+	char	*new_input;
 
-	i = 0;
-	j = 0;
-	length = before_space(str);
-	result = malloc(sizeof(char) * (length + 1));
-	while (str[i])
+	if (!input)
+		return (NULL);
+	new_input = malloc(strlen(input) * 3 + 1);
+	if (!new_input)
+		return (NULL);
+
+	while (input[i])
 	{
-		if ((str[i] == '|' || str[i] == '>' || str[i] == '<') \
-				&& ((check_quote_state(&str[i], i, '\'') == 0) \
-					|| (check_quote_state(&str[i], i, '\"') == 0)))
-		{
-			result[j++] = ' ';
-			result[j++] = str[i++];
-			result[j++] = ' ';
-		}
+		if ((input[i] == '<' || input[i] == '>' || input[i] == '|') && in_any_quote(input, i) == 0)
+			add_operator_with_spaces(new_input, input, &i, &j);
 		else
-			result[j++] = str[i++];
+			new_input[j++] = input[i++];
 	}
-	result[j] = '\0';
-	return (result);
+	new_input[j] = '\0';
+	return (new_input);
 }
 
-bool	token(char *input)
-{
-	char			*input_copy;
-	char			*token_value;
-	t_token			*new_token;
-	t_token_node	*head;
-	t_token_node	*last;
-	t_token_node	*new_node;
-	int				i;
-	int				quotes;
 
-	head = NULL;
-	last = NULL;
-	input_copy = input_with_space(input);
-	if (!input_copy)
-		return (false);
-	token_value = ft_strtok(input_copy, " \t\n");
-	while (token_value != NULL)
+bool	is_quoted(char *str)
+{
+	while (*str)
 	{
-		quotes = 0;
-		i = 0;
-		while (token_value[i])
-		{
-			if (token_value[i] == '\'' || token_value[i] == '"')
-				quotes = 1;
-			i++;
-		}
-		if (quotes == 0)
-		{
-			if (ft_strcmp(token_value, "|") == 0)
-				new_token = create_token(token_pipe, token_value);
-			else if (ft_strcmp(token_value, ">") == 0)
-				new_token = create_token(token_redir_out, token_value);
-			else if (ft_strcmp(token_value, "<") == 0)
-				new_token = create_token(token_redir_in, token_value);
-			else
-				new_token = create_token(token_arg, token_value);
-		}
-		else
-			new_token = create_token(token_arg, token_value);
-		new_node = malloc(sizeof(t_token_node));
-		new_node->token = new_token;
-		new_node->next = NULL;
-		if (!head)
-			head = new_node;
-		else
-			last->next = new_node;
-		last = new_node;
-		token_value = ft_strtok(NULL, " \t\n");
+		if (*str == '\'' || *str == '"')
+			return (true);
+		str++;
 	}
-	free(input_copy);
-	token_remove_quote(head);
-	access_token_cmd(head);
-	t_token_node *tmp = head;
-	while (tmp)
+	return (false);
+}
+
+t_token	*create_token_from_value(char *token_value)
+{
+	if (!is_quoted(token_value))
 	{
-		ft_printf("Token : %s | Type : %d\n", tmp->token->value, tmp->token->type);
-		tmp = tmp->next;
+		if (ft_strcmp(token_value, "|") == 0)
+			return (create_token(PIPE, token_value));
+		if (ft_strcmp(token_value, ">>") == 0)
+			return (create_token(APPEND, token_value));
+		if (ft_strcmp(token_value, ">") == 0)
+			return (create_token(REDIR_OUT, token_value));
+		if (ft_strcmp(token_value, "<<") == 0)
+			return (create_token(DELIMITEUR, token_value));
+		if (ft_strcmp(token_value, "<") == 0)
+			return (create_token(REDIR_IN, token_value));
 	}
-	return (true);
+	return (create_token(ARG, token_value));
 }

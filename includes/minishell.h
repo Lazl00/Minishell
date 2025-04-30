@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:49:35 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/04/30 14:12:51 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/04/30 16:52:17 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,15 @@ typedef enum s_quote {
 }	t_enum_quote;
 
 typedef enum s_token_parse {
-	token_cmd,
-	token_redir_in,
-	token_redir_out,
-	token_pipe,
-	token_outfile,
-	token_infile,
-	token_delimiteur,
-	token_append,
-	token_arg
+	CMD,
+	REDIR_IN,
+	REDIR_OUT,
+	PIPE,
+	OUTFILE,
+	INFILE,
+	DELIMITEUR,
+	APPEND,
+	ARG
 }	t_enum_token;
 
 typedef struct s_token {
@@ -56,7 +56,7 @@ typedef struct s_token {
 
 typedef struct s_token_node {
 	t_token					*token;
-	struct t_token_node		*next;
+	struct s_token_node		*next;
 }	t_token_node;
 
 typedef struct s_data {
@@ -89,5 +89,7 @@ bool	in_any_quote(char *line, int pos);
 void	token_remove_quote(t_token_node *list);
 void	access_token_cmd(t_token_node *list);
 bool	is_builtin(char *cmd);
+void	add_operator_with_spaces(char *new_input, char *input, int *i, int *j);
+t_token	*create_token_from_value(char *token_value);
 
 #endif

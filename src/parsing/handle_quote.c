@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 18:33:37 by wailas            #+#    #+#             */
-/*   Updated: 2025/04/29 16:46:22 by wailas           ###   ########.fr       */
+/*   Updated: 2025/04/30 16:36:19 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,8 @@ int	quote_counter(char *line)
 	return (total);
 }
 
-bool    in_any_quote(char *line, int pos)
+bool	in_any_quote(char *line, int pos)
 {
-    return(check_quote_state(line, pos, '\'') || check_quote_state(line, pos, '\"'));
+	return (check_quote_state(line, pos, '\'') || \
+		check_quote_state(line, pos, '\"'));
 }

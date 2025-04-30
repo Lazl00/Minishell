@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 14:27:05 by wailas            #+#    #+#             */
-/*   Updated: 2025/04/24 18:02:19 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/04/30 16:52:29 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ void	*ft_memcpy(void *dest, const void *src, size_t n);
 void	*ft_memmove(void *dest, const void *src, size_t n);
 void	*ft_memset(void *s, int c, size_t count);
 int		ft_strcmp(char *str1, char *str2);
-char	*ft_strtok(char *str, const char *delim);
 size_t	ft_strlcpy(char *dest, const char *src, size_t size);
 size_t	ft_strlcat(char *dest, const char *src, size_t size);
+char	*ft_strtok(char *last, const char *delim);
 
 /* libft functions addionelles*/
 void	ft_putchar_fd(char c, int fd);
