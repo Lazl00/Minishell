@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:49:35 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/04/30 16:52:17 by wailas           ###   ########.fr       */
+/*   Updated: 2025/04/30 17:24:47 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,5 +91,8 @@ void	access_token_cmd(t_token_node *list);
 bool	is_builtin(char *cmd);
 void	add_operator_with_spaces(char *new_input, char *input, int *i, int *j);
 t_token	*create_token_from_value(char *token_value);
+bool	is_quoted(char *str);
+void	print_token_list(t_token_node *head);
+bool	add_token_to_list(t_token_node **h, t_token_node **l, t_token *t);
 
 #endif
