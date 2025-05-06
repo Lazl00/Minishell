@@ -6,7 +6,7 @@
 /*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:48:31 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/04/30 17:03:21 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/05/06 16:07:22 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,28 @@ t_data	init_data(char **env)
 
 int	main(int argc, char **argv, char **env)
 {
-	char	*line;
-	t_data	data;
-	int		ignore;
+	char			*line;
+	t_data			data;
+	int				ignore;
+	t_token_node	*tokens;
 
-	(void)argc;
-	(void)argv;
 	ignore = 0;
 	data = init_data(env);
+	if (argc != 1)
+	{
+		line = argv[1];
+		if (!line || ft_strcmp(line, "exit") == 0)
+			exit(EXIT_FAILURE);
+		tokens = parse_command(data, line);
+		exit(EXIT_FAILURE);
+	}
 	while (1)
 	{
 		line = readline("minishell 👅👀>  ");
-		if (!line)
+		if (!line || ft_strcmp(line, "exit") == 0)
 			break ;
 		add_history(line);
-		parse_command(data, line);
+		tokens = parse_command(data, line);
 	}
 	free(line);
 	exit(EXIT_FAILURE);

@@ -6,7 +6,7 @@
 /*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:49:35 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/04/30 17:24:47 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/05/06 16:07:03 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,19 +70,19 @@ t_token	*create_token(t_enum_token type, char *value);
 void	free_token(t_token *token);
 char	*input_with_space(char *str);
 void	add_token(char *token_value, t_enum_token type);
-void	parse_command(t_data data, char *input);
-bool	valid_quotes(char *line);
-bool	check_quote_state(char *line, int pos, char c);
-char	*expend_vars(t_data data, char *line);
-char	*simple_expend(t_data data, char *line, char *var);
-char	*get_path(char **envp);
-char	*ft_getenv(char *str, char **envp);
-char	*modified_var(t_data data, char	*var);
-bool	is_separator(char c);
-char	*cut_var(char *var);
-int		ft_echo(char *av);
-int		ft_exec(char *line);
-bool	token(char *input);
+t_token_node	*parse_command(t_data data, char *input);
+bool			valid_quotes(char *line);
+bool			check_quote_state(char *line, int pos, char c);
+char			*expend_vars(t_data data, char *line);
+char			*simple_expend(t_data data, char *line, char *var);
+char			*get_path(char **envp);
+char			*ft_getenv(char *str, char **envp);
+char			*modified_var(t_data data, char	*var);
+bool			is_separator(char c);
+char				*cut_var(char *var);
+int					ft_echo(char *av);
+int					ft_exec(char *line);
+t_token_node	*token(char *input);
 char	*quotes_remover(char *line);
 int		quote_counter(char *line);
 bool	in_any_quote(char *line, int pos);

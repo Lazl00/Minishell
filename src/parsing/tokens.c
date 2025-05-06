@@ -6,7 +6,7 @@
 /*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 16:37:31 by wailas            #+#    #+#             */
-/*   Updated: 2025/04/30 17:17:42 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/05/06 15:43:29 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ t_token	*create_token_from_value(char *token_value)
 	return (create_token(ARG, token_value));
 }
 
-bool	token(char *input)
+t_token_node	*token(char *input)
 {
 	char			*input_copy;
 	char			*token_value;
@@ -106,18 +106,18 @@ bool	token(char *input)
 	head = NULL;
 	input_copy = input_with_space(input);
 	if (!input_copy)
-		return (false);
+		return (NULL);
 	token_value = ft_strtok(input_copy, " \t\n");
 	while (token_value)
 	{
 		new_token = create_token_from_value(token_value);
 		if (!add_token_to_list(&head, &last, new_token))
-			return (false);
+			return (NULL);
 		token_value = ft_strtok(NULL, " \t\n");
 	}
 	free(input_copy);
 	token_remove_quote(head);
 	access_token_cmd(head);
 	print_token_list(head);
-	return (true);
+	return (head);
 }

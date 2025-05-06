@@ -6,7 +6,7 @@
 /*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:17:06 by wailas            #+#    #+#             */
-/*   Updated: 2025/04/30 17:27:12 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/05/06 15:46:47 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	print_token_list(t_token_node *head)
 	tmp = head;
 	while (tmp)
 	{
-		ft_printf("Token : %s | Type : %d\n", \
+		ft_printf("Token : %s\t\tType : %d\n", \
 			tmp->token->value, tmp->token->type);
 		tmp = tmp->next;
 	}

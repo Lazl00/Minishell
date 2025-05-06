@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 18:47:32 by wailas            #+#    #+#             */
-/*   Updated: 2025/04/30 16:39:57 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/06 15:48:48 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	parse_command(t_data data, char *input)
+t_token_node	*parse_command(t_data data, char *input)
 {
-	char	*line;
+	char			*line;
+	t_token_node	*tokens;
 
 	if (!valid_quotes(input))
-		return ;
+		return (NULL);
 	line = expend_vars(data, input);
-	token(line);
-	if (!*line)
-		return ;
+	tokens = token(line);
+	return (tokens);
 }
