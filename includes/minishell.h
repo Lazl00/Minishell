@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:49:35 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/05/07 14:35:49 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/07 14:53:23 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void            token_remove_quote(t_token *list);
 void            access_token_cmd(t_token *list);
 
 /* Parsing functions */
-t_token    *parse_command(t_data data, char *input);
+t_data		*parse_command(t_data *data, char *input);
 t_token    *token(char *input);
 void            add_token(char *token_value, t_enum_token type);
 
@@ -113,6 +113,7 @@ char            *ft_getenv(char *str, char **envp);
 /* Built-in commands */
 int             ft_echo(char *av);
 int             ft_exec(char *line);
-t_data			init_data(char **env);
+t_data			*init_data(t_data *data, char **env);
+void	free_data(t_data *data);
 
 #endif

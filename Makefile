@@ -15,7 +15,7 @@ DIR_INCS    := includes
 SRCS =  main.c \
 		utils.c \
 		parsing/expend_vars.c \
-		parsing/free_token.c \
+		parsing/frees.c \
 		parsing/handle_quote.c \
 		parsing/parsing.c \
 		parsing/tokens.c \

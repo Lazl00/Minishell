@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:17:06 by wailas            #+#    #+#             */
-/*   Updated: 2025/05/07 14:21:03 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/07 17:04:32 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,20 +48,17 @@ void	access_token_cmd(t_token *list)
 
 bool	add_token_to_list(t_token **h, t_token **l, t_token *t)
 {
-	t_token	*new_node;
-
-	new_node = malloc(sizeof(t_token));
-	if (!new_node)
+	if (!t)
 		return (false);
-	new_node = t;
-	new_node->next = NULL;
+	t->next = NULL;
 	if (!*h)
-		*h = new_node;
+		*h = t;
 	else
-		(*l)->next = new_node;
-	*l = new_node;
+		(*l)->next = t;
+	*l = t;
 	return (true);
 }
+
 
 void	print_token_list(t_token *head)
 {
