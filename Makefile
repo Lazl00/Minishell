@@ -5,7 +5,6 @@ NAME = minishell
 CC          := cc
 CFLAGS      := -Wall -Wextra -Werror -g -Iincludes
 LDFLAGS     := -lreadline -lpthread
-
 LIBFT       := libft/libft.a
 
 DIR_SRCS    := src
@@ -21,6 +20,7 @@ SRCS =  main.c \
 		parsing/parsing.c \
 		parsing/tokens.c \
 		parsing/token_utils.c \
+		parsing/inits.c \
 		builtin/echo.c \
 		builtin/builtin_utils.c \
 		exec/exec.c \

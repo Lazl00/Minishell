@@ -1,25 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   lexing.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/11 18:47:32 by wailas            #+#    #+#             */
-/*   Updated: 2025/05/07 14:35:20 by wailas           ###   ########.fr       */
+/*   Created: 2025/05/07 14:25:00 by wailas            #+#    #+#             */
+/*   Updated: 2025/05/07 14:28:18 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-t_token	*parse_command(t_data data, char *input)
+bool	lexing(t_data *data)
 {
-	char			*line;
-	t_token	*tokens;
-
-	if (!valid_quotes(input))
-		return (NULL);
-	line = expend_vars(data, input);
-	tokens = token(line);
-	return (tokens);
+    
 }

@@ -3,57 +3,57 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:17:06 by wailas            #+#    #+#             */
-/*   Updated: 2025/05/06 15:46:47 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/05/07 14:21:03 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	token_remove_quote(t_token_node *list)
+void	token_remove_quote(t_token *list)
 {
-	t_token_node	*tmp;
+	t_token	*tmp;
 	char			*new_line;
 
 	tmp = list;
 	while (tmp != NULL)
 	{
-		if (tmp->token->type == ARG)
+		if (tmp->type == ARG)
 		{
-			new_line = quotes_remover(tmp->token->value);
-			free(tmp->token->value);
-			tmp->token->value = new_line;
+			new_line = quotes_remover(tmp->value);
+			free(tmp->value);
+			tmp->value = new_line;
 		}
 		tmp = tmp->next;
 	}
 }
 
-void	access_token_cmd(t_token_node *list)
+void	access_token_cmd(t_token *list)
 {
-	t_token_node	*tmp;
+	t_token	*tmp;
 
 	tmp = list;
 	while (tmp != NULL)
 	{
-		if (tmp->token->type == ARG)
+		if (tmp->type == ARG)
 		{
-			if (access(tmp->token->value, X_OK) == 0)
-				tmp->token->type = CMD;
+			if (access(tmp->value, X_OK) == 0)
+				tmp->type = CMD;
 		}
 		tmp = tmp->next;
 	}
 }
 
-bool	add_token_to_list(t_token_node **h, t_token_node **l, t_token *t)
+bool	add_token_to_list(t_token **h, t_token **l, t_token *t)
 {
-	t_token_node	*new_node;
+	t_token	*new_node;
 
-	new_node = malloc(sizeof(t_token_node));
+	new_node = malloc(sizeof(t_token));
 	if (!new_node)
 		return (false);
-	new_node->token = t;
+	new_node = t;
 	new_node->next = NULL;
 	if (!*h)
 		*h = new_node;
@@ -63,15 +63,15 @@ bool	add_token_to_list(t_token_node **h, t_token_node **l, t_token *t)
 	return (true);
 }
 
-void	print_token_list(t_token_node *head)
+void	print_token_list(t_token *head)
 {
-	t_token_node	*tmp;
+	t_token	*tmp;
 
 	tmp = head;
 	while (tmp)
 	{
 		ft_printf("Token : %s\t\tType : %d\n", \
-			tmp->token->value, tmp->token->type);
+			tmp->value, tmp->type);
 		tmp = tmp->next;
 	}
 }

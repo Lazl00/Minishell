@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 16:37:31 by wailas            #+#    #+#             */
-/*   Updated: 2025/05/06 15:43:29 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/05/07 14:14:24 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,13 +94,13 @@ t_token	*create_token_from_value(char *token_value)
 	return (create_token(ARG, token_value));
 }
 
-t_token_node	*token(char *input)
+t_token	*token(char *input)
 {
 	char			*input_copy;
 	char			*token_value;
 	t_token			*new_token;
-	t_token_node	*head;
-	t_token_node	*last;
+	t_token	*head;
+	t_token	*last;
 
 	last = NULL;
 	head = NULL;

@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 12:25:16 by wailas            #+#    #+#             */
-/*   Updated: 2025/04/28 12:38:03 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/07 13:42:31 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	ft_exec(char *line)
 {
-	int	i;
+	// int	i;
 
-	i = 0;
+	// i = 0;
 	if (ft_strncmp(line, "echo", 4) == 0)
 		ft_echo(line);
 	return (1);

@@ -59,6 +59,7 @@
   "files.associations": {
     "libft.h": "c",
     "ft_printf.h": "c",
-    "unistd.h": "c"
+    "unistd.h": "c",
+    "minishell.h": "c"
   }
 }
