@@ -3,23 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   frees.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 18:48:25 by wailas            #+#    #+#             */
-/*   Updated: 2025/05/07 17:01:53 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/12 15:55:20 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	free_token(t_token *token)
+void	free_tokens(t_token *tokens)
 {
-	if (token)
+	t_token	*tmp;
+
+	while (tokens)
 	{
-		free(token->value);
-		free(token);
+		tmp = tokens->next;
+		free(tokens->value);
+		free(tokens);
+		tokens = tmp;
 	}
 }
+
 
 void	free_data(t_data *data)
 {
@@ -36,12 +41,6 @@ void	free_data(t_data *data)
 				i++;
 			}
 			free(data->env);
-		}
-		while (data->tokens)
-		{
-			t_token *temp = data->tokens->next;
-			free_token(data->tokens);
-			data->tokens = temp;
 		}
 		//free(data->path);
 		free(data);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:49:35 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/05/07 14:53:23 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/12 15:55:00 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ typedef struct s_data {
 
 /* Token management functions */
 t_token         *create_token(t_enum_token type, char *value);
-void            free_token(t_token *token);
+void            free_tokens(t_token *token);
 t_token         *create_token_from_value(char *token_value);
 
 /* Token list functions */

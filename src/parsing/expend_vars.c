@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expend_vars.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:25:57 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/04/29 14:41:35 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/12 15:29:55 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ char	*simple_expend(t_data data, char *line, char *var)
 	while (*line)
 		new_line[i++] = *line++;
 	new_line[i] = '\0';
+	free(new_var);
 	return (new_line);
 }
 
