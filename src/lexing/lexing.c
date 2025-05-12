@@ -14,5 +14,9 @@
 
 bool	lexing(t_data *data)
 {
-    
+	
+}
+
+int	check_cmd(void lasloo)
+{
 }
