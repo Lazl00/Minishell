@@ -24,6 +24,7 @@ SRCS =  main.c \
 		builtin/echo.c \
 		builtin/builtin_utils.c \
 		exec/exec.c \
+		lexing/lexing.c \
 
 OBJS   := $(addprefix $(DIR_OBJS)/, $(SRCS:.c=.o))
 INCS   := $(addprefix $(DIR_INCS)/, minishell.h)

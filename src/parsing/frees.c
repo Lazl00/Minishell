@@ -25,7 +25,6 @@ void	free_tokens(t_token *tokens)
 	}
 }
 
-
 void	free_data(t_data *data)
 {
 	int	i;

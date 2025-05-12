@@ -15,7 +15,7 @@
 void	token_remove_quote(t_token *list)
 {
 	t_token	*tmp;
-	char			*new_line;
+	char	*new_line;
 
 	tmp = list;
 	while (tmp != NULL)
@@ -40,7 +40,11 @@ void	access_token_cmd(t_token *list)
 		if (tmp->type == ARG)
 		{
 			if (access(tmp->value, X_OK) == 0)
+			{
 				tmp->type = CMD;
+				tmp->infile = 1;
+				tmp->outfile = 1;
+			}
 		}
 		tmp = tmp->next;
 	}
@@ -58,7 +62,6 @@ bool	add_token_to_list(t_token **h, t_token **l, t_token *t)
 	*l = t;
 	return (true);
 }
-
 
 void	print_token_list(t_token *head)
 {

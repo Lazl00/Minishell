@@ -24,6 +24,8 @@ t_token	*create_token(t_enum_token type, char *value)
 	}
 	token->type = type;
 	token->value = ft_strdup(value);
+	token->infile = -1;
+	token->outfile = -1;
 	if (!token->value)
 	{
 		perror("Error\n");
@@ -99,8 +101,8 @@ t_token	*token(char *input)
 	char			*input_copy;
 	char			*token_value;
 	t_token			*new_token;
-	t_token	*head;
-	t_token	*last;
+	t_token			*head;
+	t_token			*last;
 
 	last = NULL;
 	head = NULL;
@@ -118,6 +120,5 @@ t_token	*token(char *input)
 	free(input_copy);
 	token_remove_quote(head);
 	access_token_cmd(head);
-	print_token_list(head);
 	return (head);
 }

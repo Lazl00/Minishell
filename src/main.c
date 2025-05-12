@@ -34,6 +34,7 @@ int	main(int argc, char **argv, char **env)
 			break ;
 		add_history(line);
 		parse_command(data, line);
+		lexing(data);
 		free_tokens(data->tokens);
 	}
 	free_data(data);
