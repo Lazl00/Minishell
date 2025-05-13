@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:17:06 by wailas            #+#    #+#             */
-/*   Updated: 2025/05/07 17:04:32 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/13 17:48:23 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,7 @@ void	access_token_cmd(t_token *list)
 		if (tmp->type == ARG)
 		{
 			if (access(tmp->value, X_OK) == 0)
-			{
 				tmp->type = CMD;
-				tmp->infile = 1;
-				tmp->outfile = 1;
-			}
 		}
 		tmp = tmp->next;
 	}

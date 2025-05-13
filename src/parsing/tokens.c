@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 16:37:31 by wailas            #+#    #+#             */
-/*   Updated: 2025/05/12 15:53:11 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/05/13 17:48:09 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ t_token	*create_token(t_enum_token type, char *value)
 	}
 	token->type = type;
 	token->value = ft_strdup(value);
-	token->infile = -1;
-	token->outfile = -1;
 	if (!token->value)
 	{
 		perror("Error\n");

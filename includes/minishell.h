@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:49:35 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/05/12 15:55:00 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/05/13 17:46:19 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,23 +39,30 @@ typedef enum s_quote {
 
 typedef enum s_token_parse {
 	CMD,
-	REDIR_IN,
-	REDIR_OUT,
-	PIPE,
+	REDIR_IN,		// <
+	REDIR_OUT,		// >
+	PIPE,			// |
 	OUTFILE,
 	INFILE,
-	DELIMITEUR,
-	APPEND,
-	ARG
+	DELIMITEUR,		// <<
+	APPEND,			// >>
+	ARG				
 }	t_enum_token;
 
 typedef struct s_token {
 	char			*value;
 	t_enum_token	type;
-	int				infile;
-	int				outfile;
 	struct s_token	*next;
 }	t_token;
+
+typedef struct s_cmd
+{
+	bool			skip_cmd;
+	int				infile;
+	int				outfile;
+	char			**cmd_param;
+	struct s_cmd	*next;
+}				t_cmd;
 
 typedef struct s_env {
 	char			*alias;
@@ -119,10 +126,15 @@ t_data	*init_data(t_data *data, char **env);
 void	free_data(t_data *data);
 
 /* Cheking *Token */
-void	check_pipe(t_token *token);
+bool	check_pipe(t_token *token);
 void	lexing(t_data *data);
 void	check_outfile(t_token *token);
 void	print_token_list(t_token *head);
 void	check_infile(t_token *token);
+void	check(t_token *token);
+char	*here_doc(t_data *data, char *delimiter);
+
+/* Error handling */
+bool	print_error(char *str);
 
 #endif
