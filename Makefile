@@ -13,7 +13,6 @@ DIR_OBJS    := .objs
 DIR_INCS    := includes
 
 SRCS =  main.c \
-		utils.c \
 		parsing/expend_vars.c \
 		parsing/frees.c \
 		parsing/handle_quote.c \
@@ -21,14 +20,15 @@ SRCS =  main.c \
 		parsing/tokens.c \
 		parsing/token_utils.c \
 		parsing/inits.c \
+		lexing/lexing.c \
+		lexing/here_doc.c \
+		lexing/lexing_utils.c \
+		lexing/accesses.c \
+		lexing/get_paths.c \
+		errors/errors.c \
 		builtin/echo.c \
 		builtin/builtin_utils.c \
 		exec/exec.c \
-		lexing/lexing.c \
-		lexing/here_doc.c \
-		errors/errors.c \
-		lexing/lexing_utils.c \
-		lexing/accesses.c \
 
 OBJS   := $(addprefix $(DIR_OBJS)/, $(SRCS:.c=.o))
 INCS   := $(addprefix $(DIR_INCS)/, minishell.h)

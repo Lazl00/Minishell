@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:36:38 by wailas            #+#    #+#             */
-/*   Updated: 2025/05/14 16:52:23 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/14 17:37:47 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,18 +46,39 @@ bool check_open(t_token *tokens)
 
 void    check_file(t_token *token, int fd)
 {
-		if (token->type == OUTFILE)
+    if (token->type == OUTFILE)
+    {
+        fd = open(token->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+        if (fd < 0)
+            perror(token->value);
+        close(fd);
+        }
+    else if (token->type == APPEND_FILE)
+    {
+        fd = open(token->value, O_WRONLY | O_CREAT | O_APPEND, 0644);
+        if (fd < 0)
+            perror(token->value);
+        close(fd);
+    }
+}
+
+bool    check_access(t_token *token, char **env)
+{
+    t_token *tmp;
+
+    tmp = token;
+    while (tmp)
+    {
+        if (tmp->type == CMD)
         {
-			fd = open(token->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			if (fd < 0)
-				perror(token->value);
-			close(fd);
-		}
-		else if (token->type == APPEND_FILE)
-		{
-			fd = open(token->value, O_WRONLY | O_CREAT | O_APPEND, 0644);
-			if (fd < 0)
-				perror(token->value);
-			close(fd);
-		}
+            if (!exec(token, env))
+            {
+                ft_printf("c'est une commande ca %s\n", tmp->value);
+                return (false);
+            }
+            tmp = tmp->next;
+        }
+        tmp = tmp->next;
+    }
+    return (true);
 }
