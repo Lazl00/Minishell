@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 10:00:00 by wailas            #+#    #+#             */
-/*   Updated: 2025/05/14 17:14:15 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/14 18:07:00 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,16 @@ t_data	*init_data(t_data *data, char **env)
 	(*data).fd[1] = -1;
 	//(*data).path = get_path((*data).env);
 	return (data);
+}
+
+void	print_str_array(char **arr)
+{
+	int	i;
+
+	i = 0;
+	while (arr[i])
+	{
+		printf("%s\n", arr[i]);
+		i++;
+	}
 }

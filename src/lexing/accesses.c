@@ -6,16 +6,11 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:36:38 by wailas            #+#    #+#             */
-/*   Updated: 2025/05/14 17:37:47 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/14 18:20:06 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-#include <fcntl.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <stdbool.h>
 
 bool check_open(t_token *tokens)
 {
@@ -35,50 +30,50 @@ bool check_open(t_token *tokens)
 			close(fd);
 		}
 		else if (tmp->type == OUTFILE || tmp->type == APPEND_FILE)
-        {
+		{
 			check_file(tmp, fd);
-            close(fd);
-        }
-        tmp = tmp->next;
+			close(fd);
+		}
+		tmp = tmp->next;
 	}
 	return (true);
 }
 
 void    check_file(t_token *token, int fd)
 {
-    if (token->type == OUTFILE)
-    {
-        fd = open(token->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-        if (fd < 0)
-            perror(token->value);
-        close(fd);
-        }
-    else if (token->type == APPEND_FILE)
-    {
-        fd = open(token->value, O_WRONLY | O_CREAT | O_APPEND, 0644);
-        if (fd < 0)
-            perror(token->value);
-        close(fd);
-    }
+	if (token->type == OUTFILE)
+	{
+		fd = open(token->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (fd < 0)
+			perror(token->value);
+		close(fd);
+	}
+	else if (token->type == APPEND_FILE)
+	{
+		fd = open(token->value, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		if (fd < 0)
+			perror(token->value);
+		close(fd);
+	}
 }
 
-bool    check_access(t_token *token, char **env)
+bool    check_access(t_data *data)
 {
-    t_token *tmp;
+	t_token *tmp;
 
-    tmp = token;
-    while (tmp)
-    {
-        if (tmp->type == CMD)
-        {
-            if (!exec(token, env))
-            {
-                ft_printf("c'est une commande ca %s\n", tmp->value);
-                return (false);
-            }
-            tmp = tmp->next;
-        }
-        tmp = tmp->next;
-    }
-    return (true);
+	tmp = data->tokens;
+	while (tmp)
+	{
+		if (tmp->type == CMD)
+		{
+			if (!exec(token, data->env))
+			{
+				ft_printf("c'est une commande ca %s\n", tmp->value);
+				return (false);
+			}
+			tmp = tmp->next;
+		}
+		tmp = tmp->next;
+	}
+	return (true);
 }

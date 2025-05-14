@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:49:35 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/05/14 17:18:50 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/14 18:27:51 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,10 +141,10 @@ bool    check_cmd(t_token *token);
 bool 	check_open(t_token *tokens);
 void    check_file(t_token *token, int fd);
 void	free_tab(char **str);
-bool    check_access(t_token *token, char **env);
+bool    check_access(t_data *data);
 bool	exec(t_token *token, char **env);
 
 /* Error handling */
 bool	print_error(char *str);
-
+void	print_str_array(char **arr);
 #endif

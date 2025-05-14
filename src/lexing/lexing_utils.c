@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:18:52 by wailas            #+#    #+#             */
-/*   Updated: 2025/05/14 16:33:16 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/14 17:54:45 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,17 +95,17 @@ bool	check_delimiter(t_token *token)
 
 bool    check_cmd(t_token *token)
 {
-    t_token *tmp;
+	t_token *tmp;
 
-    tmp = token;
-    if (tmp->type == ARG)
-        tmp->type = CMD;
-    tmp = tmp->next;
-    while (tmp)
-    {
-        if (tmp->next != NULL && (tmp->type == PIPE || tmp->type == INFILE))
-            tmp->next->type = CMD;
-        tmp = tmp->next;
-    }
-    return (true);
+	tmp = token;
+	if (tmp->type == ARG)
+		tmp->type = CMD;
+	tmp = tmp->next;
+	while (tmp)
+	{
+		if (tmp->next != NULL && (tmp->type == PIPE || tmp->type == INFILE))
+			tmp->next->type = CMD;
+		tmp = tmp->next;
+	}
+	return (true);
 }
