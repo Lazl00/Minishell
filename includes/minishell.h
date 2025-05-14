@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:49:35 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/05/13 17:46:19 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/14 16:47:18 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,16 @@ typedef enum s_quote {
 
 typedef enum s_token_parse {
 	CMD,
-	REDIR_IN,		// <
-	REDIR_OUT,		// >
-	PIPE,			// |
+	REDIR_IN,
+	REDIR_OUT,
+	PIPE,
 	OUTFILE,
 	INFILE,
-	DELIMITEUR,		// <<
-	APPEND,			// >>
-	ARG				
+	DELIMITEUR,
+	DELIMITEUR_MOT,
+	APPEND,
+	APPEND_FILE,
+	ARG,
 }	t_enum_token;
 
 typedef struct s_token {
@@ -127,12 +129,17 @@ void	free_data(t_data *data);
 
 /* Cheking *Token */
 bool	check_pipe(t_token *token);
-void	lexing(t_data *data);
-void	check_outfile(t_token *token);
+bool	lexing(t_data *data);
+bool	check_outfile(t_token *tokens);
 void	print_token_list(t_token *head);
-void	check_infile(t_token *token);
-void	check(t_token *token);
+bool	check_infile(t_token *token);
+bool	check(t_token *token);
 char	*here_doc(t_data *data, char *delimiter);
+bool	check_delimiter(t_token *token);
+bool	check_append(t_token *tokens);
+bool    check_cmd(t_token *token);
+bool 	check_open(t_token *tokens);
+void    check_file(t_token *token, int fd);
 
 /* Error handling */
 bool	print_error(char *str);

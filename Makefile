@@ -26,7 +26,9 @@ SRCS =  main.c \
 		exec/exec.c \
 		lexing/lexing.c \
 		lexing/here_doc.c \
-		errors/errors.c
+		errors/errors.c \
+		lexing/lexing_utils.c \
+		lexing/accesses.c \
 
 OBJS   := $(addprefix $(DIR_OBJS)/, $(SRCS:.c=.o))
 INCS   := $(addprefix $(DIR_INCS)/, minishell.h)

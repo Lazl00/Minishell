@@ -6,11 +6,25 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:17:06 by wailas            #+#    #+#             */
-/*   Updated: 2025/05/13 17:48:23 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/14 15:28:05 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+const char* nom_tokens[] = {
+	"CMD",
+	"REDIR_IN",
+	"REDIR_OUT",
+	"PIPE",
+	"OUTFILE",
+	"INFILE",
+	"DELIMITEUR",
+	"DELIMITEUR_MOT",
+	"APPEND",
+	"APPEND_FILE",
+	"ARG"
+};
 
 void	token_remove_quote(t_token *list)
 {
@@ -66,8 +80,8 @@ void	print_token_list(t_token *head)
 	tmp = head;
 	while (tmp)
 	{
-		ft_printf("Token : %s\t\tType : %d\n", \
-			tmp->value, tmp->type);
+		ft_printf("Token : %s\t\tType : %d (%s)\n", \
+			tmp->value, tmp->type, nom_tokens[tmp->type]);
 		tmp = tmp->next;
 	}
 }
