@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:25:00 by wailas            #+#    #+#             */
-/*   Updated: 2025/05/15 13:38:00 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/15 18:54:28 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ bool	lexing(t_data *data)
 		return (false);
 	if (!check_access(data))
 		return (false);
-	//print_token_list(data->tokens);
 	return (true);
 }
 

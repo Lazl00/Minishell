@@ -3,36 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 13:49:04 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/05/15 15:21:48 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/05/15 19:13:16 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-bool	is_builtin(t_data *data)
+bool	is_builtin(t_token *token)
 {
-	t_token	*tmp = data->tokens;
-
-	if (!tmp || !tmp->value)
+	if (!token || !token->value)
 		return (false);
-
-	if (ft_strncmp(tmp->value, "echo", 4) == 0)
-		return (ft_echo(data, tmp));
-	if (ft_strncmp(tmp->value, "cd", 2) == 0)
-		return (ft_cd(data, tmp));
-	if (ft_strncmp(tmp->value, "pwd", 3) == 0)
-		return (ft_pwd(data, tmp));
-	if (ft_strncmp(tmp->value, "export", 6) == 0)
-		return (ft_export(data, tmp));
-	if (ft_strncmp(tmp->value, "unset", 5) == 0)
-		return (ft_unset(data, tmp));
-	if (ft_strncmp(tmp->value, "env", 3) == 0)
-		return (ft_env(data, tmp));
-	// if (ft_strncmp(tmp->value, "exit", 4) == 0)
-	// 	return (ft_exit(data, tmp));
-
+	if (ft_strncmp(token->value, "echo", len(token->value)) == 0)
+		return (true);
+	if (ft_strncmp(token->value, "cd", len(token->value)) == 0)
+		return (true);
+	if (ft_strncmp(token->value, "pwd", len(token->value)) == 0)
+		return (true);
+	if (ft_strncmp(token->value, "export", len(token->value)) == 0)
+		return (true);
+	if (ft_strncmp(token->value, "unset", len(token->value)) == 0)
+		return (true);
+	if (ft_strncmp(token->value, "env", len(token->value)) == 0)
+		return (true);
+	if (ft_strncmp(token->value, "exit", len(token->value)) == 0)
+		return (true);
 	return (false);
 }

@@ -6,43 +6,11 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:20:44 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/05/15 13:36:53 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/15 19:36:22 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-// char	*get_path(char **envp)
-// {
-// 	char	*path;
-
-// 	path = ft_getenv("PATH", envp);
-// 	return (path);
-// }
-
-// char	*ft_getenv(char *str, char **envp)
-// {
-// 	int		i;
-// 	int		j;
-// 	char	*sub;
-
-// 	i = 0;
-// 	while (envp[i])
-// 	{
-// 		j = 0;
-// 		while (envp[i][j] && envp[i][j] != '=')
-// 			j++;
-// 		sub = ft_substr(envp[i], 0, j);
-// 		if (ft_strncmp(sub, str, len(sub)) == 0)
-// 		{
-// 			free(sub);
-// 			return (&envp[i][j + 1]);
-// 		}
-// 		free(sub);
-// 		i++;
-// 	}
-// 	return (NULL);
-// }
 
 char	**get_paths_from_env(char **env)
 {
@@ -110,31 +78,25 @@ char	*get_path(char *command, char **env)
 	return (search_in_paths(paths, command));
 }
 
-bool	exec(t_token *token, char **env)
+bool    check_exec(t_token *token, char **env)
 {
-	char	*path;
-	char	**path_command;
+    char    *path;
 
-	path_command = ft_split(token->value, ' ');
-	if (!path_command || !path_command[0])
-	{
-		perror("Invalid command\n");
-		free_tab(path_command);
-		return (true);
-	}
-	if (access(path_command[0], F_OK) == 0)
-		path = ft_strdup(path_command[0]);
-	else
-		path = get_path(path_command[0], env);
-	if (path == NULL)
-	{
-		free_tab(path_command);
-		ft_printf("Command not found\n");
-		return (true);
-	}
-	free(path);
-	free_tab(path_command);
-	return (false);
+    if (!token || !token->value)
+        return (false);
+    if (ft_strncmp(token->value, "./", 2) == 0)
+    {
+        if (access(token->value, X_OK) == 0)
+            return (true);
+    }
+    path = get_path(token->value, env);
+    if (!path)
+    {
+        ft_printf("%s: command not found\n", token->value);
+        return (false);
+    }
+    free(path);
+    return (true);
 }
 
 void	free_tab(char **str)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:49:35 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/05/15 15:21:00 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/05/15 19:18:52 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef enum s_quote {
 
 typedef enum s_token_parse {
 	CMD,
+	CMD_BUILTIN,
 	REDIR_IN,
 	REDIR_OUT,
 	PIPE,
@@ -55,6 +56,7 @@ typedef struct s_token {
 	char			*value;
 	t_enum_token	type;
 	struct s_token	*next;
+	struct s_token	*prev;
 }	t_token;
 
 typedef struct s_cmd
@@ -111,7 +113,7 @@ char	*cut_var(char *var);
 /* Utility functions */
 bool	is_separator(char c);
 bool	is_quoted(char *str);
-bool	is_builtin(t_data *data);
+bool	is_builtin(t_token *token);
 
 /* Input handling functions */
 char	*input_with_space(char *str);
@@ -130,7 +132,6 @@ bool		ft_unset(t_data *data, t_token *token);
 bool		ft_env(t_data *data, t_token *token);
 bool		ft_exit(t_data *data, t_token *token);
 
-int		ft_exec(char *line);
 t_data	*init_data(t_data *data, char **env);
 void	free_data(t_data *data);
 
@@ -149,11 +150,18 @@ bool 	check_open(t_token *tokens);
 void    check_file(t_token *token, int fd);
 void	free_tab(char **str);
 bool	check_access(t_data *data);
-bool	exec(t_token *token, char **env);
+bool	check_exec(t_token *token, char **env);
 
 /* Error handling */
 bool	print_error(char *str);
 void	print_str_array(char **arr);
+void    ft_child_infile(t_data *data, int fd_gen[2]);
+void    ft_parent_outfile(t_data *data, int fd_gen[2]);
+void 	ft_child_cmd(t_token *token, char **env, int prev_pipe[2], int next_pipe[2]);
+void 	ft_parent_cmd(int prev_pipe[2]);
+
+void    ft_exec(t_data *data);
+int    pipe_number(t_data *data);
 
 bool	env(t_data *data, t_token *cmd);
 int	find_outfile_fd(t_token *cmd);

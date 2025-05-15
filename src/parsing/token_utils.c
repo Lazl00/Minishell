@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:17:06 by wailas            #+#    #+#             */
-/*   Updated: 2025/05/14 15:28:05 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/15 18:38:43 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 const char* nom_tokens[] = {
 	"CMD",
+	"CMD_BUILTIN",
 	"REDIR_IN",
 	"REDIR_OUT",
 	"PIPE",

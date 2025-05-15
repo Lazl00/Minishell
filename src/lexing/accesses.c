@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:36:38 by wailas            #+#    #+#             */
-/*   Updated: 2025/05/15 13:37:43 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/15 19:23:33 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,13 @@ bool    check_access(t_data *data)
 	{
 		if (tmp->type == CMD)
 		{
-			exec(tmp, data->env);
+			if (is_builtin(tmp) == false)
+			{
+				if (check_exec(tmp, data->env) == false)
+					return (false);
+			}
+			else
+				tmp->type = CMD_BUILTIN;
 		}
 		tmp = tmp->next;
 	}
