@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:49:35 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/05/15 13:25:20 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/15 15:21:00 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ char	*cut_var(char *var);
 /* Utility functions */
 bool	is_separator(char c);
 bool	is_quoted(char *str);
-bool	is_builtin(char *cmd);
+bool	is_builtin(t_data *data);
 
 /* Input handling functions */
 char	*input_with_space(char *str);
@@ -122,7 +122,14 @@ void	add_operator_with_spaces(char *new_input, char *input, int *i, int *j);
 //char	*ft_getenv(char *str, char **envp);
 
 /* Built-in commands */
-int		ft_echo(char *av);
+bool		ft_echo(t_data *data, t_token *token);
+bool		ft_cd(t_data *data, t_token *token);
+bool		ft_pwd(t_data *data, t_token *token);
+bool		ft_export(t_data *data, t_token *token);
+bool		ft_unset(t_data *data, t_token *token);
+bool		ft_env(t_data *data, t_token *token);
+bool		ft_exit(t_data *data, t_token *token);
+
 int		ft_exec(char *line);
 t_data	*init_data(t_data *data, char **env);
 void	free_data(t_data *data);
@@ -147,4 +154,8 @@ bool	exec(t_token *token, char **env);
 /* Error handling */
 bool	print_error(char *str);
 void	print_str_array(char **arr);
+
+bool	env(t_data *data, t_token *cmd);
+int	find_outfile_fd(t_token *cmd);
+
 #endif

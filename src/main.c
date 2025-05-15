@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:48:31 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/05/15 12:07:19 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/15 15:18:38 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	main(int argc, char **argv, char **env)
 		add_history(line);
 		parse_command(data, line);
 		lexing(data);
+		is_builtin(data);
 		free_tokens(data->tokens);
 	}
 	free_data(data);

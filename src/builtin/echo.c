@@ -12,32 +12,37 @@
 
 #include "../../includes/minishell.h"
 
-void	display_echo(char *av)
+bool	ft_echo(t_data *data, t_token *token)
 {
-	int	back_slash;
-	int	i;
+    int		i;
+    int		fd;
+    bool	new_line;
 
-	i = 0;
-	back_slash = 0;
-	while (av[i])
-	{
-		if (ft_strcmp(av, "-n"))
-			back_slash = 1;
-		write(1, &av[i], 1);
-		i++;
-	}
-	if (back_slash == 0)
-		write(1, "\n", 1);
-}
-
-int	ft_echo(char *av)
-{
-	int	i;
-
-	i = 0;
-	while (av[i])
-		i++;
-	i = 0;
-	display_echo(av);
-	return (0);
+    if (!data || !data->tokens)
+        return (false);
+    i = 0;
+    new_line = true;
+    if (token->next && ft_strncmp(token->next->value, ">", 1) == 0)
+    {
+        fd = find_outfile_fd(token);
+        if (fd < 0)
+            return (false);
+    }
+    else
+        fd = STDOUT_FILENO;
+    while (token->next && token->next->type != PIPE)
+    {
+        if (ft_strncmp(token->next->value, "-n", 2) == 0)
+            new_line = false;
+        else
+            ft_putstr_fd(token->next->value, fd);
+        token = token->next;
+        if (token && token->type != PIPE)
+            ft_putchar_fd(' ', fd);
+    }
+    if (new_line)
+        ft_putchar_fd('\n', fd);
+    if (fd != STDOUT_FILENO)
+        close(fd);
+    return (true);
 }

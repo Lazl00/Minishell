@@ -133,6 +133,7 @@ bool	exec(t_token *token, char **env)
 		return (true);
 	}
 	free(path);
+	free_tab(path_command);
 	return (false);
 }
 
