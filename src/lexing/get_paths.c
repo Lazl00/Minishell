@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:20:44 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/05/14 17:44:54 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/15 13:36:53 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,8 +126,12 @@ bool	exec(t_token *token, char **env)
 		path = ft_strdup(path_command[0]);
 	else
 		path = get_path(path_command[0], env);
-	if (!path)
-		return (free_tab(path_command), perror("Command not found\n"), true);
+	if (path == NULL)
+	{
+		free_tab(path_command);
+		ft_printf("Command not found\n");
+		return (true);
+	}
 	free(path);
 	return (false);
 }

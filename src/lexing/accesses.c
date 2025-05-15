@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:36:38 by wailas            #+#    #+#             */
-/*   Updated: 2025/05/14 18:20:06 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/15 13:37:43 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,7 @@ bool    check_access(t_data *data)
 	{
 		if (tmp->type == CMD)
 		{
-			if (!exec(token, data->env))
-			{
-				ft_printf("c'est une commande ca %s\n", tmp->value);
-				return (false);
-			}
-			tmp = tmp->next;
+			exec(tmp, data->env);
 		}
 		tmp = tmp->next;
 	}
