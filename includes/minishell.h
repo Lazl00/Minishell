@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:49:35 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/05/15 19:18:52 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/19 17:51:35 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,12 @@
 # include <sys/types.h>
 # include <unistd.h>
 # include <stdbool.h>
+# include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../libft/include/libft.h"
 # include "../libft/include/ft_printf.h"
 # include "../libft/include/get_next_line.h"
-
-typedef enum s_quote {
-	outside,
-	inside_single_quote,
-	inside_double_quote
-}	t_enum_quote;
 
 typedef enum s_token_parse {
 	CMD,
@@ -68,16 +63,9 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }				t_cmd;
 
-typedef struct s_env {
-	char			*alias;
-	char			*def;
-	struct s_env	*next;
-}	t_env;
-
 typedef struct s_data {
 	char	**env;
 	t_token	*tokens;
-	char	*path;
 	int		fd[2];
 }	t_data;
 
@@ -147,10 +135,10 @@ bool	check_delimiter(t_token *token);
 bool	check_append(t_token *tokens);
 bool    check_cmd(t_token *token);
 bool 	check_open(t_token *tokens);
-void    check_file(t_token *token, int fd);
+bool check_file(t_token *token, int *fd);
 void	free_tab(char **str);
 bool	check_access(t_data *data);
-bool	check_exec(t_token *token, char **env);
+char    *check_exec(t_token *token, char **env);
 
 /* Error handling */
 bool	print_error(char *str);
@@ -162,8 +150,17 @@ void 	ft_parent_cmd(int prev_pipe[2]);
 
 void    ft_exec(t_data *data);
 int    pipe_number(t_data *data);
+void	update_pipe_and_cmd(int prev_pipe[2], t_token *segment_end, t_token **cmd, int pipe_fd[2]);
 
 bool	env(t_data *data, t_token *cmd);
 int	find_outfile_fd(t_token *cmd);
+int get_pipe(t_data *data);
+bool do_builtin(t_data *data, t_token *token);
+void child_process(t_token *segment, int *prev_pipe, int *pipe_fd, t_data *data);
+void init_pipes(int *pipe_fd, int *has_pipe, t_token *segment_end);
+t_token *get_segment_end(t_token *start);
+int has_output_redirection(t_token *cmd);
+char **build_argv(t_token *cmd);
+void handle_redirections(t_token *cmd);
 
 #endif

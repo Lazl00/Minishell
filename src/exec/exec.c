@@ -6,130 +6,134 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 12:25:16 by wailas            #+#    #+#             */
-/*   Updated: 2025/05/15 18:06:38 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/19 17:51:58 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void    ft_exec(t_data *data)
+void handle_redirections(t_token *cmd)
 {
-    t_token *tmp = data->tokens;
-    int prev_pipe[2] = {-1, -1};
-    int next_pipe[2];
-    pid_t pid;
+    int fd;
 
-    while (tmp)
+    while (cmd && cmd->type != PIPE)
     {
-        if (tmp->next && tmp->next->type == PIPE)
-            pipe(next_pipe);
-        else
-            next_pipe[0] = next_pipe[1] = -1;
+        if (cmd->type == REDIR_IN && cmd->next)
+        {
+            fd = open(cmd->next->value, O_RDONLY);
+            if (fd < 0)
+            {
+                perror("infile");
+                exit(1);
+            }
+            dup2(fd, STDIN_FILENO);
+            close(fd);
+        }
+        else if (cmd->type == REDIR_OUT && cmd->next)
+        {
+            fd = open(cmd->next->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+            if (fd < 0)
+            {
+                perror("outfile");
+                exit(1);
+            }
+            dup2(fd, STDOUT_FILENO);
+            close(fd);
+        }
+        else if (cmd->type == APPEND && cmd->next)
+        {
+            fd = open(cmd->next->value, O_WRONLY | O_CREAT | O_APPEND, 0644);
+            if (fd < 0)
+            {
+                perror("append");
+                exit(1);
+            }
+            dup2(fd, STDOUT_FILENO);
+            close(fd);
+        }
+        cmd = cmd->next;
+    }
+}
 
-        pid = fork();
-        if (pid == 0)
-        {
-            if (tmp->prev && tmp->prev->type == INFILE)
-                ft_child_infile(data, next_pipe);
-            else if (tmp->next && tmp->next->type == OUTFILE)
-                ft_parent_outfile(data, prev_pipe);
-            else
-                ft_child_cmd(tmp, data->env, prev_pipe, next_pipe);
-        }
-        else
-        {
-            ft_parent_cmd(prev_pipe);
-        }
-        prev_pipe[0] = next_pipe[0];
-        prev_pipe[1] = next_pipe[1];
+char **build_argv(t_token *cmd)
+{
+    int size = 0;
+    t_token *tmp = cmd;
+    int i = 0;
+    char **argv;
+
+    while (tmp && tmp->type != PIPE)
+    {
+        if (tmp->type == CMD || tmp->type == ARG)
+            size++;
         tmp = tmp->next;
     }
-}
 
-int    pipe_number(t_data *data)
-{
-    t_token    *tmp;
-    int        count;
+    argv = malloc(sizeof(char *) * (size + 1));
+    if (!argv)
+        return NULL;
 
-    tmp = data->tokens;
-    count = 0;
-    while (tmp)
+    tmp = cmd;
+    i = 0;
+    while (tmp && tmp->type != PIPE)
     {
-        if (tmp->type == CMD)
-            count++;
+        if (tmp->type == CMD || tmp->type == ARG)
+        {
+            argv[i] = tmp->value;
+            i++;
+        }
         tmp = tmp->next;
     }
-    return (count);
+    argv[i] = NULL;
+    return argv;
 }
 
-void    ft_child_infile(t_data *data, int fd_gen[2])
+void exec_loop(t_data *data)
 {
-    int    fd;
-    t_token    *tmp;
+	t_token *cmd = data->tokens;
+	t_token *segment_start;
+	t_token *segment_end;
+	int prev_pipe[2] = {-1, -1};
+	int pipe_fd[2];
+	pid_t pid;
+	int has_pipe;
 
-    tmp = data->tokens;
-    char    *cmd[] = {tmp->value, NULL};
-    fd = open(tmp->value, O_RDWR);
-    if (fd == -1)
-    {
-        perror("Error\n");
-        exit(1);
-    }
-    dup2(fd, STDIN_FILENO);
-    dup2(fd_gen[1], STDOUT_FILENO);
-    close(fd_gen[1]);
-    close(fd_gen[0]);
-    close(fd);
-    execve(tmp->value, cmd , data->env);
+	while (cmd)
+	{
+		segment_start = cmd;
+		segment_end = get_segment_end(segment_start);
+		init_pipes(pipe_fd, &has_pipe, segment_end);
+
+		pid = fork();
+		if (pid == 0)
+			child_process(segment_start, prev_pipe, pipe_fd, data);
+		else if (pid < 0)
+		{
+			perror("fork");
+			exit(1);
+		}
+		update_pipe_and_cmd(prev_pipe, segment_end, &cmd, pipe_fd);
+	}
 }
 
-void    ft_parent_outfile(t_data *data, int fd_gen[2])
+void	update_pipe_and_cmd(int prev_pipe[2], t_token *segment_end, t_token **cmd, int pipe_fd[2])
 {
-    int    fd;
-    t_token    *tmp;
-
-    tmp = data->tokens;
-    fd = open(tmp->value, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-    if (fd == -1)
-    {
-        perror("Error\n");
-        exit(1);
-    }
-    char    *cmd[] = {tmp->value, NULL};
-    dup2(fd, STDOUT_FILENO);
-    dup2(fd_gen[0], STDIN_FILENO);
-    close(fd_gen[0]);
-    close(fd_gen[1]);
-    close(fd);
-    execve(tmp->value, cmd, data->env);
+	if (prev_pipe[0] != -1)
+	{
+		close(prev_pipe[0]);
+		close(prev_pipe[1]);
+	}
+	prev_pipe[0] = pipe_fd[0];
+	prev_pipe[1] = pipe_fd[1];
+	if (segment_end)
+		*cmd = segment_end->next;
+	else
+		*cmd = NULL;
 }
 
-void ft_child_cmd(t_token *token, char **env, int prev_pipe[2], int next_pipe[2])
+void ft_exec(t_data *data)
 {
-    if (prev_pipe[0] != -1)
-    {
-        dup2(prev_pipe[0], STDIN_FILENO);
-        close(prev_pipe[0]);
-        close(prev_pipe[1]);
-    }
-    if (next_pipe[1] != -1)
-    {
-        dup2(next_pipe[1], STDOUT_FILENO);
-        close(next_pipe[0]);
-        close(next_pipe[1]);
-    }
-    char *cmd[] = {token->value, NULL};
-    execve(cmd[0], cmd, env);
-    perror("execve");
-    exit(EXIT_FAILURE);
-}
-
-
-void ft_parent_cmd(int prev_pipe[2])
-{
-    if (prev_pipe[0] != -1)
-    {
-        close(prev_pipe[0]);
-        close(prev_pipe[1]);
-    }
+	exec_loop(data);
+	while (wait(NULL) > 0)
+		;
 }

@@ -29,6 +29,7 @@ SRCS =  main.c \
 		builtin/echo.c \
 		builtin/builtin_utils.c \
 		exec/exec.c \
+		exec/exec_utils.c \
 		builtin/env.c \
 		builtin/cd.c \
 		builtin/pwd.c \

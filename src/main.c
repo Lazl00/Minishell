@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:48:31 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/05/15 19:12:44 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/19 16:53:48 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,11 @@ int	main(int argc, char **argv, char **env)
 		add_history(line);
 		parse_command(data, line);
 		lexing(data);
-		//ft_exec(data);
-		print_token_list(data->tokens);
+		if (data->tokens->type == CMD)
+			ft_exec(data);
+		else
+			do_builtin(data, data->tokens);
+		//print_token_list(data->tokens);
 		free_tokens(data->tokens);
 	}
 	free_data(data);

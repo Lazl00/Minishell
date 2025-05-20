@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:20:44 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/05/15 19:36:22 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/16 16:12:15 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,25 +78,27 @@ char	*get_path(char *command, char **env)
 	return (search_in_paths(paths, command));
 }
 
-bool    check_exec(t_token *token, char **env)
+char    *check_exec(t_token *token, char **env)
 {
     char    *path;
 
     if (!token || !token->value)
-        return (false);
-    if (ft_strncmp(token->value, "./", 2) == 0)
+        return (NULL);
+    if (ft_strncmp(token->value, "./", 2) == 0 ||
+        ft_strncmp(token->value, "/", 1) == 0)
     {
         if (access(token->value, X_OK) == 0)
-            return (true);
+            return (ft_strdup(token->value));
+        else
+            return (NULL);
     }
     path = get_path(token->value, env);
     if (!path)
     {
-        ft_printf("%s: command not found\n", token->value);
-        return (false);
+        ft_printf("command not found : %s\n", token->value);
+        return (NULL);
     }
-    free(path);
-    return (true);
+    return (path);
 }
 
 void	free_tab(char **str)
