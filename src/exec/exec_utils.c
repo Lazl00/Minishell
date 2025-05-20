@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:34:00 by wailas            #+#    #+#             */
-/*   Updated: 2025/05/19 17:49:33 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/20 17:31:10 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,27 +49,31 @@ void init_pipes(int *pipe_fd, int *has_pipe, t_token *segment_end)
 	}
 }
 
-void child_process(t_token *segment, int *prev_pipe, int *pipe_fd, t_data *data)
+void child_process(t_token *cmd, int prev_pipe[2], int pipe_fd[2], t_data *data)
 {
 	char **argv;
+	t_token *exec_cmd;
 
-	if (prev_pipe[0] != -1)
-	{
-		dup2(prev_pipe[0], STDIN_FILENO);
-		close(prev_pipe[0]);
-		close(prev_pipe[1]);
-	}
-	handle_redirections(segment);
-	if (pipe_fd[1] != -1 && !has_output_redirection(segment))
-	{
-		dup2(pipe_fd[1], STDOUT_FILENO);
-		close(pipe_fd[1]);
-	}
-	if (pipe_fd[0] != -1)
-		close(pipe_fd[0]);
-
-	argv = build_argv(segment);
-	execve(argv[0], argv, data->env);
-	perror("execve");
-	exit(1);
+    handle_redirections(cmd);
+    if (prev_pipe[0] != -1)
+    {
+        dup2(prev_pipe[0], STDIN_FILENO);
+        close(prev_pipe[0]);
+        close(prev_pipe[1]);
+    }
+    if (pipe_fd[1] != -1)
+    {
+        dup2(pipe_fd[1], STDOUT_FILENO);
+        close(pipe_fd[0]);
+        close(pipe_fd[1]);
+    }
+    exec_cmd = cmd;
+    while (exec_cmd && exec_cmd->type != CMD)
+        exec_cmd = exec_cmd->next;
+    argv = build_argv(cmd);
+    if (!argv)
+        exit(1);
+    execve(exec_cmd->value, argv, data->env);
+    perror("execve");
+    exit(1);
 }
