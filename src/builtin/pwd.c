@@ -20,7 +20,7 @@ bool    ft_pwd(t_data *data, t_token *token)
     if (!data || !data->tokens)
         return (false);
     if (token->next && token->next->type == ARG)
-        return (print_error("pwd: too many arguments"));
+        return (print_error("pwd"));
     fd = find_outfile_fd(token);
     if (fd < 0)
         return (false);

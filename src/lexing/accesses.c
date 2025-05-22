@@ -74,7 +74,7 @@ bool    check_access(t_data *data)
 				tmp->value = check_exec(tmp, data->env);
 				free(temp);
 			}
-			else
+			else if (is_builtin(tmp) == true)
 				tmp->type = CMD_BUILTIN;
 		}
 		tmp = tmp->next;

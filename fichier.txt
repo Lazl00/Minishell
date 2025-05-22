@@ -1,0 +1,7 @@
+tout va bien
+erreur: fichier introuvable
+erreur: permission refusée
+erreur: fichier introuvable
+succès: opération terminée
+erreur: timeout
+

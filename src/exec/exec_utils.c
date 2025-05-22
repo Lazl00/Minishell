@@ -17,10 +17,10 @@ int has_output_redirection(t_token *cmd)
     while (cmd && cmd->type != PIPE)
     {
         if (cmd->type == REDIR_OUT || cmd->type == APPEND)
-            return 1;
+            return (1);
         cmd = cmd->next;
     }
-    return 0;
+    return (0);
 }
 
 t_token *get_segment_end(t_token *start)
@@ -73,7 +73,10 @@ void child_process(t_token *cmd, int prev_pipe[2], int pipe_fd[2], t_data *data)
     argv = build_argv(cmd);
     if (!argv)
         exit(1);
-    execve(exec_cmd->value, argv, data->env);
-    perror("execve");
+    if (exec_cmd && exec_cmd->type == CMD && exec_cmd->value)
+        execve(exec_cmd->value, argv, data->env);
+    free_data(data);
+    free_tab(argv);
+    free_tokens(cmd);
     exit(1);
 }

@@ -162,5 +162,14 @@ t_token *get_segment_end(t_token *start);
 int has_output_redirection(t_token *cmd);
 char **build_argv(t_token *cmd);
 void handle_redirections(t_token *cmd);
+void	save_and_redirect_stdout(int fd, int *saved);
+void	restore_stdout(int saved);
+void    ft_replace_env(t_data *data, char *var, char *value);
+bool    update_pwd_env(t_data *data, char *oldpwd);
+// Déclaration de get_cmd_path
+char *get_cmd_path(char *cmd, char **envp);
+
+// Déclaration de ft_error
+void ft_error(const char *msg, const char *detail);
 
 #endif

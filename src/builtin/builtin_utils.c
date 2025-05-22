@@ -12,25 +12,27 @@
 
 #include "../../includes/minishell.h"
 
-bool	is_builtin(t_token *token)
+bool is_builtin(t_token *token)
 {
-	if (!token || !token->value)
-		return (false);
-	if (ft_strncmp(token->value, "echo", len(token->value)) == 0)
-		return (true);
-	if (ft_strncmp(token->value, "cd", len(token->value)) == 0)
-		return (true);
-	if (ft_strncmp(token->value, "pwd", len(token->value)) == 0)
-		return (true);
-	if (ft_strncmp(token->value, "export", len(token->value)) == 0)
-		return (true);
-	if (ft_strncmp(token->value, "unset", len(token->value)) == 0)
-		return (true);
-	if (ft_strncmp(token->value, "env", len(token->value)) == 0)
-		return (true);
-	if (ft_strncmp(token->value, "exit", len(token->value)) == 0)
-		return (true);
-	return (false);
+    if (!token || !token->value)
+        return (false);
+
+    if (ft_strcmp(token->value, "echo") == 0)
+        return (true);
+    if (ft_strcmp(token->value, "cd") == 0)
+        return (true);
+    if (ft_strcmp(token->value, "pwd") == 0)
+        return (true);
+    if (ft_strcmp(token->value, "export") == 0)
+        return (true);
+    if (ft_strcmp(token->value, "unset") == 0)
+        return (true);
+    if (ft_strcmp(token->value, "env") == 0)
+        return (true);
+    if (ft_strcmp(token->value, "exit") == 0)
+        return (true);
+
+    return (false);
 }
 
 bool do_builtin(t_data *data, t_token *token)

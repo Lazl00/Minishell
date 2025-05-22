@@ -102,17 +102,27 @@ void exec_loop(t_data *data)
 		segment_start = cmd;
 		segment_end = get_segment_end(segment_start);
 		init_pipes(pipe_fd, &has_pipe, segment_end);
-		pid = fork();
-		if (pid == 0)
-			child_process(segment_start, prev_pipe, pipe_fd, data);
-		else if (pid < 0)
+
+		if (is_builtin(segment_start))
 		{
-			perror("fork");
-			exit(1);
+			do_builtin(data, segment_start);
+			update_pipe_and_cmd(prev_pipe, segment_end, &cmd, pipe_fd);
 		}
-		update_pipe_and_cmd(prev_pipe, segment_end, &cmd, pipe_fd);
+		else
+		{
+			pid = fork();
+			if (pid == 0)
+				child_process(segment_start, prev_pipe, pipe_fd, data);
+			else if (pid < 0)
+			{
+				perror("fork");
+				exit(1);
+			}
+			update_pipe_and_cmd(prev_pipe, segment_end, &cmd, pipe_fd);
+		}
 	}
 }
+
 
 void	update_pipe_and_cmd(int prev_pipe[2], t_token *segment_end, t_token **cmd, int pipe_fd[2])
 {
