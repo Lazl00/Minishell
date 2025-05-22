@@ -6,36 +6,34 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 13:49:04 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/05/15 19:13:16 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/22 15:01:12 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-bool is_builtin(t_token *token)
+bool	is_builtin(t_token *token)
 {
-    if (!token || !token->value)
-        return (false);
-
-    if (ft_strcmp(token->value, "echo") == 0)
-        return (true);
-    if (ft_strcmp(token->value, "cd") == 0)
-        return (true);
-    if (ft_strcmp(token->value, "pwd") == 0)
-        return (true);
-    if (ft_strcmp(token->value, "export") == 0)
-        return (true);
-    if (ft_strcmp(token->value, "unset") == 0)
-        return (true);
-    if (ft_strcmp(token->value, "env") == 0)
-        return (true);
-    if (ft_strcmp(token->value, "exit") == 0)
-        return (true);
-
-    return (false);
+	if (!token || !token->value)
+		return (false);
+	if (ft_strcmp(token->value, "echo") == 0)
+		return (true);
+	if (ft_strcmp(token->value, "cd") == 0)
+		return (true);
+	if (ft_strcmp(token->value, "pwd") == 0)
+		return (true);
+	if (ft_strcmp(token->value, "export") == 0)
+		return (true);
+	if (ft_strcmp(token->value, "unset") == 0)
+		return (true);
+	if (ft_strcmp(token->value, "env") == 0)
+		return (true);
+	if (ft_strcmp(token->value, "exit") == 0)
+		return (true);
+	return (false);
 }
 
-bool do_builtin(t_data *data, t_token *token)
+bool	do_builtin(t_data *data, t_token *token)
 {
 	if (ft_strncmp(token->value, "echo", len(token->value)) == 0)
 		return (ft_echo(data, token));

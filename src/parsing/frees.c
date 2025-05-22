@@ -29,19 +29,32 @@ void	free_data(t_data *data)
 {
 	int	i;
 
-	if (data)
+	if (!data)
+		return;
+	if (data->tokens)
+		free_tokens(data->tokens);
+	if (data->env)
 	{
-		if (data->env)
-		{
-			i = 0;
-			while (data->env[i])
-			{
-				free(data->env[i]);
-				i++;
-			}
-			free(data->env);
-		}
-		//free(data->path);
-		free(data);
+		i = 0;
+		while (data->env[i])
+			free(data->env[i++]);
+		free(data->env);
 	}
+	free(data);
+}
+
+void	free_data_main(t_data *data)
+{
+	int	i;
+
+	if (!data)
+		return;
+	if (data->env)
+	{
+		i = 0;
+		while (data->env[i])
+			free(data->env[i++]);
+		free(data->env);
+	}
+	free(data);
 }

@@ -6,7 +6,7 @@
 /*   By: lcournoy <lcournoy@student.42.fr>          #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025-05-15 14:27:42 by lcournoy          #+#    #+#             */
-/*   Updated: 2025-05-15 14:27:42 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/05/22 14:58:18 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,15 @@ bool	ft_export(t_data *data, t_token *token)
 
 	if (!data || !data->env || !token || !token->next)
 		return (false);
-	
-	// Récupère le nom de la variable avant le '='
 	name = token->next->value;
 	name_len = 0;
 	while (name[name_len] && name[name_len] != '=')
 		name_len++;
-
-	// Remplace la variable si elle existe déjà
 	i = 0;
 	while (data->env[i])
 	{
-		if (ft_strncmp(data->env[i], name, name_len) == 0 && data->env[i][name_len] == '=')
+		if (ft_strncmp(data->env[i], name, name_len) == 0 \
+				&& data->env[i][name_len] == '=')
 		{
 			free(data->env[i]);
 			data->env[i] = ft_strdup(token->next->value);
@@ -40,8 +37,6 @@ bool	ft_export(t_data *data, t_token *token)
 		}
 		i++;
 	}
-
-	// Sinon, ajoute la nouvelle variable
 	new_env = malloc(sizeof(char *) * (i + 2));
 	if (!new_env)
 		return (false);

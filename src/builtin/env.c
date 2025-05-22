@@ -6,7 +6,7 @@
 /*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 18:17:42 by wailas            #+#    #+#             */
-/*   Updated: 2025/05/15 16:12:34 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/05/22 14:51:47 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 int	find_outfile_fd(t_token *cmd)
 {
-	t_token *tmp;
-	t_token *last_out;
+	t_token	*tmp;
+	t_token	*last_out;
 
-    tmp = cmd;
-    last_out = NULL;
+	tmp = cmd;
+	last_out = NULL;
 	while (tmp)
 	{
 		if (tmp->type == OUTFILE || tmp->type == APPEND_FILE)
@@ -33,7 +33,7 @@ int	find_outfile_fd(t_token *cmd)
 		return (open(last_out->value, O_WRONLY | O_CREAT | O_TRUNC, 0644));
 	else
 		return (open(last_out->value, O_WRONLY | O_CREAT | O_APPEND, 0644));
-    return (STDOUT_FILENO);
+	return (STDOUT_FILENO);
 }
 
 bool	ft_env(t_data *data, t_token *cmd)
@@ -41,10 +41,10 @@ bool	ft_env(t_data *data, t_token *cmd)
 	int		i;
 	int		fd;
 
-    i = 0;
+	i = 0;
 	if (!data || !data->env)
 		return (false);
-    if (cmd->next && cmd->next->type == ARG)
+	if (cmd->next && cmd->next->type == ARG)
 		return (print_error("env: too many arguments"));
 	fd = find_outfile_fd(cmd);
 	if (fd < 0)

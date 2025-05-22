@@ -39,9 +39,8 @@ int	main(int argc, char **argv, char **env)
 		ft_exec(data);
 		//else
 			//do_builtin(data, data->tokens);
-		//print_token_list(data->tokens);
 		free_tokens(data->tokens);
 	}
-	free_data(data);
+	free_data_main(data);
 	exit(EXIT_FAILURE);
 }

@@ -6,7 +6,7 @@
 /*   By: lcournoy <lcournoy@student.42.fr>          #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025-05-15 14:28:26 by lcournoy          #+#    #+#             */
-/*   Updated: 2025-05-15 14:28:26 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/05/22 15:00:42 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,12 @@
 
 bool	ft_unset(t_data *data, t_token *token)
 {
-	int		i = 0;
-	int		k = 0;
+	int		i;
+	int		k;
 	char	**new_env;
 
+	i = 0;
+	k = 0;
 	if (!data || !data->env || !token->next)
 		return (false);
 	while (data->env[i])
@@ -28,8 +30,9 @@ bool	ft_unset(t_data *data, t_token *token)
 	i = 0;
 	while (data->env[i])
 	{
-		if (ft_strncmp(data->env[i], token->next->value, len(token->next->value)) == 0
-			&& data->env[i][len(token->next->value)] == '=')    
+		if (ft_strncmp(data->env[i], token->next->value, \
+					len(token->next->value)) == 0 \
+				&& data->env[i][len(token->next->value)] == '=')
 			free(data->env[i]);
 		else
 			new_env[k++] = data->env[i];

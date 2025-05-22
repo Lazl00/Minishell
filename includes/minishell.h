@@ -54,15 +54,6 @@ typedef struct s_token {
 	struct s_token	*prev;
 }	t_token;
 
-typedef struct s_cmd
-{
-	bool			skip_cmd;
-	int				infile;
-	int				outfile;
-	char			**cmd_param;
-	struct s_cmd	*next;
-}				t_cmd;
-
 typedef struct s_data {
 	char	**env;
 	t_token	*tokens;
@@ -171,5 +162,6 @@ char *get_cmd_path(char *cmd, char **envp);
 
 // Déclaration de ft_error
 void ft_error(const char *msg, const char *detail);
-
+void	free_data(t_data *data);
+void	free_data_main(t_data *data);
 #endif
