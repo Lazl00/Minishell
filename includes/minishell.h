@@ -31,6 +31,9 @@
 # include "../libft/include/libft.h"
 # include "../libft/include/ft_printf.h"
 # include "../libft/include/get_next_line.h"
+# include <signal.h>
+
+extern pid_t	g_signal_pid;
 
 typedef enum s_token_parse {
 	CMD,

@@ -12,6 +12,8 @@
 
 #include "../includes/minishell.h"
 
+pid_t	g_signal_pid;
+
 int	main(int argc, char **argv, char **env)
 {
 	char			*line;
@@ -19,19 +21,19 @@ int	main(int argc, char **argv, char **env)
 
 	data = malloc(sizeof(t_data));
 	init_data(data, env);
-	if (argc != 1)
-	{
-		line = argv[1];
-		if (!line || ft_strcmp(line, "exit") == 0)
-			exit(EXIT_FAILURE);
-		parse_command(data, line);
-		exit(EXIT_FAILURE);
-	}
+	(void)argv;
+	(void)argc;
+	//signal(SIGINT, signal_handler);
 	while (1)
 	{
 		line = readline("minishell 👅👀>  ");
-		if (!line || ft_strcmp(line, "exit") == 0)
+		if (!line)
 			break ;
+		if (*line == '\0')
+		{
+			free(line);
+			continue ;
+		}
 		add_history(line);
 		parse_command(data, line);
 		lexing(data);
