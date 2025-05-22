@@ -18,7 +18,12 @@ void	handle_redirections(t_token *cmd)
 
 	while (cmd && cmd->type != PIPE)
 	{
-		if (cmd->type == REDIR_IN && cmd->next)
+		if (cmd->type == DELIMITEUR && cmd->heredoc_fd >= 0)
+		{
+			dup2(cmd->heredoc_fd, STDIN_FILENO);
+			close(cmd->heredoc_fd);
+		}
+		else if (cmd->type == REDIR_IN && cmd->next)
 		{
 			fd = open(cmd->next->value, O_RDONLY);
 			if (fd < 0)
@@ -54,6 +59,7 @@ void	handle_redirections(t_token *cmd)
 		cmd = cmd->next;
 	}
 }
+
 
 char	**build_argv(t_token *cmd)
 {
@@ -192,6 +198,7 @@ void	update_pipe_and_cmd(int prev_pipe[2], t_token *segment_end, t_token **cmd, 
 
 void	ft_exec(t_data *data)
 {
+	prepare_heredocs(data->tokens);
 	exec_loop(data);
 	while (wait(NULL) > 0)
 		;

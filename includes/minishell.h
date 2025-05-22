@@ -51,7 +51,7 @@ typedef struct s_token {
 	char			*value;
 	t_enum_token	type;
 	struct s_token	*next;
-	struct s_token	*prev;
+	int				heredoc_fd;
 }	t_token;
 
 typedef struct s_data {
@@ -164,4 +164,7 @@ char *get_cmd_path(char *cmd, char **envp);
 void ft_error(const char *msg, const char *detail);
 void	free_data(t_data *data);
 void	free_data_main(t_data *data);
+void prepare_heredocs(t_token *tokens);
+int handle_heredoc(const char *delimiter);
+
 #endif
