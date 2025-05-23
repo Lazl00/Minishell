@@ -140,11 +140,6 @@ void	exec_loop(t_data *data)
                 }
 				else
                 {
-                	if (!segment_start || !segment_start->value)
-                    {
-                    	free_data(data);
-                    	exit(127);
-                    }
                 	char **argv = build_argv(segment_start);
                 	if (!argv)
                     {
@@ -152,10 +147,15 @@ void	exec_loop(t_data *data)
                     	exit(1);
                     }
                 	execve(segment_start->value, argv, data->env);
-                	perror("execve");
-                	free_tab(argv);
-                    free_data(data);
-                	exit(1);
+					perror("execve");
+					free_data(data);
+					free(argv);
+					if (errno == EACCES)
+					    exit(126);
+					else if (errno == ENOENT)
+					    exit(127);
+					else
+					    exit(1);
                 }
 			}
 			else if (pid < 0)

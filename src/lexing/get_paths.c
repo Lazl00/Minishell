@@ -87,10 +87,10 @@ char	*check_exec(t_token *token, char **env)
 	if (ft_strncmp(token->value, "./", 2) == 0 || \
 			ft_strncmp(token->value, "/", 1) == 0)
 	{
-		if (access(token->value, X_OK) == 0)
-			return (ft_strdup(token->value));
-		else
-			return (NULL);
+		//if (access(token->value, X_OK) == 0)
+		return (ft_strdup(token->value));
+		//else
+		//	return (NULL);
 	}
 	path = get_path(token->value, env);
 	if (!path)
