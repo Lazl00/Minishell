@@ -36,18 +36,18 @@ bool	is_builtin(t_token *token)
 bool	do_builtin(t_data *data, t_token *token)
 {
 	if (ft_strncmp(token->value, "echo", len(token->value)) == 0)
-		return (ft_echo(data, token));
+		ft_echo(data, token);
 	if (ft_strncmp(token->value, "cd", len(token->value)) == 0)
-		return (ft_cd(data, token));
+		ft_cd(data, token);
 	if (ft_strncmp(token->value, "pwd", len(token->value)) == 0)
-		return (ft_pwd(data, token));
+		ft_pwd(data, token);
 	if (ft_strncmp(token->value, "export", len(token->value)) == 0)
-		return (ft_export(data, token));
+		ft_export(data, token);
 	if (ft_strncmp(token->value, "unset", len(token->value)) == 0)
-		return (ft_unset(data, token));
+		ft_unset(data, token);
 	if (ft_strncmp(token->value, "env", len(token->value)) == 0)
-		return (ft_env(data, token));
+		ft_env(data, token);
 	if (ft_strncmp(token->value, "exit", len(token->value)) == 0)
-		return (ft_exit(data, token));
+		ft_exit(data, token);
 	return (false);
 }

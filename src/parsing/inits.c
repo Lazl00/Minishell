@@ -47,7 +47,7 @@ t_data	*init_data(t_data *data, char **env)
 	(*data).tokens = NULL;
 	(*data).fd[0] = -1;
 	(*data).fd[1] = -1;
-	//(*data).path = get_path((*data).env);
+	(*data).exit_status = 0;
 	return (data);
 }
 

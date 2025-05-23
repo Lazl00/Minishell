@@ -61,6 +61,7 @@ typedef struct s_data {
 	char	**env;
 	t_token	*tokens;
 	int		fd[2];
+	int		exit_status;
 }	t_data;
 
 /* Token management functions */

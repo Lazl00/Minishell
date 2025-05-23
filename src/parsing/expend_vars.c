@@ -22,6 +22,8 @@ bool	is_separator(char c)
 		return (false);
 	if (c == '_')
 		return (false);
+	if (c == '?')
+		return (false);
 	return (true);
 }
 
@@ -32,6 +34,8 @@ char	*modified_var(t_data data, char	*var)
 
 	line = 0;
 	i = 0;
+	if (var[0] == '?')
+		return (ft_itoa(data.exit_status));
 	while (data.env[line])
 	{
 		while (data.env[line][i] == var[i])
@@ -52,6 +56,13 @@ char	*cut_var(char *var)
 	char	*cropped_var;
 
 	i = 0;
+	if (var[0] == '?')
+	{
+		cropped_var = malloc(2);
+		cropped_var[0] = '?';
+		cropped_var[1] = '\0';
+		return (cropped_var);
+	}
 	while (var[i] && is_separator(var[i]) == false)
 		i++;
 	cropped_var = malloc(i + 1);
@@ -90,6 +101,8 @@ char	*simple_expend(t_data data, char *line, char *var)
 	while (*line)
 		new_line[i++] = *line++;
 	new_line[i] = '\0';
+	if (*new_var == '?')
+		free(clean_var);
 	free(new_var);
 	return (new_line);
 }

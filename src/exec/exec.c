@@ -113,8 +113,7 @@ void	exec_loop(t_data *data)
 		init_pipes(pipe_fd, &has_pipe, segment_end);
 
 		if (is_builtin(segment_start) && !has_pipe && prev_pipe[0] == -1)
-			do_builtin(data, segment_start);
-
+			data->exit_status = do_builtin(data, segment_start);
 		else
 		{
 			pid = fork();
@@ -200,6 +199,14 @@ void	ft_exec(t_data *data)
 {
 	prepare_heredocs(data->tokens);
 	exec_loop(data);
-	while (wait(NULL) > 0)
-		;
+
+	int	status;
+	pid_t pid;
+	while ((pid = wait(&status)) > 0)
+	{
+		if (WIFEXITED(status))
+			data->exit_status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			data->exit_status = 128 + WTERMSIG(status);
+	}
 }
