@@ -3,26 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lcournoy <lcournoy@student.42.fr>          #+#  +:+       +#+        */
+/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-05-22 16:43:43 by lcournoy          #+#    #+#             */
-/*   Updated: 2025-05-22 16:43:43 by lcournoy         ###   ########.fr       */
+/*   Created: 2025/05/22 16:43:43 by lcournoy          #+#    #+#             */
+/*   Updated: 2025/05/23 17:48:51 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void    signal_handler(int sig)
+void sigint_handler(int sig)
 {
-    if (sig == SIGINT)
+    (void)sig;
+    write(1, "\n", 1);
+    rl_replace_line("", 0);
+    rl_on_new_line(); 
+    rl_redisplay();    
+}
+
+void configure_signals(t_signal_mode mode)
+{
+    if (mode == PARENT)
     {
-        write(1, "\n", 1);
-        rl_on_new_line();
-        rl_replace_line("", 0);
-        rl_redisplay();
+        signal(SIGINT, sigint_handler);
+        signal(SIGQUIT, SIG_IGN);
     }
-    else if (sig == SIGQUIT)
-    {
-        write(1, "Quit: 3\n", 8);
+    else if (mode == CHILD)
+    { 
+        signal(SIGINT, SIG_DFL);
+        signal(SIGQUIT, SIG_DFL);
     }
 }

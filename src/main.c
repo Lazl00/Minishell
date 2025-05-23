@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:48:31 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/05/20 17:28:17 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/23 19:40:30 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ int	main(int argc, char **argv, char **env)
 	init_data(data, env);
 	(void)argv;
 	(void)argc;
-	//signal(SIGINT, signal_handler);
+	rl_catch_signals = 0;
+	configure_signals(PARENT);
 	while (1)
 	{
 		line = readline("minishell 👅👀>  ");
@@ -37,10 +38,9 @@ int	main(int argc, char **argv, char **env)
 		add_history(line);
 		parse_command(data, line);
 		lexing(data);
-		//if (data->tokens->type == CMD)
+		//print_token_list(data->tokens);
 		ft_exec(data);
-		//else
-			//do_builtin(data, data->tokens);
+		//print_token_list(data->tokens);
 		free_tokens(data->tokens);
 	}
 	free_data_main(data);

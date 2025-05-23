@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 12:25:16 by wailas            #+#    #+#             */
-/*   Updated: 2025/05/22 15:08:02 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/05/23 19:40:09 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ void	handle_redirections(t_token *cmd)
 		cmd = cmd->next;
 	}
 }
-
 
 char	**build_argv(t_token *cmd)
 {
@@ -118,65 +117,68 @@ void exec_loop(t_data *data)
 		}
 		else
 		{
-			pid = fork();
-			if (pid == 0)
-			{
-				if (prev_pipe[0] != -1)
-				{
-					dup2(prev_pipe[0], STDIN_FILENO);
-					close(prev_pipe[0]);
-					close(prev_pipe[1]);
-				}
-				if (pipe_fd[1] != -1)
-				{
-					dup2(pipe_fd[1], STDOUT_FILENO);
-					close(pipe_fd[0]);
-					close(pipe_fd[1]);
-				}
-				handle_redirections(segment_start);
-				if (is_builtin(segment_start))
-				{
-					int culled = do_builtin(data, segment_start);
-					free_data(data);
-					exit(culled);
-				}
-				else
-				{
-				    char **argv = build_argv(segment_start);
-				    if (!argv)
-				    {
-				        free_data(data);
-				        write(1, "1\n", 2);
-				        exit(1);
-				    }
-								    if (!segment_start || !segment_start->value)
-				    {
-				        free_data(data);
-						free(argv);
-				        exit(127);
-				    }
-								    if (access(segment_start->value, F_OK) == -1)
-				    {
-				        perror(segment_start->value);
-				        free_data(data);
-						free(argv);
-				        exit(127);
-				    }
-								    if (access(segment_start->value, X_OK) == -1)
-				    {
-				        perror(segment_start->value);
-				        free_data(data);
-						free(argv);
-				        exit(126);
-				    }
-				    execve(segment_start->value, argv, data->env);				
-				    perror("execve");
-				    free_data(data);
-					free(argv);
-				    exit(1);
-				}
-
-			}
+            pid = fork();
+            if (pid == 0)
+            {
+                // Redirections et pipes
+                if (prev_pipe[0] != -1)
+                {
+                    dup2(prev_pipe[0], STDIN_FILENO);
+                    close(prev_pipe[0]);
+                    close(prev_pipe[1]);
+                }
+                if (pipe_fd[1] != -1)
+                {
+                    dup2(pipe_fd[1], STDOUT_FILENO);
+                    close(pipe_fd[0]);
+                    close(pipe_fd[1]);
+                }
+                handle_redirections(segment_start);
+            
+                // Trouver le token CMD
+                t_token *cmd_token = find_command_token(segment_start);
+                if (!cmd_token)
+                {
+                    free_data(data);
+                    exit(127);
+                }
+            
+                if (is_builtin(cmd_token))
+                {
+                    int culled = do_builtin(data, cmd_token);
+                    free_data(data);
+                    exit(culled);
+                }
+                else
+                {
+                    char **argv = build_argv(cmd_token);
+                    if (!argv)
+                    {
+                        free_data(data);
+                        exit(1);
+                    }
+                
+                    if (access(cmd_token->value, F_OK) == -1)
+                    {
+                        perror(cmd_token->value);
+                        free_data(data);
+                        free(argv);
+                        exit(127);
+                    }
+                    if (access(cmd_token->value, X_OK) == -1)
+                    {
+                        perror(cmd_token->value);
+                        free_data(data);
+                        free(argv);
+                        exit(126);
+                    }
+                    execve(cmd_token->value, argv, data->env);
+                    perror("execve");
+                    free_data(data);
+                    free(argv);
+                    exit(1);
+                }
+            }
 			else if (pid < 0)
 			{
 				perror("fork");
@@ -196,8 +198,6 @@ void exec_loop(t_data *data)
 			cmd = NULL;
 	}
 }
-
-
 
 void	update_pipe_and_cmd(int prev_pipe[2], t_token *segment_end, t_token **cmd, int pipe_fd[2])
 {
@@ -228,4 +228,15 @@ void	ft_exec(t_data *data)
 		else if (WIFSIGNALED(status))
 			data->exit_status = 128 + WTERMSIG(status);
 	}
+}
+
+t_token *find_command_token(t_token *start)
+{
+    while (start && start->type != PIPE)
+    {
+        if (start->type == CMD)
+            return start;
+        start = start->next;
+    }
+    return NULL;
 }

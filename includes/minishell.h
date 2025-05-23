@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:49:35 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/05/20 17:32:12 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/23 19:39:23 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@
 # include <unistd.h>
 # include <stdbool.h>
 # include <sys/wait.h>
+# include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../libft/include/libft.h"
 # include "../libft/include/ft_printf.h"
 # include "../libft/include/get_next_line.h"
-# include <signal.h>
 
 extern pid_t	g_signal_pid;
 
@@ -63,6 +63,11 @@ typedef struct s_data {
 	int		fd[2];
 	int		exit_status;
 }	t_data;
+
+typedef enum e_signal_mode {
+    PARENT,
+    CHILD
+} t_signal_mode;
 
 /* Token management functions */
 t_token	*create_token(t_enum_token type, char *value);
@@ -170,5 +175,8 @@ void	free_data(t_data *data);
 void	free_data_main(t_data *data);
 void prepare_heredocs(t_token *tokens);
 int handle_heredoc(const char *delimiter);
+void sigint_handler(int sig);
+void configure_signals(t_signal_mode mode);
+t_token *find_command_token(t_token *start);
 
 #endif

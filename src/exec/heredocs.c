@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredocs.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lcournoy <lcournoy@student.42.fr>          #+#  +:+       +#+        */
+/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-05-22 14:54:50 by lcournoy          #+#    #+#             */
-/*   Updated: 2025-05-22 14:54:50 by lcournoy         ###   ########.fr       */
+/*   Created: 2025/05/22 14:54:50 by lcournoy          #+#    #+#             */
+/*   Updated: 2025/05/23 16:36:02 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,6 @@ int handle_heredoc(const char *delimiter)
         free(line);
     }
 
-    close(pipe_fd[1]); // ferme l'écriture
-    return pipe_fd[0]; // retourne le descripteur de lecture
+    close(pipe_fd[1]);
+    return pipe_fd[0];
 }

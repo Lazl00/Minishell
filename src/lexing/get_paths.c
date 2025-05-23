@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:20:44 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/05/22 15:03:05 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/05/23 19:34:55 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ char	*check_exec(t_token *token, char **env)
 	if (!path)
 	{
 		ft_printf("command not found : %s\n", token->value);
-		return (NULL);
+		return (ft_strdup(token->value));
 	}
 	return (path);
 }
