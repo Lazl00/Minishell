@@ -95,7 +95,7 @@ char	**build_argv(t_token *cmd)
 	return (argv);
 }
 
-void	exec_loop(t_data *data)
+void exec_loop(t_data *data)
 {
 	t_token	*cmd = data->tokens;
 	t_token	*segment_start;
@@ -113,7 +113,9 @@ void	exec_loop(t_data *data)
 		init_pipes(pipe_fd, &has_pipe, segment_end);
 
 		if (is_builtin(segment_start) && !has_pipe && prev_pipe[0] == -1)
+		{
 			data->exit_status = do_builtin(data, segment_start);
+		}
 		else
 		{
 			pid = fork();
@@ -133,30 +135,47 @@ void	exec_loop(t_data *data)
 				}
 				handle_redirections(segment_start);
 				if (is_builtin(segment_start))
-                {
-                    int culled = do_builtin(data, segment_start);
-                    free_data(data);
-					exit(culled);
-                }
-				else
-                {
-                	char **argv = build_argv(segment_start);
-                	if (!argv)
-                    {
-                    	free_data(data);
-                    	exit(1);
-                    }
-                	execve(segment_start->value, argv, data->env);
-					perror("execve");
+				{
+					int culled = do_builtin(data, segment_start);
 					free_data(data);
+					exit(culled);
+				}
+				else
+				{
+				    char **argv = build_argv(segment_start);
+				    if (!argv)
+				    {
+				        free_data(data);
+				        write(1, "1\n", 2);
+				        exit(1);
+				    }
+								    if (!segment_start || !segment_start->value)
+				    {
+				        free_data(data);
+						free(argv);
+				        exit(127);
+				    }
+								    if (access(segment_start->value, F_OK) == -1)
+				    {
+				        perror(segment_start->value);
+				        free_data(data);
+						free(argv);
+				        exit(127);
+				    }
+								    if (access(segment_start->value, X_OK) == -1)
+				    {
+				        perror(segment_start->value);
+				        free_data(data);
+						free(argv);
+				        exit(126);
+				    }
+				    execve(segment_start->value, argv, data->env);				
+				    perror("execve");
+				    free_data(data);
 					free(argv);
-					if (errno == EACCES)
-					    exit(126);
-					else if (errno == ENOENT)
-					    exit(127);
-					else
-					    exit(1);
-                }
+				    exit(1);
+				}
+
 			}
 			else if (pid < 0)
 			{
@@ -171,10 +190,10 @@ void	exec_loop(t_data *data)
 		}
 		prev_pipe[0] = pipe_fd[0];
 		prev_pipe[1] = pipe_fd[1];
-        if (segment_end)
-            cmd = segment_end->next;
-        else
-            cmd = NULL;
+		if (segment_end)
+			cmd = segment_end->next;
+		else
+			cmd = NULL;
 	}
 }
 
