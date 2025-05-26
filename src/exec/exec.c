@@ -62,7 +62,7 @@ void	exec_loop(t_data *data)
 		int has_pipe = segment_end && segment_end->next && segment_end->next->type == PIPE;
 		init_pipes(pipe_fd, &has_pipe, segment_end);
 		if (is_builtin(segment_start) && !has_pipe && prev_pipe[0] == -1)
-			do_builtin(data, segment_start);
+			data->exit_status = do_builtin(data, segment_start);
 		else
 		{
 			pid = fork();
@@ -102,9 +102,14 @@ void	exec_loop(t_data *data)
                     }
                 	execve(segment_start->value, argv, data->env);
                 	perror("execve");
-                	free_tab(argv);
-                    free_data(data);
-                	exit(1);
+					free_data(data);
+					free(argv);
+					if (errno == EACCES)
+					    exit(126);
+					else if (errno == ENOENT)
+					    exit(127);
+					else
+					    exit(1);
                 }
 			}
 			else if (pid < 0)
@@ -182,6 +187,14 @@ void	ft_exec(t_data *data)
 {
 	prepare_heredocs(data->tokens);
 	exec_loop(data);
-	while (wait(NULL) > 0)
-		;
+
+	int	status;
+	pid_t pid;
+	while ((pid = wait(&status)) > 0)
+	{
+		if (WIFEXITED(status))
+			data->exit_status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			data->exit_status = 128 + WTERMSIG(status);
+	}
 }

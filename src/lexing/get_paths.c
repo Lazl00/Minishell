@@ -108,6 +108,11 @@ void	free_tab(char **str)
 	if (!str)
 		return ;
 	i = 0;
+	if (!str[i])
+	{
+		free(str);
+		return ;
+	}
 	while (str[i])
 	{
 		free(str[i]);
