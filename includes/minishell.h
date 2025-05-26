@@ -174,9 +174,14 @@ void ft_error(const char *msg, const char *detail);
 void	free_data(t_data *data);
 void	free_data_main(t_data *data);
 void prepare_heredocs(t_token *tokens);
-int handle_heredoc(const char *delimiter);
+int do_heredoc(char *delimiter);
 void sigint_handler(int sig);
 void configure_signals(t_signal_mode mode);
 t_token *find_command_token(t_token *start);
+void run_child_process(t_data *data, t_token *cmd, int prev_pipe[2], int pipe_fd[2]);
+void exit_clean(t_data *data, char **argv, int status);
+void exit_perror(char *msg);
+t_token *find_cmd(t_token *segment_start);
+void	move_command_to_front(t_token *segment_start);
 
 #endif

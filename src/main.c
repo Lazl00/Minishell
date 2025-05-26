@@ -38,9 +38,7 @@ int	main(int argc, char **argv, char **env)
 		add_history(line);
 		parse_command(data, line);
 		lexing(data);
-		//print_token_list(data->tokens);
 		ft_exec(data);
-		//print_token_list(data->tokens);
 		free_tokens(data->tokens);
 	}
 	free_data_main(data);

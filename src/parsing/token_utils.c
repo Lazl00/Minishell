@@ -45,21 +45,21 @@ void	token_remove_quote(t_token *list)
 	}
 }
 
-void	access_token_cmd(t_token *list)
-{
-	t_token	*tmp;
+// void	access_token_cmd(t_token *list)
+// {
+// 	t_token	*tmp;
 
-	tmp = list;
-	while (tmp != NULL)
-	{
-		if (tmp->type == ARG)
-		{
-			if (access(tmp->value, X_OK) == 0)
-				tmp->type = CMD;
-		}
-		tmp = tmp->next;
-	}
-}
+// 	tmp = list;
+// 	while (tmp != NULL)
+// 	{
+// 		if (tmp->type == ARG)
+// 		{
+// 			if (access(tmp->value, X_OK) == 0)
+// 				tmp->type = CMD;
+// 		}
+// 		tmp = tmp->next;
+// 	}
+// }
 
 bool	add_token_to_list(t_token **h, t_token **l, t_token *t)
 {

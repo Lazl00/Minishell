@@ -118,6 +118,6 @@ t_token	*token(char *input)
 	}
 	free(input_copy);
 	token_remove_quote(head);
-	access_token_cmd(head);
+	//access_token_cmd(head);
 	return (head);
 }
