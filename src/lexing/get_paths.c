@@ -68,8 +68,6 @@ char	*get_path(char *command, char **env)
 
 	if (!command || !command[0])
 		return (NULL);
-	if (access(command, F_OK) == 0)
-		return (ft_strdup(command));
 	if (!env)
 		return (NULL);
 	paths = get_paths_from_env(env);

@@ -189,6 +189,7 @@ void	save_and_redirect_stdout(int fd, int *saved);
 void	restore_stdout(int saved);
 void	ft_replace_env(t_data *data, char *var, char *value);
 bool	update_pwd_env(t_data *data, char *oldpwd);
+t_token		*find_first_cmd(t_token *segment_start);
 
 /* ===========================
 	Command Path & Error
@@ -335,5 +336,12 @@ t_token	*find_cmd(t_token *segment_start);
 void	move_command_to_front(t_token *segment_start);
 int		copy_clean_var(char *dst, char *src, int i);
 char	*simple_expend(t_data data, char *line, char *var, int i);
-
+void	exec_loop(t_data *data);
+void	process_segment(t_data *data, t_token *start, int prev_pipe[2], int pipe_fd[2]);
+void	update_prev_pipe(int prev_pipe[2], int pipe_fd[2]);
+void	exec_child(t_data *data, t_token *start,
+			int prev_pipe[2], int pipe_fd[2]);
+void	exec_dispatch(t_data *data, t_token *start);
+void	exec_external(t_data *data, t_token *start);
+void	exit_execve_errno(void);
 #endif

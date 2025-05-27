@@ -39,6 +39,8 @@ SRCS =  main.c \
 		exec/heredocs.c \
 		exec/handle_redirections.c \
 		signals/signals.c \
+		exec/exec_loop.c \
+		exec/exec_loop_utils.c \
 
 OBJS   := $(addprefix $(DIR_OBJS)/, $(SRCS:.c=.o))
 INCS   := $(addprefix $(DIR_INCS)/, minishell.h)

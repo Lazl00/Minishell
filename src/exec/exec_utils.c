@@ -80,3 +80,13 @@ void	child_process(t_token *cmd, int prev_pipe[2], int pipe_fd[2], t_data *data)
 	free_tokens(cmd);
 	exit(1);
 }
+
+void	exit_execve_errno(void)
+{
+	if (errno == EACCES)
+		exit(126);
+	else if (errno == ENOENT)
+		exit(127);
+	else
+		exit(1);
+}
