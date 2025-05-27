@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:20:44 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/05/23 19:34:55 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/27 13:30:42 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,7 @@ char	*check_exec(t_token *token, char **env)
 	if (ft_strncmp(token->value, "./", 2) == 0 || \
 			ft_strncmp(token->value, "/", 1) == 0)
 	{
-		//if (access(token->value, X_OK) == 0)
 		return (ft_strdup(token->value));
-		//else
-		//	return (NULL);
 	}
 	path = get_path(token->value, env);
 	if (!path)
@@ -99,24 +96,4 @@ char	*check_exec(t_token *token, char **env)
 		return (ft_strdup(token->value));
 	}
 	return (path);
-}
-
-void	free_tab(char **str)
-{
-	int	i;
-
-	if (!str)
-		return ;
-	i = 0;
-	if (!str[i])
-	{
-		free(str);
-		return ;
-	}
-	while (str[i])
-	{
-		free(str[i]);
-		i++;
-	}
-	free(str);
 }

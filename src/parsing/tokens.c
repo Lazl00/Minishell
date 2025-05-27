@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 16:37:31 by wailas            #+#    #+#             */
-/*   Updated: 2025/05/16 16:21:32 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/27 13:23:21 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,5 @@ t_token	*token(char *input)
 	}
 	free(input_copy);
 	token_remove_quote(head);
-	//access_token_cmd(head);
 	return (head);
 }

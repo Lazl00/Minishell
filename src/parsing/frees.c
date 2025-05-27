@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   frees.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 18:48:25 by wailas            #+#    #+#             */
-/*   Updated: 2025/05/12 15:55:20 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/05/27 13:22:32 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	free_data(t_data *data)
 	int	i;
 
 	if (!data)
-		return;
+		return ;
 	if (data->tokens)
 		free_tokens(data->tokens);
 	if (data->env)
@@ -48,7 +48,7 @@ void	free_data_main(t_data *data)
 	int	i;
 
 	if (!data)
-		return;
+		return ;
 	if (data->env)
 	{
 		i = 0;

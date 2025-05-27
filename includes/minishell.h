@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:49:35 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/05/23 19:39:23 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/27 13:40:26 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ char	*quotes_remover(char *line);
 
 /* Variable expansion functions */
 char	*expend_vars(t_data data, char *line);
-char	*simple_expend(t_data data, char *line, char *var);
 char	*modified_var(t_data data, char *var);
 char	*cut_var(char *var);
 
@@ -183,5 +182,7 @@ void exit_clean(t_data *data, char **argv, int status);
 void exit_perror(char *msg);
 t_token *find_cmd(t_token *segment_start);
 void	move_command_to_front(t_token *segment_start);
+int	copy_clean_var(char *dst, char *src, int i);
+char	*simple_expend(t_data data, char *line, char *var, int i);
 
 #endif

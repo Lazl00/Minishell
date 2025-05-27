@@ -6,13 +6,13 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:17:06 by wailas            #+#    #+#             */
-/*   Updated: 2025/05/15 18:38:43 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/27 13:23:05 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-const char* nom_tokens[] = {
+const char	*g_nom_tokens[] = {
 	"CMD",
 	"CMD_BUILTIN",
 	"REDIR_IN",
@@ -45,22 +45,6 @@ void	token_remove_quote(t_token *list)
 	}
 }
 
-// void	access_token_cmd(t_token *list)
-// {
-// 	t_token	*tmp;
-
-// 	tmp = list;
-// 	while (tmp != NULL)
-// 	{
-// 		if (tmp->type == ARG)
-// 		{
-// 			if (access(tmp->value, X_OK) == 0)
-// 				tmp->type = CMD;
-// 		}
-// 		tmp = tmp->next;
-// 	}
-// }
-
 bool	add_token_to_list(t_token **h, t_token **l, t_token *t)
 {
 	if (!t)
@@ -82,7 +66,7 @@ void	print_token_list(t_token *head)
 	while (tmp)
 	{
 		ft_printf("Token : %s\t\tType : %d (%s)\n", \
-			tmp->value, tmp->type, nom_tokens[tmp->type]);
+			tmp->value, tmp->type, g_nom_tokens[tmp->type]);
 		tmp = tmp->next;
 	}
 }

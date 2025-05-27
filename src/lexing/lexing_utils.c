@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:18:52 by wailas            #+#    #+#             */
-/*   Updated: 2025/05/14 17:54:45 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/27 13:31:45 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,9 @@ bool	check_delimiter(t_token *token)
 	return (true);
 }
 
-bool    check_cmd(t_token *token)
+bool	check_cmd(t_token *token)
 {
-	t_token *tmp;
+	t_token	*tmp;
 
 	tmp = token;
 	if (tmp->type == ARG)
@@ -105,7 +105,8 @@ bool    check_cmd(t_token *token)
 	{
 		if (tmp->type == INFILE && tmp->next != NULL && tmp->next->type == ARG)
 			tmp->next->type = CMD;
-		if (tmp->type == DELIMITEUR_MOT && tmp->next != NULL && tmp->next->type == ARG)
+		if (tmp->type == DELIMITEUR_MOT && tmp->next != NULL \
+				&& tmp->next->type == ARG)
 			tmp->next->type = CMD;
 		if (tmp->next != NULL && tmp->type == PIPE)
 			tmp->next->type = CMD;
@@ -113,4 +114,3 @@ bool    check_cmd(t_token *token)
 	}
 	return (true);
 }
-

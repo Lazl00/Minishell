@@ -3,18 +3,59 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lcournoy <lcournoy@student.42.fr>          #+#  +:+       +#+        */
+/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-05-15 14:27:42 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/05/22 14:58:18 by lcournoy         ###   ########.fr       */
+/*   Created: 2025/05/15 14:27:42 by lcournoy          #+#    #+#             */
+/*   Updated: 2025/05/27 11:55:19 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+bool	ft_add(t_data *data, char *name, size_t name_len)
+{
+	int	i;
+
+	i = 0;
+	while (data->env[i])
+	{
+		if (!ft_strncmp(data->env[i], name, name_len)
+			&& data->env[i][name_len] == '=')
+		{
+			free(data->env[i]);
+			data->env[i] = ft_strdup(data->tokens->next->value);
+			return (true);
+		}
+		i++;
+	}
+	return (false);
+}
+
+char	**ft_copy_env_and_add(t_data *data, char *value)
+{
+	char	**new_env;
+	int		i;
+	int		j;
+
+	i = 0;
+	while (data->env[i])
+		i++;
+	new_env = malloc(sizeof(char *) * (i + 2));
+	if (!new_env)
+		return (NULL);
+	j = 0;
+	while (j < i)
+	{
+		new_env[j] = data->env[j];
+		j++;
+	}
+	new_env[j] = ft_strdup(value);
+	new_env[j + 1] = NULL;
+	return (new_env);
+}
+
 bool	ft_export(t_data *data, t_token *token)
 {
-	int		i;
 	char	**new_env;
 	char	*name;
 	size_t	name_len;
@@ -25,29 +66,11 @@ bool	ft_export(t_data *data, t_token *token)
 	name_len = 0;
 	while (name[name_len] && name[name_len] != '=')
 		name_len++;
-	i = 0;
-	while (data->env[i])
-	{
-		if (ft_strncmp(data->env[i], name, name_len) == 0 \
-				&& data->env[i][name_len] == '=')
-		{
-			free(data->env[i]);
-			data->env[i] = ft_strdup(token->next->value);
-			return (true);
-		}
-		i++;
-	}
-	new_env = malloc(sizeof(char *) * (i + 2));
+	if (ft_add(data, name, name_len))
+		return (true);
+	new_env = ft_copy_env_and_add(data, token->next->value);
 	if (!new_env)
 		return (false);
-	i = 0;
-	while (data->env[i])
-	{
-		new_env[i] = data->env[i];
-		i++;
-	}
-	new_env[i] = ft_strdup(token->next->value);
-	new_env[i + 1] = NULL;
 	free(data->env);
 	data->env = new_env;
 	return (true);

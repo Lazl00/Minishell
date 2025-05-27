@@ -3,29 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expend_vars.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:25:57 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/05/12 15:29:55 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/05/27 13:39:44 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-bool	is_separator(char c)
-{
-	if (c >= 'a' && c <= 'z')
-		return (false);
-	if (c >= 'A' && c <= 'Z')
-		return (false);
-	if (c >= '0' && c <= '9')
-		return (false);
-	if (c == '_')
-		return (false);
-	if (c == '?')
-		return (false);
-	return (true);
-}
 
 char	*modified_var(t_data data, char	*var)
 {
@@ -76,16 +61,14 @@ char	*cut_var(char *var)
 	return (cropped_var);
 }
 
-char	*simple_expend(t_data data, char *line, char *var)
+char	*simple_expend(t_data data, char *line, char *var, int i)
 {
 	char	*new_var;
 	char	*clean_var;
 	char	*new_line;
-	int		i;
 	int		j;
 
 	j = 0;
-	i = 0;
 	if (*(var + 1) == '\0' || is_separator(*(var + 1)))
 		return (NULL);
 	new_var = cut_var(++var);
@@ -110,15 +93,17 @@ char	*simple_expend(t_data data, char *line, char *var)
 char	*expend_vars(t_data data, char *line)
 {
 	int		i;
+	int		i_caca;
 	char	*expended_line;
 
+	i_caca = 0;
 	expended_line = NULL;
 	i = 0;
 	while (line[i])
 	{
 		if (line[i] == '$' && check_quote_state(line, i, '\'') == 0)
 		{
-			expended_line = simple_expend(data, line, &line[i]);
+			expended_line = simple_expend(data, line, &line[i], i_caca);
 			if (expended_line)
 			{
 				free(line);

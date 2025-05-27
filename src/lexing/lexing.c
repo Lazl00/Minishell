@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:25:00 by wailas            #+#    #+#             */
-/*   Updated: 2025/05/15 18:54:28 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/27 13:30:32 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,7 @@ bool	lexing(t_data *data)
 		return (false);
 	if (!check_access(data))
 		return (false);
-	printf("Tokens before switch:\n");
-	print_token_list(data->tokens);
 	move_command_to_front(data->tokens);
-	printf("Tokens after switch:\n");
-	print_token_list(data->tokens);
 	return (true);
 }
 
@@ -79,4 +75,24 @@ bool	check_outfile(t_token *tokens)
 		tmp = tmp->next;
 	}
 	return (true);
+}
+
+void	free_tab(char **str)
+{
+	int	i;
+
+	if (!str)
+		return ;
+	i = 0;
+	if (!str[i])
+	{
+		free(str);
+		return ;
+	}
+	while (str[i])
+	{
+		free(str[i]);
+		i++;
+	}
+	free(str);
 }

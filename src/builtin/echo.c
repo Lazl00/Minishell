@@ -3,14 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 14:47:00 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/05/22 14:56:59 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/05/27 11:50:31 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void	ft_display(t_token *curr, int fd)
+{
+	while (curr && curr->type == ARG)
+	{
+		ft_putstr_fd(curr->value, fd);
+		if (curr->next && curr->next->type == ARG)
+			ft_putchar_fd(' ', fd);
+		curr = curr->next;
+	}
+}
 
 bool	ft_echo(t_data *data, t_token *token)
 {
@@ -29,15 +40,9 @@ bool	ft_echo(t_data *data, t_token *token)
 		curr = curr->next;
 	}
 	fd = find_outfile_fd(token);
+	ft_display(curr, fd);
 	if (fd < 0)
 		return (false);
-	while (curr && curr->type == ARG)
-	{
-		ft_putstr_fd(curr->value, fd);
-		if (curr->next && curr->next->type == ARG)
-			ft_putchar_fd(' ', fd);
-		curr = curr->next;
-	}
 	if (new_line)
 		ft_putchar_fd('\n', fd);
 	if (fd != STDOUT_FILENO)

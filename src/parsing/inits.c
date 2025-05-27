@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 10:00:00 by wailas            #+#    #+#             */
-/*   Updated: 2025/05/14 18:07:00 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/27 13:28:18 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,19 @@ void	print_str_array(char **arr)
 		printf("%s\n", arr[i]);
 		i++;
 	}
+}
+
+bool	is_separator(char c)
+{
+	if (c >= 'a' && c <= 'z')
+		return (false);
+	if (c >= 'A' && c <= 'Z')
+		return (false);
+	if (c >= '0' && c <= '9')
+		return (false);
+	if (c == '_')
+		return (false);
+	if (c == '?')
+		return (false);
+	return (true);
 }
