@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 16:19:05 by wailas            #+#    #+#             */
-/*   Updated: 2025/05/13 16:22:51 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/27 14:18:44 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 bool	print_error(char *str)
 {
-    ft_putstr_fd(str, 2);
-    return (false);
+	ft_putstr_fd(str, 2);
+	return (false);
 }
-

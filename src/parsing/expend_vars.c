@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:25:57 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/05/27 13:39:44 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/27 14:27:42 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*modified_var(t_data data, char	*var)
 	line = 0;
 	i = 0;
 	if (var[0] == '?')
-		return (ft_itoa(data.exit_status));
+		return (ft_itoa(g_signal_pid));
 	while (data.env[line])
 	{
 		while (data.env[line][i] == var[i])

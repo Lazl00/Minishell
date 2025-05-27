@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/31 16:48:31 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/05/23 19:40:30 by wailas           ###   ########.fr       */
+/*   Created: 2025/05/27 14:37:50 by wailas            #+#    #+#             */
+/*   Updated: 2025/05/27 14:37:54 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@ pid_t	g_signal_pid;
 
 int	main(int argc, char **argv, char **env)
 {
-	char			*line;
-	t_data			*data;
+	t_data	*data;
 
 	data = malloc(sizeof(t_data));
 	init_data(data, env);
@@ -25,6 +24,15 @@ int	main(int argc, char **argv, char **env)
 	(void)argc;
 	rl_catch_signals = 0;
 	configure_signals(PARENT);
+	minishell_loop(data);
+	free_data_main(data);
+	exit(EXIT_FAILURE);
+}
+
+void	minishell_loop(t_data *data)
+{
+	char	*line;
+
 	while (1)
 	{
 		line = readline("minishell 👅👀>  ");
@@ -45,6 +53,4 @@ int	main(int argc, char **argv, char **env)
 		ft_exec(data);
 		free_tokens(data->tokens);
 	}
-	free_data_main(data);
-	exit(EXIT_FAILURE);
 }
