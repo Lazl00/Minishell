@@ -26,7 +26,11 @@ bool	lexing(t_data *data)
 		return (false);
 	if (!check_access(data))
 		return (false);
+	printf("Tokens before switch:\n");
+	print_token_list(data->tokens);
 	move_command_to_front(data->tokens);
+	printf("Tokens after switch:\n");
+	print_token_list(data->tokens);
 	return (true);
 }
 

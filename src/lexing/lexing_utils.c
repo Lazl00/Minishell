@@ -105,6 +105,8 @@ bool    check_cmd(t_token *token)
 	{
 		if (tmp->type == INFILE && tmp->next != NULL && tmp->next->type == ARG)
 			tmp->next->type = CMD;
+		if (tmp->type == DELIMITEUR_MOT && tmp->next != NULL && tmp->next->type == ARG)
+			tmp->next->type = CMD;
 		if (tmp->next != NULL && tmp->type == PIPE)
 			tmp->next->type = CMD;
 		tmp = tmp->next;

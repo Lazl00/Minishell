@@ -36,7 +36,11 @@ int	main(int argc, char **argv, char **env)
 			continue ;
 		}
 		add_history(line);
-		parse_command(data, line);
+		if (!parse_command(data, line))
+		{
+			free(line);
+			continue ;
+		}
 		lexing(data);
 		ft_exec(data);
 		free_tokens(data->tokens);
