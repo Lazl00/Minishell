@@ -48,6 +48,7 @@ t_data	*init_data(t_data *data, char **env)
 	(*data).fd[0] = -1;
 	(*data).fd[1] = -1;
 	(*data).exit_status = 0;
+	g_signal_pid = -1;
 	return (data);
 }
 

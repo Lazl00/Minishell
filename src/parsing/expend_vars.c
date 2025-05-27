@@ -20,7 +20,7 @@ char	*modified_var(t_data data, char	*var)
 	line = 0;
 	i = 0;
 	if (var[0] == '?')
-		return (ft_itoa(g_signal_pid));
+		return (ft_itoa(data.exit_status));
 	while (data.env[line])
 	{
 		while (data.env[line][i] == var[i])

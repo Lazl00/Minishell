@@ -49,24 +49,12 @@ void	init_pipes(int *pipe_fd, int *has_pipe, t_token *segment_end)
 	}
 }
 
-void	child_process(t_token *cmd, int prev_pipe[2], int pipe_fd[2], t_data *data)
+void	child_process(t_token *cmd, int prev[2], int fds[2], t_data *data)
 {
 	char	**argv;
 	t_token	*exec_cmd;
 
-	handle_redirections(cmd);
-	if (prev_pipe[0] != -1)
-	{
-		dup2(prev_pipe[0], STDIN_FILENO);
-		close(prev_pipe[0]);
-		close(prev_pipe[1]);
-	}
-	if (pipe_fd[1] != -1)
-	{
-		dup2(pipe_fd[1], STDOUT_FILENO);
-		close(pipe_fd[0]);
-		close(pipe_fd[1]);
-	}
+	setup_pipes_and_redirects(cmd, prev, fds);
 	exec_cmd = cmd;
 	while (exec_cmd && exec_cmd->type != CMD)
 		exec_cmd = exec_cmd->next;
@@ -78,7 +66,7 @@ void	child_process(t_token *cmd, int prev_pipe[2], int pipe_fd[2], t_data *data)
 	free_data(data);
 	free_tab(argv);
 	free_tokens(cmd);
-	exit(1);
+	exit_execve_errno();
 }
 
 void	exit_execve_errno(void)

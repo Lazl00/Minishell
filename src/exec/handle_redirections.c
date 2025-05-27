@@ -6,7 +6,7 @@
 /*   By: lcournoy <lcournoy@student.42.fr>          #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025-05-26 14:08:37 by lcournoy          #+#    #+#             */
-/*   Updated: 2025-05-26 14:08:37 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/05/27 17:40:27 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 void	handle_redir_in(t_token *cmd)
 {
-	int fd = open(cmd->next->value, O_RDONLY);
+	int	fd;
+
+	fd = open(cmd->next->value, O_RDONLY);
 	if (fd < 0)
 	{
 		perror("infile");
@@ -26,7 +28,9 @@ void	handle_redir_in(t_token *cmd)
 
 void	handle_redir_out(t_token *cmd)
 {
-	int fd = open(cmd->next->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	int	fd;
+
+	fd = open(cmd->next->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 	{
 		perror("outfile");
@@ -38,7 +42,9 @@ void	handle_redir_out(t_token *cmd)
 
 void	handle_append(t_token *cmd)
 {
-	int fd = open(cmd->next->value, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	int	fd;
+
+	fd = open(cmd->next->value, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd < 0)
 	{
 		perror("append");

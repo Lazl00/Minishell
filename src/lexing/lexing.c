@@ -27,7 +27,6 @@ bool	lexing(t_data *data)
 	if (!check_access(data))
 		return (false);
 	move_command_to_front(data->tokens);
-
 	return (true);
 }
 

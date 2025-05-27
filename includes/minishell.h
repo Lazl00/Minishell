@@ -203,7 +203,6 @@ void	ft_error(const char *msg, const char *detail);
 void	prepare_heredocs(t_token *tokens);
 int		do_heredoc(char *delimiter);
 void	sigint_handler(int sig);
-void	configure_signals(t_signal_mode mode);
 
 /* ===========================
 	Command Utilities
@@ -337,11 +336,12 @@ void	move_command_to_front(t_token *segment_start);
 int		copy_clean_var(char *dst, char *src, int i);
 char	*simple_expend(t_data data, char *line, char *var, int i);
 void	exec_loop(t_data *data);
-void	process_segment(t_data *data, t_token *start, int prev_pipe[2], int pipe_fd[2]);
+pid_t	process_segment(t_data *data, t_token *start, int prev[2], int pipe[2]);
 void	update_prev_pipe(int prev_pipe[2], int pipe_fd[2]);
-void	exec_child(t_data *data, t_token *start,
-			int prev_pipe[2], int pipe_fd[2]);
+void	exec_child(t_data *data, t_token *start, int prev_pipe[2], int pipe_fd[2]);
 void	exec_dispatch(t_data *data, t_token *start);
 void	exec_external(t_data *data, t_token *start);
 void	exit_execve_errno(void);
+void	setup_pipes_and_redirects(t_token *cmd, int prev[2], int fds[2]);
+
 #endif
