@@ -30,7 +30,6 @@ void	configure_signals(t_signal_mode mode)
 	}
 	else if (mode == CHILD)
 	{
-		write(1, "R\n", 2);
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 	}

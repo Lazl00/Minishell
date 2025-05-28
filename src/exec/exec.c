@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 12:25:16 by wailas            #+#    #+#             */
-/*   Updated: 2025/05/27 16:13:32 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/05/28 14:53:22 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,27 +99,27 @@ void	update_pipe_and_cmd(int p[2], t_token *s, t_token **cmd, int pipe_fd[2])
 
 void ft_exec(t_data *data)
 {
-    int status;
-    pid_t pid;
+	int status;
+	pid_t pid;
 
-    prepare_heredocs(data->tokens);
-    exec_loop(data);
-    pid = wait(&status);
+	prepare_heredocs(data->tokens);
+	exec_loop(data);
+	pid = wait(&status);
 	while (pid > 0)
 	{
-	    if (pid == g_signal_pid) 
-	    {
-	        if (WIFEXITED(status))
-	            data->exit_status = WEXITSTATUS(status);
-	        else if (WIFSIGNALED(status))
-	        {
-	            int sig = WTERMSIG(status);
-	            if (sig == SIGINT)
-	                data->exit_status = 130;
-	            else
-	                data->exit_status = 128 + sig;
-	        }
-	    }
-	    pid = wait(&status);
+		if (pid == g_signal_pid) 
+		{
+			if (WIFEXITED(status))
+				data->exit_status = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+			{
+				int sig = WTERMSIG(status);
+				if (sig == SIGINT)
+					data->exit_status = 130;
+				else
+					data->exit_status = 128 + sig;
+			}
+		}
+		pid = wait(&status);
 	}
 }
