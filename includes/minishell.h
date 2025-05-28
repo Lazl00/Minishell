@@ -55,6 +55,7 @@ typedef struct s_token {
 	t_enum_token	type;
 	struct s_token	*next;
 	int				heredoc_fd;
+	bool			ignore;
 }	t_token;
 
 typedef struct s_data {
@@ -332,7 +333,6 @@ void	run_child_process(t_data *data, t_token *cmd,
 void	exit_clean(t_data *data, char **argv, int status);
 void	exit_perror(char *msg);
 t_token	*find_cmd(t_token *segment_start);
-void	move_command_to_front(t_token *segment_start);
 int		copy_clean_var(char *dst, char *src, int i);
 char	*simple_expend(t_data data, char *line, char *var, int i);
 void	exec_loop(t_data *data);
@@ -343,5 +343,11 @@ void	exec_dispatch(t_data *data, t_token *start);
 void	exec_external(t_data *data, t_token *start);
 void	exit_execve_errno(void);
 void	setup_pipes_and_redirects(t_token *cmd, int prev[2], int fds[2]);
+void	move_outfiles(t_token *segment_start);
+void	move_outfiles_to_last(t_token *segment_start);
+void	token_swap(t_token *first, t_token *second);
+int		count_outfiles(t_token *segment_start);
+bool	new_token(t_token **head, t_token *new_token);
+t_token    *phoenix(t_token *deprecated);
 
 #endif

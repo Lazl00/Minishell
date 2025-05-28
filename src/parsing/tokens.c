@@ -25,6 +25,7 @@ t_token	*create_token(t_enum_token type, char *value)
 	token->type = type;
 	token->value = ft_strdup(value);
 	token->heredoc_fd = -1;
+	token->ignore = false;
 	if (!token->value)
 	{
 		perror("Error\n");

@@ -55,33 +55,6 @@ t_token	*find_first_cmd(t_token *segment_start)
 	return (NULL);
 }
 
-void	move_command_to_front(t_token *segment_start)
-{
-	t_token	*first_cmd;
-	t_token	*tmp;
-	t_token	*prev;
-	int		saved_type;
-	char	*saved_value;
-
-	first_cmd = find_first_cmd(segment_start);
-	if (!first_cmd || first_cmd == segment_start)
-		return ;
-	saved_type = first_cmd->type;
-	saved_value = first_cmd->value;
-	tmp = first_cmd;
-	while (tmp != segment_start)
-	{
-		prev = segment_start;
-		while (prev->next != tmp)
-			prev = prev->next;
-		tmp->type = prev->type;
-		tmp->value = prev->value;
-		tmp = prev;
-	}
-	segment_start->type = saved_type;
-	segment_start->value = saved_value;
-}
-
 void	update_pipe_and_cmd(int p[2], t_token *s, t_token **cmd, int pipe_fd[2])
 {
 	if (p[0] != -1)

@@ -96,20 +96,22 @@ bool	check_delimiter(t_token *token)
 bool	check_cmd(t_token *token)
 {
 	t_token	*tmp;
+	bool	must_be_cmd;
 
+	must_be_cmd = true;
 	tmp = token;
-	if (tmp->type == ARG)
-		tmp->type = CMD;
-	tmp = tmp->next;
 	while (tmp)
 	{
-		if (tmp->type == INFILE && tmp->next != NULL && tmp->next->type == ARG)
-			tmp->next->type = CMD;
-		if (tmp->type == DELIMITEUR_MOT && tmp->next != NULL \
-				&& tmp->next->type == ARG)
-			tmp->next->type = CMD;
+		if (tmp->type == ARG && must_be_cmd == true)
+		{
+			if (is_builtin(tmp))
+				tmp->type = CMD_BUILTIN;
+			else
+				tmp->type = CMD;
+			must_be_cmd = false;
+		}
 		if (tmp->next != NULL && tmp->type == PIPE)
-			tmp->next->type = CMD;
+			must_be_cmd = true;
 		tmp = tmp->next;
 	}
 	return (true);
@@ -118,37 +120,39 @@ bool	check_cmd(t_token *token)
 void	move_outfiles(t_token	*segment_start)
 {
 	int		outfile_count;
-
 	outfile_count = count_outfiles(segment_start);
+	printf("Number of outfiles: %d\n", outfile_count);
 	if (!outfile_count)
 		return ;
+	outfile_count *= 2;
 	while (outfile_count)
 	{
 		move_outfiles_to_last(segment_start);
+		print_token_list(segment_start);
 		outfile_count--;
 	}
 }
+
 void	move_outfiles_to_last(t_token *segment_start)
 {
-	t_token	*cur_type;
-	t_token	*to_move_type;
-	t_token	*to_move_file;
+	t_token	*to_move;
 	t_token	*tmp;
 
-	cur_type = segment_start;
-	to_move_type = NULL;
-	while (cur_type && cur_type != PIPE)
+	tmp = segment_start;
+	to_move = NULL;
+	while (tmp && tmp->next && tmp->type != PIPE)
 	{
-		if (cur_type->type == REDIR_OUT || cur_type->type == APPEND)
-			to_move_type = cur_type;
-			to_move_file = cur_type->next;
-			break ;
-		cur_type = cur_type->next;
+		if (tmp->type == REDIR_OUT || tmp->type == APPEND || tmp->type == APPEND_FILE || tmp->type == OUTFILE)
+			to_move = tmp;
+		tmp = tmp->next;
 	}
-	if (!to_move_type || !to_move_file)
+	if (!to_move)
 		return ;
-	
-
+	while (to_move->next && to_move->next->type != PIPE)
+	{
+		token_swap(to_move, to_move->next);
+		to_move = to_move->next;
+	}
 }
 
 void	token_swap(t_token *first, t_token *second)

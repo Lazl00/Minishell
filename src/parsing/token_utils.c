@@ -45,18 +45,19 @@ void	token_remove_quote(t_token *list)
 	}
 }
 
-bool	add_token_to_list(t_token **h, t_token **l, t_token *t)
+bool	add_token_to_list(t_token **head, t_token **last, t_token *nw_tok)
 {
-	if (!t)
+	if (!nw_tok)
 		return (false);
-	t->next = NULL;
-	if (!*h)
-		*h = t;
+	nw_tok->next = NULL;
+	if (!*head)
+		*head = nw_tok;
 	else
-		(*l)->next = t;
-	*l = t;
+		(*last)->next = nw_tok;
+	*last = nw_tok;
 	return (true);
 }
+
 
 void	print_token_list(t_token *head)
 {

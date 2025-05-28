@@ -26,10 +26,9 @@ bool	lexing(t_data *data)
 		return (false);
 	if (!check_access(data))
 		return (false);
-	printf("Avant move_command_to_front:\n");
-	print_token_list(data->tokens);
-	move_command_to_front(data->tokens);
-	printf("Après move_command_to_front:\n");
+	data->tokens = phoenix(data->tokens);
+	//move_outfiles(data->tokens);
+	//printf("Après move_command_to_front:\n");
 	print_token_list(data->tokens);
 	return (true);
 }
