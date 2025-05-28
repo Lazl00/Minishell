@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:49:35 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/05/27 14:38:23 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/28 23:37:05 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -348,6 +348,26 @@ void	move_outfiles_to_last(t_token *segment_start);
 void	token_swap(t_token *first, t_token *second);
 int		count_outfiles(t_token *segment_start);
 bool	new_token(t_token **head, t_token *new_token);
-t_token    *phoenix(t_token *deprecated);
+// Ajoute un token à la fin d'une liste chaînée
+void append_token(t_token **head, t_token *to_add);
+
+// Ajoute tous les tokens trouvés par la fonction finder à la liste phoenix
+void add_all_matching_tokens(t_token **phoenix, t_token **deprecated, t_token *(*finder)(t_token **));
+
+// Trouve et extrait le premier token de type donné dans deprecated
+t_token *find_next_token_of_type(t_token **deprecated, t_enum_token type);
+
+// Fonctions spécifiques pour trouver les tokens par type (extraction de deprecated)
+t_token *find_cmd_phoenix(t_token **deprecated);
+t_token *find_pipe_phoenix(t_token **deprecated);
+t_token *find_arg_phoenix(t_token **deprecated);
+t_token *find_infile_signe_phoenix(t_token **deprecated);
+t_token *find_infile_phoenix(t_token **deprecated);
+t_token *find_outfile_signe_phoenix(t_token **deprecated);
+t_token *find_outfile_phoenix(t_token **deprecated);
+
+// Fonction principale pour reconstruire la liste phoenix
+t_token *phoenix(t_token **deprecated);
+
 
 #endif

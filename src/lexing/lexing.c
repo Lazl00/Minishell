@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:25:00 by wailas            #+#    #+#             */
-/*   Updated: 2025/05/27 13:30:32 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/28 23:38:48 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 bool	lexing(t_data *data)
 {
+	t_token *clean_tokens;
+
 	if (!check_pipe(data->tokens))
 		return (false);
 	if (!check_outfile(data->tokens) || !check_append(data->tokens))
@@ -26,9 +28,11 @@ bool	lexing(t_data *data)
 		return (false);
 	if (!check_access(data))
 		return (false);
-	data->tokens = phoenix(data->tokens);
-	//move_outfiles(data->tokens);
-	//printf("Après move_command_to_front:\n");
+	clean_tokens = phoenix(&data->tokens);
+	if (!clean_tokens)
+		return (false);
+	free_tokens(data->tokens);
+	data->tokens = clean_tokens;
 	print_token_list(data->tokens);
 	return (true);
 }
