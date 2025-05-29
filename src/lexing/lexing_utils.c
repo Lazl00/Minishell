@@ -169,7 +169,7 @@ void	token_swap(t_token *first, t_token *second)
 	free(tmp);
 }
 
-int		count_outfiles(t_token *segment_start)
+int	count_outfiles(t_token *segment_start)
 {
 	t_token	*cur;
 	int		count;

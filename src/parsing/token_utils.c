@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:17:06 by wailas            #+#    #+#             */
-/*   Updated: 2025/05/27 13:23:05 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/29 00:25:38 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,18 +58,51 @@ bool	add_token_to_list(t_token **head, t_token **last, t_token *nw_tok)
 	return (true);
 }
 
-
-void	print_token_list(t_token *head)
+const char	*get_token_type_name(t_enum_token type)
 {
-	t_token	*tmp;
+	if (type == CMD)
+		return ("CMD");
+	if (type == CMD_BUILTIN)
+		return ("CMD_BUILTIN");
+	if (type == REDIR_IN)
+		return ("REDIR_IN");
+	if (type == REDIR_OUT)
+		return ("REDIR_OUT");
+	if (type == PIPE)
+		return ("PIPE");
+	if (type == OUTFILE)
+		return ("OUTFILE");
+	if (type == INFILE)
+		return ("INFILE");
+	if (type == DELIMITEUR)
+		return ("DELIMITEUR");
+	if (type == DELIMITEUR_MOT)
+		return ("DELIM_MOT");
+	if (type == APPEND)
+		return ("APPEND");
+	if (type == APPEND_FILE)
+		return ("APPEND_FILE");
+	if (type == ARG)
+		return ("ARG");
+	return ("UNKNOWN");
+}
 
-	tmp = head;
-	while (tmp)
+void	print_token_list(t_token *tokens)
+{
+	int	i;
+
+	i = 0;
+	printf("📦 DEBUG: Liste des tokens\n");
+	while (tokens)
 	{
-		ft_printf("Token : %s\t\tType : %d (%s)\n", \
-			tmp->value, tmp->type, g_nom_tokens[tmp->type]);
-		tmp = tmp->next;
+		printf("[%02d] Token : %-15s | Type : %-12s (%d)\n",
+			i, tokens->value, get_token_type_name(tokens->type), tokens->type);
+		if (tokens->type == PIPE)
+			printf("─────────── 🔁 PIPE ───────────\n");
+		tokens = tokens->next;
+		i++;
 	}
+	printf("🚀 Fin des tokens.\n\n");
 }
 
 bool	is_quoted(char *str)

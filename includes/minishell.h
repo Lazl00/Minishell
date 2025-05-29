@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:49:35 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/05/28 23:37:05 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/29 05:40:28 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -363,11 +363,15 @@ t_token *find_pipe_phoenix(t_token **deprecated);
 t_token *find_arg_phoenix(t_token **deprecated);
 t_token *find_infile_signe_phoenix(t_token **deprecated);
 t_token *find_infile_phoenix(t_token **deprecated);
-t_token *find_outfile_signe_phoenix(t_token **deprecated);
-t_token *find_outfile_phoenix(t_token **deprecated);
 
 // Fonction principale pour reconstruire la liste phoenix
 t_token *phoenix(t_token **deprecated);
+t_token *find_append_signe_phoenix(t_token **deprecated);
+t_token *find_delimiteur_phoenix(t_token **deprecated);
+t_token *find_append_file_phoenix(t_token **deprecated);
+t_token *find_delimiteur_mot_phoenix(t_token **deprecated);
+t_token *find_append_signe_phoenix(t_token **deprecated);
+t_token *find_outfile_signe_phoenix(t_token **deprecated);
 
 
 #endif
