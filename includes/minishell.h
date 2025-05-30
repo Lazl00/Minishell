@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:49:35 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/05/30 18:21:01 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/30 18:32:46 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -379,7 +379,7 @@ void	extract_redir_out_pairs(t_token **phoenix, t_token **deprecated);
 void	extract_redir_in_pairs(t_token **phoenix, t_token **deprecated);
 void	extract_heredoc_pairs(t_token **phoenix, t_token **deprecated);
 void	extract_args_after_cmd(t_token **phoenix, t_token **deprecated);
-t_token *split_segment_at_pipe(t_token **segment, t_token **rest);
+t_token	*split_segment_at_pipe(t_token **segment, t_token **rest);
 void	process_type(t_token **phoenix, t_token *segment);
 void	append_pipe_if_needed(t_token **phoenix, t_token *pipe);
 

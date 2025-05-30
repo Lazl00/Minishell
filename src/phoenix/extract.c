@@ -123,14 +123,13 @@ void	extract_args_after_cmd(t_token **phoenix, t_token **deprecated)
 				prev->next = cur->next;
 			else
 				*deprecated = cur->next;
-
 			t_token *next = cur->next;
 			cur->next = NULL;
 			append_token(phoenix, cur);
 			cur = next;
 		}
 		else if (cur->type == PIPE || cur->type == CMD || cur->type == CMD_BUILTIN)
-			break;
+			break ;
 		else
 		{
 			prev = cur;
