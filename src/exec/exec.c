@@ -70,23 +70,24 @@ void	update_pipe_and_cmd(int p[2], t_token *s, t_token **cmd, int pipe_fd[2])
 		*cmd = NULL;
 }
 
-void ft_exec(t_data *data)
+void	ft_exec(t_data *data)
 {
-	int status;
-	pid_t pid;
+	int		status;
+	pid_t	pid;
+	int		sig;
 
 	prepare_heredocs(data->tokens);
 	exec_loop(data);
 	pid = wait(&status);
 	while (pid > 0)
 	{
-		if (pid == g_signal_pid) 
+		if (pid == g_signal_pid)
 		{
 			if (WIFEXITED(status))
 				data->exit_status = WEXITSTATUS(status);
 			else if (WIFSIGNALED(status))
 			{
-				int sig = WTERMSIG(status);
+				sig = WTERMSIG(status);
 				if (sig == SIGINT)
 					data->exit_status = 130;
 				else

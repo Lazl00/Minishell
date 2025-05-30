@@ -12,14 +12,16 @@
 
 #include "../../includes/minishell.h"
 
-t_token *find_last_heredoc(t_token *cmd)
+t_token	*find_last_heredoc(t_token *cmd)
 {
-    t_token *last = NULL;
-    while (cmd && cmd->type != PIPE)
-    {
-        if (cmd->type == DELIMITEUR && cmd->heredoc_fd != -1)
-            last = cmd;
-        cmd = cmd->next;
-    }
-    return last;
+	t_token	*last;
+
+	last = NULL;
+	while (cmd && cmd->type != PIPE)
+	{
+		if (cmd->type == DELIMITEUR && cmd->heredoc_fd != -1)
+			last = cmd;
+		cmd = cmd->next;
+	}
+	return (last);
 }

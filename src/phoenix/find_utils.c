@@ -12,27 +12,27 @@
 
 #include "../../includes/minishell.h"
 
-t_token *find_outfile_signe_phoenix(t_token **deprecated)
+t_token	*find_outfile_signe_phoenix(t_token **deprecated)
 {
-    return find_next_token_of_type(deprecated, REDIR_OUT);
+	return (find_next_token_of_type(deprecated, REDIR_OUT));
 }
 
-t_token *find_append_signe_phoenix(t_token **deprecated)
+t_token	*find_append_signe_phoenix(t_token **deprecated)
 {
-    return find_next_token_of_type(deprecated, APPEND);
+	return (find_next_token_of_type(deprecated, APPEND));
 }
 
-t_token *find_append_file_phoenix(t_token **deprecated)
+t_token	*find_append_file_phoenix(t_token **deprecated)
 {
-    return find_next_token_of_type(deprecated, APPEND_FILE);
+	return (find_next_token_of_type(deprecated, APPEND_FILE));
 }
 
-t_token *find_delimiteur_phoenix(t_token **deprecated)
+t_token	*find_delimiteur_phoenix(t_token **deprecated)
 {
-    return find_next_token_of_type(deprecated, DELIMITEUR);
+	return (find_next_token_of_type(deprecated, DELIMITEUR));
 }
 
-t_token *find_delimiteur_mot_phoenix(t_token **deprecated)
+t_token	*find_delimiteur_mot_phoenix(t_token **deprecated)
 {
-    return find_next_token_of_type(deprecated, DELIMITEUR_MOT);
+	return (find_next_token_of_type(deprecated, DELIMITEUR_MOT));
 }

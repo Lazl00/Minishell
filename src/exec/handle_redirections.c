@@ -62,8 +62,9 @@ void	handle_heredoc(t_token *cmd)
 
 void	handle_redirections(t_token *cmd)
 {
-	t_token *last_heredoc = find_last_heredoc(cmd);
+	t_token	*last_heredoc;
 
+	last_heredoc = find_last_heredoc(cmd);
 	while (cmd && cmd->type != PIPE)
 	{
 		if (cmd->type == REDIR_IN && cmd->next)

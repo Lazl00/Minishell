@@ -14,7 +14,7 @@
 
 bool	lexing(t_data *data)
 {
-	t_token *clean_tokens;
+	t_token	*clean_tokens;
 
 	if (!check_pipe(data->tokens))
 		return (false);

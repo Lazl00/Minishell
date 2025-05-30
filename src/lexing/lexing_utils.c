@@ -120,6 +120,7 @@ bool	check_cmd(t_token *token)
 void	move_outfiles(t_token	*segment_start)
 {
 	int		outfile_count;
+
 	outfile_count = count_outfiles(segment_start);
 	printf("Number of outfiles: %d\n", outfile_count);
 	if (!outfile_count)
@@ -142,7 +143,8 @@ void	move_outfiles_to_last(t_token *segment_start)
 	to_move = NULL;
 	while (tmp && tmp->next && tmp->type != PIPE)
 	{
-		if (tmp->type == REDIR_OUT || tmp->type == APPEND || tmp->type == APPEND_FILE || tmp->type == OUTFILE)
+		if (tmp->type == REDIR_OUT || tmp->type == APPEND
+			|| tmp->type == APPEND_FILE || tmp->type == OUTFILE)
 			to_move = tmp;
 		tmp = tmp->next;
 	}

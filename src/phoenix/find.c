@@ -12,22 +12,22 @@
 
 #include "../../includes/minishell.h"
 
-t_token *find_pipe_phoenix(t_token **deprecated)
+t_token	*find_pipe_phoenix(t_token **deprecated)
 {
-    return find_next_token_of_type(deprecated, PIPE);
+	return (find_next_token_of_type(deprecated, PIPE));
 }
 
-t_token *find_arg_phoenix(t_token **deprecated)
+t_token	*find_arg_phoenix(t_token **deprecated)
 {
-    return find_next_token_of_type(deprecated, ARG);
+	return (find_next_token_of_type(deprecated, ARG));
 }
 
-t_token *find_infile_signe_phoenix(t_token **deprecated)
+t_token	*find_infile_signe_phoenix(t_token **deprecated)
 {
-    return find_next_token_of_type(deprecated, REDIR_IN);
+	return (find_next_token_of_type(deprecated, REDIR_IN));
 }
 
-t_token *find_infile_phoenix(t_token **deprecated)
+t_token	*find_infile_phoenix(t_token **deprecated)
 {
-    return find_next_token_of_type(deprecated, INFILE);
+	return (find_next_token_of_type(deprecated, INFILE));
 }

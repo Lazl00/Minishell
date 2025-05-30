@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:49:35 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/05/30 15:03:28 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/30 18:21:01 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,7 @@ void	save_and_redirect_stdout(int fd, int *saved);
 void	restore_stdout(int saved);
 void	ft_replace_env(t_data *data, char *var, char *value);
 bool	update_pwd_env(t_data *data, char *oldpwd);
-t_token		*find_first_cmd(t_token *segment_start);
+t_token	*find_first_cmd(t_token *segment_start);
 
 /* ===========================
 	Command Path & Error
@@ -338,7 +338,8 @@ char	*simple_expend(t_data data, char *line, char *var, int i);
 void	exec_loop(t_data *data);
 pid_t	process_segment(t_data *data, t_token *start, int prev[2], int pipe[2]);
 void	update_prev_pipe(int prev_pipe[2], int pipe_fd[2]);
-void	exec_child(t_data *data, t_token *start, int prev_pipe[2], int pipe_fd[2]);
+void	exec_child(t_data *data, t_token *start,
+			int prev_pipe[2], int pipe_fd[2]);
 void	exec_dispatch(t_data *data, t_token *start);
 void	exec_external(t_data *data, t_token *start);
 void	exit_execve_errno(void);
@@ -349,30 +350,37 @@ void	token_swap(t_token *first, t_token *second);
 int		count_outfiles(t_token *segment_start);
 bool	new_token(t_token **head, t_token *new_token);
 // Ajoute un token à la fin d'une liste chaînée
-void append_token(t_token **head, t_token *to_add);
-t_token *find_last_heredoc(t_token *cmd);
+void	append_token(t_token **head, t_token *to_add);
+t_token	*find_last_heredoc(t_token *cmd);
 
 // Ajoute tous les tokens trouvés par la fonction finder à la liste phoenix
-void add_all_matching_tokens(t_token **phoenix, t_token **deprecated, t_token *(*finder)(t_token **));
+void	add_all_matching_tokens(t_token **phoenix,
+			t_token **deprecated, t_token *(*finder)(t_token **));
 
 // Trouve et extrait le premier token de type donné dans deprecated
-t_token *find_next_token_of_type(t_token **deprecated, t_enum_token type);
+t_token	*find_next_token_of_type(t_token **deprecated, t_enum_token type);
 
-// Fonctions spécifiques pour trouver les tokens par type (extraction de deprecated)
-t_token *find_cmd_phoenix(t_token **deprecated);
-t_token *find_pipe_phoenix(t_token **deprecated);
-t_token *find_arg_phoenix(t_token **deprecated);
-t_token *find_infile_signe_phoenix(t_token **deprecated);
-t_token *find_infile_phoenix(t_token **deprecated);
+// Fonctions spécifiques pour trouver les tokens par type
+t_token	*find_cmd_phoenix(t_token **deprecated);
+t_token	*find_pipe_phoenix(t_token **deprecated);
+t_token	*find_arg_phoenix(t_token **deprecated);
+t_token	*find_infile_signe_phoenix(t_token **deprecated);
+t_token	*find_infile_phoenix(t_token **deprecated);
 
 // Fonction principale pour reconstruire la liste phoenix
-t_token *phoenix(t_token **deprecated);
-t_token *find_append_signe_phoenix(t_token **deprecated);
-t_token *find_delimiteur_phoenix(t_token **deprecated);
-t_token *find_append_file_phoenix(t_token **deprecated);
-t_token *find_delimiteur_mot_phoenix(t_token **deprecated);
-t_token *find_append_signe_phoenix(t_token **deprecated);
-t_token *find_outfile_signe_phoenix(t_token **deprecated);
-
+t_token	*phoenix(t_token **deprecated);
+t_token	*find_append_signe_phoenix(t_token **deprecated);
+t_token	*find_delimiteur_phoenix(t_token **deprecated);
+t_token	*find_append_file_phoenix(t_token **deprecated);
+t_token	*find_delimiteur_mot_phoenix(t_token **deprecated);
+t_token	*find_append_signe_phoenix(t_token **deprecated);
+t_token	*find_outfile_signe_phoenix(t_token **deprecated);
+void	extract_redir_out_pairs(t_token **phoenix, t_token **deprecated);
+void	extract_redir_in_pairs(t_token **phoenix, t_token **deprecated);
+void	extract_heredoc_pairs(t_token **phoenix, t_token **deprecated);
+void	extract_args_after_cmd(t_token **phoenix, t_token **deprecated);
+t_token *split_segment_at_pipe(t_token **segment, t_token **rest);
+void	process_type(t_token **phoenix, t_token *segment);
+void	append_pipe_if_needed(t_token **phoenix, t_token *pipe);
 
 #endif

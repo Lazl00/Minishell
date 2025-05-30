@@ -36,7 +36,7 @@ void	exec_loop(t_data *data)
 		else
 			cmd = NULL;
 	}
-	g_signal_pid = last_pid;  // on sauvegarde le dernier pid forké
+	g_signal_pid = last_pid;
 }
 
 pid_t	process_segment(t_data *data, t_token *start, int prev[2], int pipe[2])
@@ -66,7 +66,6 @@ pid_t	process_segment(t_data *data, t_token *start, int prev[2], int pipe[2])
 	}
 	return (pid);
 }
-
 
 void	exec_child(t_data *data, t_token *start, int prev[2], int pipe_fd[2])
 {
@@ -102,7 +101,6 @@ void	exec_external(t_data *data, t_token *start)
 		exit(1);
 	}
 	execve(start->value, argv, data->env);
-	//perror("execve");
 	free(argv);
 	free_data(data);
 	exit_execve_errno();
