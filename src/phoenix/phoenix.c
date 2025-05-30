@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 17:00:57 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/05/29 05:52:22 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/30 14:56:10 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,26 +92,22 @@ void extract_args_after_cmd(t_token **phoenix, t_token **deprecated)
                 prev->next = cur->next;
             else
                 *deprecated = cur->next;
+
+            t_token *next = cur->next;
             cur->next = NULL;
             append_token(phoenix, cur);
-            if (prev)
-                cur = prev->next;
-            else
-                cur = *deprecated;
+            cur = next;
         }
-        else if (cur->type == PIPE)
+        else if (cur->type == PIPE || cur->type == CMD || cur->type == CMD_BUILTIN)
             break;
-        else if (cur->type == CMD || cur->type == CMD_BUILTIN || cur->type == REDIR_IN
-                 || cur->type == REDIR_OUT || cur->type == INFILE || cur->type == OUTFILE
-                 || cur->type == APPEND || cur->type == APPEND_FILE
-                 || cur->type == DELIMITEUR || cur->type == DELIMITEUR_MOT)
-        {
-            break;
-        }
         else
-            break;
+        {
+            prev = cur;
+            cur = cur->next;
+        }
     }
 }
+
 
 void remove_redundant_outfiles(t_token **lst)
 {
@@ -167,7 +163,6 @@ void extract_redir_out_pairs(t_token **phoenix, t_token **deprecated)
             t_token *redir = cur;
             t_token *file = cur->next;
 
-            // Retirer les deux de deprecated
             if (prev)
                 prev->next = file->next;
             else
@@ -188,6 +183,75 @@ void extract_redir_out_pairs(t_token **phoenix, t_token **deprecated)
         }
     }
 }
+
+void extract_redir_in_pairs(t_token **phoenix, t_token **deprecated)
+{
+    t_token *cur = *deprecated;
+    t_token *prev = NULL;
+
+    while (cur && cur->next)
+    {
+        if (cur->type == REDIR_IN && cur->next->type == INFILE)
+        {
+            t_token *redir = cur;
+            t_token *file = cur->next;
+
+            if (prev)
+                prev->next = file->next;
+            else
+                *deprecated = file->next;
+
+            cur = file->next;
+
+            redir->next = NULL;
+            file->next = NULL;
+
+            append_token(phoenix, redir);
+            append_token(phoenix, file);
+        }
+        else
+        {
+            prev = cur;
+            cur = cur->next;
+        }
+    }
+}
+
+
+void extract_heredoc_pairs(t_token **phoenix, t_token **deprecated)
+{
+    t_token *cur = *deprecated;
+    t_token *prev = NULL;
+
+    while (cur && cur->next)
+    {
+        if (cur->type == DELIMITEUR && cur->next->type == DELIMITEUR_MOT)
+        {
+            t_token *redir = cur;
+            t_token *word = cur->next;
+
+            // Enlever les deux de deprecated
+            if (prev)
+                prev->next = word->next;
+            else
+                *deprecated = word->next;
+
+            cur = word->next;
+
+            redir->next = NULL;
+            word->next = NULL;
+
+            append_token(phoenix, redir);
+            append_token(phoenix, word);
+        }
+        else
+        {
+            prev = cur;
+            cur = cur->next;
+        }
+    }
+}
+
 
 t_token *phoenix(t_token **deprecated)
 {
@@ -219,8 +283,8 @@ t_token *phoenix(t_token **deprecated)
         if (to_add)
             append_token(&phoenix, to_add);
         extract_args_after_cmd(&phoenix, &segment);
-        add_all_matching_tokens(&phoenix, &segment, find_infile_signe_phoenix);
-        add_all_matching_tokens(&phoenix, &segment, find_infile_phoenix);
+        extract_redir_in_pairs(&phoenix, &segment);
+        extract_heredoc_pairs(&phoenix, &segment);
         extract_redir_out_pairs(&phoenix, &segment);
         add_all_matching_tokens(&phoenix, &segment, find_append_signe_phoenix);
         add_all_matching_tokens(&phoenix, &segment, find_append_file_phoenix);

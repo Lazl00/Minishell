@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_redirections.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lcournoy <lcournoy@student.42.fr>          #+#  +:+       +#+        */
+/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-05-26 14:08:37 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/05/27 17:40:27 by lcournoy         ###   ########.fr       */
+/*   Created: 2025/05/26 14:08:37 by lcournoy          #+#    #+#             */
+/*   Updated: 2025/05/30 15:03:45 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ void	handle_heredoc(t_token *cmd)
 
 void	handle_redirections(t_token *cmd)
 {
+	t_token *last_heredoc = find_last_heredoc(cmd);
+
 	while (cmd && cmd->type != PIPE)
 	{
 		if (cmd->type == REDIR_IN && cmd->next)
@@ -70,7 +72,7 @@ void	handle_redirections(t_token *cmd)
 			handle_redir_out(cmd);
 		else if (cmd->type == APPEND && cmd->next)
 			handle_append(cmd);
-		else if (cmd->type == DELIMITEUR && cmd->heredoc_fd != -1)
+		else if (cmd->type == DELIMITEUR && cmd == last_heredoc)
 			handle_heredoc(cmd);
 		cmd = cmd->next;
 	}

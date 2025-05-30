@@ -38,6 +38,7 @@ SRCS =  main.c \
 		builtin/exit.c \
 		exec/heredocs.c \
 		exec/handle_redirections.c \
+		exec/handle_utils.c \
 		signals/signals.c \
 		exec/exec_loop.c \
 		exec/exec_loop_utils.c \

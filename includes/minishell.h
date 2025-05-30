@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:49:35 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/05/29 05:40:28 by wailas           ###   ########.fr       */
+/*   Updated: 2025/05/30 15:03:28 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -350,6 +350,7 @@ int		count_outfiles(t_token *segment_start);
 bool	new_token(t_token **head, t_token *new_token);
 // Ajoute un token à la fin d'une liste chaînée
 void append_token(t_token **head, t_token *to_add);
+t_token *find_last_heredoc(t_token *cmd);
 
 // Ajoute tous les tokens trouvés par la fonction finder à la liste phoenix
 void add_all_matching_tokens(t_token **phoenix, t_token **deprecated, t_token *(*finder)(t_token **));
