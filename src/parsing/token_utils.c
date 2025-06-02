@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:17:06 by wailas            #+#    #+#             */
-/*   Updated: 2025/05/29 00:25:38 by wailas           ###   ########.fr       */
+/*   Updated: 2025/06/02 18:31:13 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ void	print_token_list(t_token *tokens)
 	int	i;
 
 	i = 0;
-	printf("📦 DEBUG: Liste des tokens\n");
 	while (tokens)
 	{
 		printf("[%02d] Token : %-15s | Type : %-12s (%d)\n",
@@ -102,7 +101,7 @@ void	print_token_list(t_token *tokens)
 		tokens = tokens->next;
 		i++;
 	}
-	printf("🚀 Fin des tokens.\n\n");
+	printf("\n\n");
 }
 
 bool	is_quoted(char *str)

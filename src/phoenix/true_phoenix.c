@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 18:18:17 by wailas            #+#    #+#             */
-/*   Updated: 2025/05/30 18:21:11 by wailas           ###   ########.fr       */
+/*   Updated: 2025/06/02 18:28:12 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 
 t_token	*phoenix(t_token **deprecated)
 {
-	t_token *phoenix = NULL;
-	t_token *segment;
-	t_token *pipe;
+	t_token	*phoenix;
+	t_token	*segment;
+	t_token	*pipe;
 
+	phoenix = NULL;
 	while (*deprecated)
 	{
 		segment = *deprecated;
@@ -25,14 +26,16 @@ t_token	*phoenix(t_token **deprecated)
 		process_type(&phoenix, segment);
 		append_pipe_if_needed(&phoenix, pipe);
 	}
-	return phoenix;
+	return (phoenix);
 }
 
-t_token *split_segment_at_pipe(t_token **segment, t_token **rest)
+t_token	*split_segment_at_pipe(t_token **segment, t_token **rest)
 {
-	t_token *cur = *segment;
-	t_token *prev = NULL;
+	t_token	*cur;
+	t_token	*prev;
 
+	cur = *segment;
+	prev = NULL;
 	while (cur && cur->type != PIPE)
 	{
 		prev = cur;
@@ -42,15 +45,17 @@ t_token *split_segment_at_pipe(t_token **segment, t_token **rest)
 	{
 		*rest = cur->next;
 		cur->next = NULL;
-		return cur;
+		return (cur);
 	}
 	*rest = NULL;
-	return NULL;
+	return (NULL);
 }
 
 void	process_type(t_token **phoenix, t_token *segment)
 {
-	t_token *to_add = find_cmd_phoenix(&segment);
+	t_token	*to_add;
+
+	to_add = find_cmd_phoenix(&segment);
 	if (to_add)
 		append_token(phoenix, to_add);
 	extract_args_after_cmd(phoenix, &segment);

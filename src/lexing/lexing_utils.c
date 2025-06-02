@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:18:52 by wailas            #+#    #+#             */
-/*   Updated: 2025/05/27 13:31:45 by wailas           ###   ########.fr       */
+/*   Updated: 2025/06/02 16:16:23 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,74 +115,4 @@ bool	check_cmd(t_token *token)
 		tmp = tmp->next;
 	}
 	return (true);
-}
-
-void	move_outfiles(t_token	*segment_start)
-{
-	int		outfile_count;
-
-	outfile_count = count_outfiles(segment_start);
-	printf("Number of outfiles: %d\n", outfile_count);
-	if (!outfile_count)
-		return ;
-	outfile_count *= 2;
-	while (outfile_count)
-	{
-		move_outfiles_to_last(segment_start);
-		print_token_list(segment_start);
-		outfile_count--;
-	}
-}
-
-void	move_outfiles_to_last(t_token *segment_start)
-{
-	t_token	*to_move;
-	t_token	*tmp;
-
-	tmp = segment_start;
-	to_move = NULL;
-	while (tmp && tmp->next && tmp->type != PIPE)
-	{
-		if (tmp->type == REDIR_OUT || tmp->type == APPEND
-			|| tmp->type == APPEND_FILE || tmp->type == OUTFILE)
-			to_move = tmp;
-		tmp = tmp->next;
-	}
-	if (!to_move)
-		return ;
-	while (to_move->next && to_move->next->type != PIPE)
-	{
-		token_swap(to_move, to_move->next);
-		to_move = to_move->next;
-	}
-}
-
-void	token_swap(t_token *first, t_token *second)
-{
-	t_token	*tmp;
-
-	tmp = create_token(first->type, first->value);
-	if (!tmp)
-		return ;
-	first->type = second->type;
-	first->value = second->value;
-	second->type = tmp->type;
-	second->value = tmp->value;
-	free(tmp);
-}
-
-int	count_outfiles(t_token *segment_start)
-{
-	t_token	*cur;
-	int		count;
-
-	cur = segment_start;
-	count = 0;
-	while (cur && cur->type != PIPE)
-	{
-		if (cur->type == REDIR_OUT || cur->type == APPEND)
-			count++;
-		cur = cur->next;
-	}
-	return (count);
 }

@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:25:57 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/05/27 14:27:42 by wailas           ###   ########.fr       */
+/*   Updated: 2025/06/02 18:20:19 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,8 @@ char	*expend_vars(t_data data, char *line)
 	{
 		if (line[i] == '$' && check_quote_state(line, i, '\'') == 0)
 		{
-			expended_line = simple_expend(data, line, &line[i], i_caca);
+			if (is_heredoc(line, i) == false)
+				expended_line = simple_expend(data, line, &line[i], i_caca);
 			if (expended_line)
 			{
 				free(line);
@@ -116,4 +117,21 @@ char	*expend_vars(t_data data, char *line)
 			i++;
 	}
 	return (line);
+}
+
+bool	is_heredoc(char	*line, int i)
+{
+	if (i < 2)
+		return (false);
+	i--;
+	while (i >= 0 && line[i] == ' ')
+		i--;
+	if (i > 0 && line[i] == '<' && line[i - 1] == '<')
+	{
+		if (check_quote_state(line, i, '\'') == false)
+		{
+			return (true);
+		}
+	}
+	return (false);
 }

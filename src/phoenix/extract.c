@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 18:06:32 by wailas            #+#    #+#             */
-/*   Updated: 2025/05/30 18:08:06 by wailas           ###   ########.fr       */
+/*   Updated: 2025/06/02 18:04:52 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,15 @@
 
 void	extract_redir_out_pairs(t_token **phoenix, t_token **deprecated)
 {
-	t_token	*cur = *deprecated;
-	t_token	*prev = NULL;
+	t_token	*cur;
+	t_token	*prev;
 
+	cur = *deprecated;
+	prev = NULL;
 	while (cur && cur->next)
 	{
 		if (cur->type == REDIR_OUT && cur->next->type == OUTFILE)
-		{
-			t_token *redir = cur;
-			t_token *file = cur->next;
-
-			if (prev)
-				prev->next = file->next;
-			else
-				*deprecated = file->next;
-
-			cur = file->next;
-
-			redir->next = NULL;
-			file->next = NULL;
-
-			append_token(phoenix, redir);
-			append_token(phoenix, file);
-		}
+			move_token_pair(phoenix, deprecated, &cur, &prev);
 		else
 		{
 			prev = cur;
@@ -47,29 +33,15 @@ void	extract_redir_out_pairs(t_token **phoenix, t_token **deprecated)
 
 void	extract_redir_in_pairs(t_token **phoenix, t_token **deprecated)
 {
-	t_token *cur = *deprecated;
-	t_token *prev = NULL;
+	t_token	*cur;
+	t_token	*prev;
 
+	cur = *deprecated;
+	prev = NULL;
 	while (cur && cur->next)
 	{
 		if (cur->type == REDIR_IN && cur->next->type == INFILE)
-		{
-			t_token *redir = cur;
-			t_token *file = cur->next;
-
-			if (prev)
-				prev->next = file->next;
-			else
-				*deprecated = file->next;
-
-			cur = file->next;
-
-			redir->next = NULL;
-			file->next = NULL;
-
-			append_token(phoenix, redir);
-			append_token(phoenix, file);
-		}
+			move_token_pair(phoenix, deprecated, &cur, &prev);
 		else
 		{
 			prev = cur;
@@ -80,28 +52,15 @@ void	extract_redir_in_pairs(t_token **phoenix, t_token **deprecated)
 
 void	extract_heredoc_pairs(t_token **phoenix, t_token **deprecated)
 {
-	t_token *cur = *deprecated;
-	t_token *prev = NULL;
+	t_token	*cur;
+	t_token	*prev;
 
+	cur = *deprecated;
+	prev = NULL;
 	while (cur && cur->next)
 	{
 		if (cur->type == DELIMITEUR && cur->next->type == DELIMITEUR_MOT)
-		{
-			t_token *redir = cur;
-			t_token *word = cur->next;
-			if (prev)
-				prev->next = word->next;
-			else
-				*deprecated = word->next;
-
-			cur = word->next;
-
-			redir->next = NULL;
-			word->next = NULL;
-
-			append_token(phoenix, redir);
-			append_token(phoenix, word);
-		}
+			move_token_pair(phoenix, deprecated, &cur, &prev);
 		else
 		{
 			prev = cur;
@@ -110,31 +69,28 @@ void	extract_heredoc_pairs(t_token **phoenix, t_token **deprecated)
 	}
 }
 
-void	extract_args_after_cmd(t_token **phoenix, t_token **deprecated)
+bool	move_token_pair(
+	t_token **phoenix,
+	t_token **deprecated,
+	t_token **cur,
+	t_token **prev
+)
 {
-	t_token	*cur = *deprecated;
-	t_token	*prev = NULL;
+	t_token	*first;
+	t_token	*second;
 
-	while (cur)
-	{
-		if (cur->type == ARG)
-		{
-			if (prev)
-				prev->next = cur->next;
-			else
-				*deprecated = cur->next;
-
-			t_token *next = cur->next;
-			cur->next = NULL;
-			append_token(phoenix, cur);
-			cur = next;
-		}
-		else if (cur->type == PIPE || cur->type == CMD || cur->type == CMD_BUILTIN)
-			break;
-		else
-		{
-			prev = cur;
-			cur = cur->next;
-		}
-	}
+	first = *cur;
+	second = first->next;
+	if (!second)
+		return (false);
+	if (*prev)
+		(*prev)->next = second->next;
+	else
+		*deprecated = second->next;
+	*cur = second->next;
+	first->next = NULL;
+	second->next = NULL;
+	append_token(phoenix, first);
+	append_token(phoenix, second);
+	return (true);
 }

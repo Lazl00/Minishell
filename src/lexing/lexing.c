@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:25:00 by wailas            #+#    #+#             */
-/*   Updated: 2025/05/30 15:06:29 by wailas           ###   ########.fr       */
+/*   Updated: 2025/06/02 18:43:13 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ bool	lexing(t_data *data)
 		return (false);
 	free_tokens(data->tokens);
 	data->tokens = clean_tokens;
-	//print_token_list(data->tokens);
+	print_token_list(data->tokens);
 	return (true);
 }
 
@@ -50,8 +50,6 @@ bool	check_pipe(t_token *tokens)
 			return (print_error("Pipe at the end of the line\n"));
 		if (tmp->type == PIPE && tmp->next != NULL && tmp->next->type == PIPE)
 			return (print_error("Two pipes in a row\n"));
-		if (tmp->type == PIPE && (tmp->next == NULL || tmp->next->type != ARG))
-			return (print_error("Pipe not followed by a command\n"));
 		tmp = tmp->next;
 	}
 	return (true);

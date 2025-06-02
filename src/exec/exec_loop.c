@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_loop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lcournoy <lcournoy@student.42.fr>          #+#  +:+       +#+        */
+/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-05-27 14:01:58 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/05/27 17:15:37 by lcournoy         ###   ########.fr       */
+/*   Created: 2025/05/27 14:01:58 by lcournoy          #+#    #+#             */
+/*   Updated: 2025/06/02 18:18:38 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,25 @@
 
 void	exec_loop(t_data *data)
 {
-	t_token	*cmd;
-	t_token	*segment_start;
-	t_token	*segment_end;
-	int		prev_pipe[2];
-	int		pipe_fd[2];
-	pid_t	last_pid;
+	t_exec_context	ctx;
 
-	cmd = data->tokens;
-	prev_pipe[0] = -1;
-	prev_pipe[1] = -1;
-	last_pid = -1;
-	while (cmd)
+	ctx.cmd = data->tokens;
+	ctx.prev_pipe[0] = -1;
+	ctx.prev_pipe[1] = -1;
+	ctx.last_pid = -1;
+	while (ctx.cmd)
 	{
-		segment_start = cmd;
-		segment_end = get_segment_end(segment_start);
-		last_pid = process_segment(data, segment_start, prev_pipe, pipe_fd);
-		update_prev_pipe(prev_pipe, pipe_fd);
-		if (segment_end)
-			cmd = segment_end->next;
+		ctx.segment_start = ctx.cmd;
+		ctx.segment_end = get_segment_end(ctx.segment_start);
+		ctx.last_pid = process_segment(data, ctx.segment_start,
+				ctx.prev_pipe, ctx.pipe_fd);
+		update_prev_pipe(ctx.prev_pipe, ctx.pipe_fd);
+		if (ctx.segment_end)
+			ctx.cmd = ctx.segment_end->next;
 		else
-			cmd = NULL;
+			ctx.cmd = NULL;
 	}
-	g_signal_pid = last_pid;
+	g_signal_pid = ctx.last_pid;
 }
 
 pid_t	process_segment(t_data *data, t_token *start, int prev[2], int pipe[2])

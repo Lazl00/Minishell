@@ -47,6 +47,7 @@ SRCS =  main.c \
 		phoenix/find_utils.c \
 		phoenix/extract.c \
 		phoenix/true_phoenix.c \
+		phoenix/extract_utils.c \
 
 OBJS   := $(addprefix $(DIR_OBJS)/, $(SRCS:.c=.o))
 INCS   := $(addprefix $(DIR_INCS)/, minishell.h)
