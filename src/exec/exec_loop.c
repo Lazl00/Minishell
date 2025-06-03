@@ -48,8 +48,8 @@ pid_t	process_segment(t_data *data, t_token *start, int prev[2], int pipe[2])
 	init_pipes(pipe, &has_pipe, end);
 	if (is_builtin(start) && has_pipe == 0 && prev[0] == -1)
 	{
-		g_signal_pid = do_builtin(data, start);
-		return (-1);
+		g_signal_pid = do_builtin(data, start); // si le do_builtin marche -> renvoie 0, si il echoue, je pense renvoie a tous les coups 127
+		return (-1);							// bordel
 	}
 	pid = fork();
 	if (pid == 0)

@@ -24,10 +24,7 @@ bool	check_open(t_token *tokens)
 		{
 			fd = open(tmp->value, O_RDONLY);
 			if (fd < 0)
-			{
-				perror(tmp->value);
 				return (false);
-			}
 			close(fd);
 		}
 		else if (tmp->type == OUTFILE || tmp->type == APPEND_FILE)

@@ -12,8 +12,8 @@
 
 #include "../../includes/minishell.h"
 
-bool	print_error(char *str)
+int	print_error(char *str)
 {
 	ft_putstr_fd(str, 2);
-	return (false);
+	return (127);
 }

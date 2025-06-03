@@ -36,7 +36,7 @@ int	find_outfile_fd(t_token *cmd)
 	return (STDOUT_FILENO);
 }
 
-bool	ft_env(t_data *data, t_token *cmd)
+int	ft_env(t_data *data, t_token *cmd)
 {
 	int		i;
 	int		fd;
@@ -45,7 +45,7 @@ bool	ft_env(t_data *data, t_token *cmd)
 	if (!data || !data->env)
 		return (false);
 	if (cmd->next && cmd->next->type == ARG)
-		return (print_error("env: too many arguments"));
+		return (print_error("env: too many arguments\n"));
 	fd = find_outfile_fd(cmd);
 	if (fd < 0)
 		return (false);

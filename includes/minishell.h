@@ -139,7 +139,6 @@ bool	ft_cd(t_data *data, t_token *token);
 bool	ft_pwd(t_data *data, t_token *token);
 bool	ft_export(t_data *data, t_token *token);
 bool	ft_unset(t_data *data, t_token *token);
-bool	ft_env(t_data *data, t_token *token);
 bool	ft_exit(t_data *data, t_token *token);
 
 /* ===========================
@@ -170,7 +169,7 @@ char	*check_exec(t_token *token, char **env);
 /* ===========================
 	Error Handling
 	=========================== */
-bool	print_error(char *str);
+int	print_error(char *str);
 void	print_str_array(char **arr);
 
 /* ===========================
@@ -188,7 +187,7 @@ void	update_pipe_and_cmd(int prev_pipe[2], t_token *segment_end,
 bool	env(t_data *data, t_token *cmd);
 int		find_outfile_fd(t_token *cmd);
 int		get_pipe(t_data *data);
-bool	do_builtin(t_data *data, t_token *token);
+int	do_builtin(t_data *data, t_token *token);
 void	child_process(t_token *segment, int *prev_pipe,
 			int *pipe_fd, t_data *data);
 void	init_pipes(int *pipe_fd, int *has_pipe, t_token *segment_end);
@@ -275,7 +274,7 @@ bool	ft_cd(t_data *data, t_token *token);
 bool	ft_pwd(t_data *data, t_token *token);
 bool	ft_export(t_data *data, t_token *token);
 bool	ft_unset(t_data *data, t_token *token);
-bool	ft_env(t_data *data, t_token *token);
+int	ft_env(t_data *data, t_token *token);
 bool	ft_exit(t_data *data, t_token *token);
 
 t_data	*init_data(t_data *data, char **env);
@@ -300,7 +299,7 @@ char	*check_exec(t_token *token, char **env);
 void	minishell_loop(t_data *data);
 
 /* Error handling */
-bool	print_error(char *str);
+int	print_error(char *str);
 void	print_str_array(char **arr);
 void	ft_child_infile(t_data *data, int fd_gen[2]);
 void	ft_parent_outfile(t_data *data, int fd_gen[2]);
@@ -315,7 +314,6 @@ void	update_pipe_and_cmd(int prev_pipe[2], t_token *segment_end,
 bool	env(t_data *data, t_token *cmd);
 int		find_outfile_fd(t_token *cmd);
 int		get_pipe(t_data *data);
-bool	do_builtin(t_data *data, t_token *token);
 void	child_process(t_token *segment, int *prev_pipe,
 			int *pipe_fd, t_data *data);
 void	init_pipes(int *pipe_fd, int *has_pipe, t_token *segment_end);
