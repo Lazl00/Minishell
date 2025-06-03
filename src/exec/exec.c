@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 12:25:16 by wailas            #+#    #+#             */
-/*   Updated: 2025/05/28 14:53:22 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/06/03 16:54:37 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,26 +74,40 @@ void	ft_exec(t_data *data)
 {
 	int		status;
 	pid_t	pid;
-	int		sig;
 
 	prepare_heredocs(data->tokens);
 	exec_loop(data);
 	pid = wait(&status);
+	if (g_signal_pid == -1)
+		g_signal_pid = 0;
 	while (pid > 0)
 	{
 		if (pid == g_signal_pid)
-		{
-			if (WIFEXITED(status))
-				data->exit_status = WEXITSTATUS(status);
-			else if (WIFSIGNALED(status))
-			{
-				sig = WTERMSIG(status);
-				if (sig == SIGINT)
-					data->exit_status = 130;
-				else
-					data->exit_status = 128 + sig;
-			}
-		}
+			handle_child_status(status);
 		pid = wait(&status);
+	}
+}
+
+void	handle_child_status(int status)
+{
+	int	sig;
+
+	if (WIFEXITED(status))
+		g_signal_pid = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+	{
+		sig = WTERMSIG(status);
+		if (sig == SIGINT)
+		{
+			write(2, "\n", 1);
+			g_signal_pid = 130;
+		}
+		else if (sig == SIGQUIT)
+		{
+			write(2, "Quit (core dumped)\n", 20);
+			g_signal_pid = 131;
+		}
+		else
+			g_signal_pid = 128 + sig;
 	}
 }

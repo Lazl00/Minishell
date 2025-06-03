@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:49:35 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/06/02 18:55:20 by wailas           ###   ########.fr       */
+/*   Updated: 2025/06/03 16:50:45 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -395,5 +395,6 @@ void	append_pipe_if_needed(t_token **phoenix, t_token *pipe);
 bool	move_token_pair(t_token **phoenix, t_token **deprecated,
 			t_token **cur, t_token **prev);
 bool	is_heredoc(char	*line, int i);
+void	handle_child_status(int status);
 
 #endif

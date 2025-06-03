@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:43:43 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/05/27 17:52:26 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/06/03 16:41:09 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	sigint_handler(int sig)
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
+	g_signal_pid = 130;
 }
 
 void	configure_signals(t_signal_mode mode)

@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:01:58 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/06/02 18:18:38 by wailas           ###   ########.fr       */
+/*   Updated: 2025/06/03 16:44:29 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,16 @@ pid_t	process_segment(t_data *data, t_token *start, int prev[2], int pipe[2])
 	init_pipes(pipe, &has_pipe, end);
 	if (is_builtin(start) && has_pipe == 0 && prev[0] == -1)
 	{
-		data->exit_status = do_builtin(data, start);
+		g_signal_pid = do_builtin(data, start);
 		return (-1);
 	}
 	pid = fork();
 	if (pid == 0)
+	{
+		signal(SIGQUIT, SIG_DFL);
+		signal(SIGINT, SIG_DFL);
 		exec_child(data, start, prev, pipe);
+	}
 	else if (pid < 0)
 	{
 		perror("fork");
