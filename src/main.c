@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:37:50 by wailas            #+#    #+#             */
-/*   Updated: 2025/06/04 14:01:06 by wailas           ###   ########.fr       */
+/*   Updated: 2025/06/04 14:20:34 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	minishell_loop(t_data *data)
 
 	while (1)
 	{
-		line = readline("minishell 👅👀>  ");
+		line = readline("Mishell >  ");
 		if (!line)
 			break ;
 		if (*line == '\0')

@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:25:57 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/06/04 13:12:21 by wailas           ###   ########.fr       */
+/*   Updated: 2025/06/04 14:19:22 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,10 @@ char	*simple_expend(t_data data, char *line, char *var, int i)
 char	*expend_vars(t_data data, char *line)
 {
 	int		i;
-	int		i_caca;
+	int		i_cake;
 	char	*expended_line;
 
-	i_caca = 0;
+	i_cake = 0;
 	expended_line = NULL;
 	i = 0;
 	while (line[i])
@@ -104,7 +104,7 @@ char	*expend_vars(t_data data, char *line)
 		if (line[i] == '$' && check_quote_state(line, i, '\'') == 0)
 		{
 			if (is_heredoc(line, i) == false)
-				expended_line = simple_expend(data, line, &line[i], i_caca);
+				expended_line = simple_expend(data, line, &line[i], i_cake);
 			if (expended_line)
 			{
 				free(line);
