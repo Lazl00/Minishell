@@ -6,13 +6,13 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 14:54:50 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/05/27 16:16:11 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/06/04 13:43:07 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	prepare_heredocs(t_token *tokens)
+void	prepare_heredocs(t_data *data, t_token *tokens)
 {
 	t_token	*tmp;
 	int		fd;
@@ -22,7 +22,7 @@ void	prepare_heredocs(t_token *tokens)
 	{
 		if (tmp->type == 7 && tmp->next && tmp->next->type == 8)
 		{
-			fd = do_heredoc(tmp->next->value);
+			fd = do_heredoc(data, tmp->next->value);
 			if (fd < 0)
 			{
 				perror("heredoc");
@@ -34,7 +34,7 @@ void	prepare_heredocs(t_token *tokens)
 	}
 }
 
-int	do_heredoc(char *delimiter)
+int	do_heredoc(t_data *data, char *delimiter)
 {
 	int		pipe_fd[2];
 	char	*line;
@@ -47,6 +47,7 @@ int	do_heredoc(char *delimiter)
 	while (1)
 	{
 		line = readline("> ");
+		line = expend_vars(*data, line);
 		if (!line || strcmp(line, delimiter) == 0)
 		{
 			free(line);

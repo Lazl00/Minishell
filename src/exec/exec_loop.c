@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:01:58 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/06/03 16:44:29 by wailas           ###   ########.fr       */
+/*   Updated: 2025/06/04 13:05:50 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ pid_t	process_segment(t_data *data, t_token *start, int prev[2], int pipe[2])
 	init_pipes(pipe, &has_pipe, end);
 	if (is_builtin(start) && has_pipe == 0 && prev[0] == -1)
 	{
-		g_signal_pid = do_builtin(data, start); // si le do_builtin marche -> renvoie 0, si il echoue, je pense renvoie a tous les coups 127
-		return (-1);							// bordel
+		data->exit_status = do_builtin(data, start);
+		return (-1);
 	}
 	pid = fork();
 	if (pid == 0)

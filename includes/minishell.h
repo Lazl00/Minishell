@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:49:35 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/06/03 16:50:45 by wailas           ###   ########.fr       */
+/*   Updated: 2025/06/04 13:42:52 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,8 +210,8 @@ void	ft_error(const char *msg, const char *detail);
 /* ===========================
 	Heredoc & Signals
 	=========================== */
-void	prepare_heredocs(t_token *tokens);
-int		do_heredoc(char *delimiter);
+void	prepare_heredocs(t_data *data, t_token *tokens);
+int		do_heredoc(t_data *data, char *delimiter);
 void	sigint_handler(int sig);
 
 /* ===========================
@@ -332,8 +332,6 @@ char	*get_cmd_path(char *cmd, char **envp);
 void	ft_error(const char *msg, const char *detail);
 void	free_data(t_data *data);
 void	free_data_main(t_data *data);
-void	prepare_heredocs(t_token *tokens);
-int		do_heredoc(char *delimiter);
 void	configure_signals(t_signal_mode mode);
 t_token	*find_command_token(t_token *start);
 void	run_child_process(t_data *data, t_token *cmd,
@@ -393,6 +391,6 @@ void	append_pipe_if_needed(t_token **phoenix, t_token *pipe);
 bool	move_token_pair(t_token **phoenix, t_token **deprecated,
 			t_token **cur, t_token **prev);
 bool	is_heredoc(char	*line, int i);
-void	handle_child_status(int status);
+int interpret_status(int status);
 
 #endif

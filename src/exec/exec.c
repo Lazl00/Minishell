@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 12:25:16 by wailas            #+#    #+#             */
-/*   Updated: 2025/06/03 16:54:37 by wailas           ###   ########.fr       */
+/*   Updated: 2025/06/04 13:41:21 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,39 +75,37 @@ void	ft_exec(t_data *data)
 	int		status;
 	pid_t	pid;
 
-	prepare_heredocs(data->tokens);
+	prepare_heredocs(data, data->tokens);
 	exec_loop(data);
 	pid = wait(&status);
-	if (g_signal_pid == -1)
-		g_signal_pid = 0;
 	while (pid > 0)
 	{
 		if (pid == g_signal_pid)
-			handle_child_status(status);
+			data->exit_status = interpret_status(status);
 		pid = wait(&status);
 	}
 }
 
-void	handle_child_status(int status)
+int	interpret_status(int status)
 {
 	int	sig;
 
 	if (WIFEXITED(status))
-		g_signal_pid = WEXITSTATUS(status);
+		return (WEXITSTATUS(status));
 	else if (WIFSIGNALED(status))
 	{
 		sig = WTERMSIG(status);
 		if (sig == SIGINT)
 		{
 			write(2, "\n", 1);
-			g_signal_pid = 130;
+			return (130);
 		}
 		else if (sig == SIGQUIT)
 		{
 			write(2, "Quit (core dumped)\n", 20);
-			g_signal_pid = 131;
+			return (131);
 		}
-		else
-			g_signal_pid = 128 + sig;
+		return (128 + sig);
 	}
+	return (1);
 }

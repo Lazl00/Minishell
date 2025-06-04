@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:37:50 by wailas            #+#    #+#             */
-/*   Updated: 2025/06/03 16:51:23 by wailas           ###   ########.fr       */
+/*   Updated: 2025/06/04 13:31:28 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,11 @@ void	minishell_loop(t_data *data)
 		{
 			free(line);
 			continue ;
+		}
+		if (g_signal_pid == 130)
+		{
+			data->exit_status = 130;
+			g_signal_pid = 0;
 		}
 		add_history(line);
 		if (!parse_command(data, line))
