@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:49:35 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/06/04 13:42:52 by wailas           ###   ########.fr       */
+/*   Updated: 2025/06/04 13:57:17 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,272 +80,37 @@ typedef struct s_exec_context
 	pid_t	last_pid;
 }	t_exec_context;
 
-/* ===========================
-	Token Management Functions
-	=========================== */
-t_token	*create_token(t_enum_token type, char *value);
+// void
 void	free_tokens(t_token *token);
-t_token	*create_token_from_value(char *token_value);
-
-/* ===========================
-	Token List Functions
-	=========================== */
-bool	add_token_to_list(t_token **head, t_token **last, t_token *token);
 void	print_token_list(t_token *head);
 void	token_remove_quote(t_token *list);
 void	access_token_cmd(t_token *list);
-
-/* ===========================
-	Parsing Functions
-	=========================== */
-t_data	*parse_command(t_data *data, char *input);
-t_token	*token(char *input);
-void	add_token(char *token_value, t_enum_token type);
-
-/* ===========================
-	Quote Handling Functions
-	=========================== */
-bool	valid_quotes(char *line);
-bool	check_quote_state(char *line, int pos, char c);
-bool	in_any_quote(char *line, int pos);
-int		quote_counter(char *line);
-char	*quotes_remover(char *line);
-
-/* ===========================
-	Variable Expansion Functions
-	=========================== */
-char	*expend_vars(t_data data, char *line);
-char	*modified_var(t_data data, char *var);
-char	*cut_var(char *var);
-
-/* ===========================
-	Utility Functions
-	=========================== */
-bool	is_separator(char c);
-bool	is_quoted(char *str);
-bool	is_builtin(t_token *token);
-
-/* ===========================
-	Input Handling Functions
-	=========================== */
-char	*input_with_space(char *str);
-void	add_operator_with_spaces(char *new_input, char *input, int *i, int *j);
-
-/* ===========================
-	Built-in Commands
-	=========================== */
-bool	ft_echo(t_data *data, t_token *token);
-bool	ft_cd(t_data *data, t_token *token);
-bool	ft_pwd(t_data *data, t_token *token);
-bool	ft_export(t_data *data, t_token *token);
-bool	ft_unset(t_data *data, t_token *token);
-bool	ft_exit(t_data *data, t_token *token);
-
-/* ===========================
-	Data Management
-	=========================== */
-t_data	*init_data(t_data *data, char **env);
 void	free_data(t_data *data);
 void	free_data_main(t_data *data);
-
-/* ===========================
-	Token Checking & Lexing
-	=========================== */
-bool	check_pipe(t_token *token);
-bool	lexing(t_data *data);
-bool	check_outfile(t_token *tokens);
-bool	check_infile(t_token *token);
-bool	check(t_token *token);
-char	*here_doc(t_data *data, char *delimiter);
-bool	check_delimiter(t_token *token);
-bool	check_append(t_token *tokens);
-bool	check_cmd(t_token *token);
-bool	check_open(t_token *tokens);
-bool	check_file(t_token *token, int *fd);
 void	free_tab(char **str);
-bool	check_access(t_data *data);
-char	*check_exec(t_token *token, char **env);
-
-/* ===========================
-	Error Handling
-	=========================== */
-int	print_error(char *str);
-void	print_str_array(char **arr);
-
-/* ===========================
-	Process & Execution
-	=========================== */
-void	ft_child_infile(t_data *data, int fd_gen[2]);
-void	ft_parent_outfile(t_data *data, int fd_gen[2]);
-void	ft_child_cmd(t_token *token, char **env,
-			int prev_pipe[2], int next_pipe[2]);
-void	ft_parent_cmd(int prev_pipe[2]);
-void	ft_exec(t_data *data);
-int		pipe_number(t_data *data);
-void	update_pipe_and_cmd(int prev_pipe[2], t_token *segment_end,
-			t_token **cmd, int pipe_fd[2]);
-bool	env(t_data *data, t_token *cmd);
-int		find_outfile_fd(t_token *cmd);
-int		get_pipe(t_data *data);
-int	do_builtin(t_data *data, t_token *token);
-void	child_process(t_token *segment, int *prev_pipe,
-			int *pipe_fd, t_data *data);
-void	init_pipes(int *pipe_fd, int *has_pipe, t_token *segment_end);
-t_token	*get_segment_end(t_token *start);
-int		has_output_redirection(t_token *cmd);
-char	**build_argv(t_token *cmd);
-void	handle_redirections(t_token *cmd);
-void	save_and_redirect_stdout(int fd, int *saved);
-void	restore_stdout(int saved);
-void	ft_replace_env(t_data *data, char *var, char *value);
-bool	update_pwd_env(t_data *data, char *oldpwd);
-t_token	*find_first_cmd(t_token *segment_start);
-
-/* ===========================
-	Command Path & Error
-	=========================== */
-char	*get_cmd_path(char *cmd, char **envp);
-void	ft_error(const char *msg, const char *detail);
-
-/* ===========================
-	Heredoc & Signals
-	=========================== */
-void	prepare_heredocs(t_data *data, t_token *tokens);
-int		do_heredoc(t_data *data, char *delimiter);
-void	sigint_handler(int sig);
-
-/* ===========================
-	Command Utilities
-	=========================== */
-t_token	*find_command_token(t_token *start);
-void	run_child_process(t_data *data, t_token *cmd, \
-		int prev_pipe[2], int pipe_fd[2]);
-void	exit_clean(t_data *data, char **argv, int status);
-void	exit_perror(char *msg);
-t_token	*find_cmd(t_token *segment_start);
-void	move_command_to_front(t_token *segment_start);
-int		copy_clean_var(char *dst, char *src, int i);
-char	*simple_expend(t_data data, char *line, char *var, int i);
-
-/* Token management functions */
-t_token	*create_token(t_enum_token type, char *value);
-void	free_tokens(t_token *token);
-t_token	*create_token_from_value(char *token_value);
-
-/* Token list functions */
-bool	add_token_to_list(t_token **head, t_token **last, t_token *token);
-void	print_token_list(t_token *head);
-void	token_remove_quote(t_token *list);
-void	access_token_cmd(t_token *list);
-
-/* Parsing functions */
-t_data	*parse_command(t_data *data, char *input);
-t_token	*token(char *input);
-void	add_token(char *token_value, t_enum_token type);
-
-/* Quote handling functions */
-bool	valid_quotes(char *line);
-bool	check_quote_state(char *line, int pos, char c);
-bool	in_any_quote(char *line, int pos);
-int		quote_counter(char *line);
-char	*quotes_remover(char *line);
-
-/* Variable expansion functions */
-char	*expend_vars(t_data data, char *line);
-char	*modified_var(t_data data, char *var);
-char	*cut_var(char *var);
-
-/* Utility functions */
-bool	is_separator(char c);
-bool	is_quoted(char *str);
-bool	is_builtin(t_token *token);
-
-/* Input handling functions */
-char	*input_with_space(char *str);
-void	add_operator_with_spaces(char *new_input, char *input, int *i, int *j);
-
-/* Environment functions */
-//char	*get_path(char **envp);
-//char	*ft_getenv(char *str, char **envp);
-
-/* Built-in commands */
-bool	ft_echo(t_data *data, t_token *token);
-bool	ft_cd(t_data *data, t_token *token);
-bool	ft_pwd(t_data *data, t_token *token);
-bool	ft_export(t_data *data, t_token *token);
-bool	ft_unset(t_data *data, t_token *token);
-int	ft_env(t_data *data, t_token *token);
-bool	ft_exit(t_data *data, t_token *token);
-
-t_data	*init_data(t_data *data, char **env);
-void	free_data(t_data *data);
-
-/* Cheking *Token */
-bool	check_pipe(t_token *token);
-bool	lexing(t_data *data);
-bool	check_outfile(t_token *tokens);
-void	print_token_list(t_token *head);
-bool	check_infile(t_token *token);
-bool	check(t_token *token);
-char	*here_doc(t_data *data, char *delimiter);
-bool	check_delimiter(t_token *token);
-bool	check_append(t_token *tokens);
-bool	check_cmd(t_token *token);
-bool	check_open(t_token *tokens);
-bool	check_file(t_token *token, int *fd);
-void	free_tab(char **str);
-bool	check_access(t_data *data);
-char	*check_exec(t_token *token, char **env);
 void	minishell_loop(t_data *data);
-
-/* Error handling */
-int	print_error(char *str);
 void	print_str_array(char **arr);
 void	ft_child_infile(t_data *data, int fd_gen[2]);
 void	ft_parent_outfile(t_data *data, int fd_gen[2]);
-void	ft_child_cmd(t_token *token, char **env, int prev_pipe[2],
-			int next_pipe[2]);
+void	ft_child_cmd(t_token *token, char **env, int prev_pipe[2], int next_pipe[2]);
 void	ft_parent_cmd(int prev_pipe[2]);
-
 void	ft_exec(t_data *data);
-int		pipe_number(t_data *data);
-void	update_pipe_and_cmd(int prev_pipe[2], t_token *segment_end,
-			t_token **cmd, int pipe_fd[2]);
-bool	env(t_data *data, t_token *cmd);
-int		find_outfile_fd(t_token *cmd);
-int		get_pipe(t_data *data);
-void	child_process(t_token *segment, int *prev_pipe,
-			int *pipe_fd, t_data *data);
-void	init_pipes(int *pipe_fd, int *has_pipe, t_token *segment_end);
-t_token	*get_segment_end(t_token *start);
-int		has_output_redirection(t_token *cmd);
-char	**build_argv(t_token *cmd);
+void	update_pipe_and_cmd(int prev_pipe[2], t_token *segment_end, t_token **cmd, int pipe_fd[2]);
 void	handle_redirections(t_token *cmd);
 void	save_and_redirect_stdout(int fd, int *saved);
 void	restore_stdout(int saved);
 void	ft_replace_env(t_data *data, char *var, char *value);
-bool	update_pwd_env(t_data *data, char *oldpwd);
-// Déclaration de get_cmd_path
-char	*get_cmd_path(char *cmd, char **envp);
-
-// Déclaration de ft_error
 void	ft_error(const char *msg, const char *detail);
-void	free_data(t_data *data);
-void	free_data_main(t_data *data);
 void	configure_signals(t_signal_mode mode);
-t_token	*find_command_token(t_token *start);
-void	run_child_process(t_data *data, t_token *cmd,
-			int prev_pipe[2], int pipe_fd[2]);
+void	run_child_process(t_data *data, t_token *cmd, int prev_pipe[2], int pipe_fd[2]);
 void	exit_clean(t_data *data, char **argv, int status);
 void	exit_perror(char *msg);
-t_token	*find_cmd(t_token *segment_start);
-int		copy_clean_var(char *dst, char *src, int i);
-char	*simple_expend(t_data data, char *line, char *var, int i);
+void	prepare_heredocs(t_data *data, t_token *tokens);
+void	move_command_to_front(t_token *segment_start);
 void	exec_loop(t_data *data);
-pid_t	process_segment(t_data *data, t_token *start, int prev[2], int pipe[2]);
+void	init_pipes(int *pipe_fd, int *has_pipe, t_token *segment_end);
 void	update_prev_pipe(int prev_pipe[2], int pipe_fd[2]);
-void	exec_child(t_data *data, t_token *start,
-			int prev_pipe[2], int pipe_fd[2]);
+void	exec_child(t_data *data, t_token *start, int prev_pipe[2], int pipe_fd[2]);
 void	exec_dispatch(t_data *data, t_token *start);
 void	exec_external(t_data *data, t_token *start);
 void	exit_execve_errno(void);
@@ -353,44 +118,101 @@ void	setup_pipes_and_redirects(t_token *cmd, int prev[2], int fds[2]);
 void	move_outfiles(t_token *segment_start);
 void	move_outfiles_to_last(t_token *segment_start);
 void	token_swap(t_token *first, t_token *second);
-int		count_outfiles(t_token *segment_start);
-bool	new_token(t_token **head, t_token *new_token);
-// Ajoute un token à la fin d'une liste chaînée
 void	append_token(t_token **head, t_token *to_add);
+void	add_all_matching_tokens(t_token **phoenix, t_token **deprecated, t_token *(*finder)(t_token **));
+void	extract_redir_out_pairs(t_token **phoenix, t_token **deprecated);
+void	extract_redir_in_pairs(t_token **phoenix, t_token **deprecated);
+void	extract_heredoc_pairs(t_token **phoenix, t_token **deprecated);
+void	extract_args_after_cmd(t_token **phoenix, t_token **deprecated);
+void	process_type(t_token **phoenix, t_token *segment);
+void	append_pipe_if_needed(t_token **phoenix, t_token *pipe);
+
+// bool
+bool	add_token_to_list(t_token **head, t_token **last, t_token *token);
+bool	valid_quotes(char *line);
+bool	check_quote_state(char *line, int pos, char c);
+bool	in_any_quote(char *line, int pos);
+bool	is_separator(char c);
+bool	is_quoted(char *str);
+bool	is_builtin(t_token *token);
+bool	ft_echo(t_data *data, t_token *token);
+bool	ft_cd(t_data *data, t_token *token);
+bool	ft_pwd(t_data *data, t_token *token);
+bool	ft_export(t_data *data, t_token *token);
+bool	ft_unset(t_data *data, t_token *token);
+bool	check_pipe(t_token *token);
+bool	lexing(t_data *data);
+bool	ft_exit(t_data *data, t_token *token);
+bool	check_outfile(t_token *tokens);
+bool	check_infile(t_token *token);
+bool	check(t_token *token);
+bool	check_delimiter(t_token *token);
+bool	check_append(t_token *tokens);
+bool	check_cmd(t_token *token);
+bool	check_open(t_token *tokens);
+bool	check_file(t_token *token, int *fd);
+bool	check_access(t_data *data);
+bool	update_pwd_env(t_data *data, char *oldpwd);
+bool	new_token(t_token **head, t_token *new_token);
+bool	move_token_pair(t_token **phoenix, t_token **deprecated, t_token **cur, t_token **prev);
+bool	is_heredoc(char	*line, int i);
+
+// int
+int		quote_counter(char *line);
+int		ft_env(t_data *data, t_token *token);
+int		pipe_number(t_data *data);
+int		find_outfile_fd(t_token *cmd);
+int		get_pipe(t_data *data);
+int		do_builtin(t_data *data, t_token *token);
+int		print_error(char *str);
+int		has_output_redirection(t_token *cmd);
+int		copy_clean_var(char *dst, char *src, int i);
+int		count_outfiles(t_token *segment_start);
+int		interpret_status(int status);
+int	do_heredoc(t_data *data, char *delimiter);
+
+// char *
+char	*quotes_remover(char *line);
+char	*expend_vars(t_data data, char *line);
+char	*modified_var(t_data data, char *var);
+char	*cut_var(char *var);
+char	*input_with_space(char *str);
+char	*here_doc(t_data *data, char *delimiter);
+char	*check_exec(t_token *token, char **env);
+char	*get_cmd_path(char *cmd, char **envp);
+char	*simple_expend(t_data data, char *line, char *var, int i);
+
+// char **
+char	**build_argv(t_token *cmd);
+
+// t_token *
+t_token	*create_token(t_enum_token type, char *value);
+t_token	*create_token_from_value(char *token_value);
+t_token	*token(char *input);
+t_token	*find_first_cmd(t_token *segment_start);
+t_token	*find_command_token(t_token *start);
+t_token	*find_cmd(t_token *segment_start);
+t_token	*get_segment_end(t_token *start);
 t_token	*find_last_heredoc(t_token *cmd);
-
-// Ajoute tous les tokens trouvés par la fonction finder à la liste phoenix
-void	add_all_matching_tokens(t_token **phoenix,
-			t_token **deprecated, t_token *(*finder)(t_token **));
-
-// Trouve et extrait le premier token de type donné dans deprecated
 t_token	*find_next_token_of_type(t_token **deprecated, t_enum_token type);
-
-// Fonctions spécifiques pour trouver les tokens par type
 t_token	*find_cmd_phoenix(t_token **deprecated);
 t_token	*find_pipe_phoenix(t_token **deprecated);
 t_token	*find_arg_phoenix(t_token **deprecated);
 t_token	*find_infile_signe_phoenix(t_token **deprecated);
 t_token	*find_infile_phoenix(t_token **deprecated);
-
-// Fonction principale pour reconstruire la liste phoenix
 t_token	*phoenix(t_token **deprecated);
 t_token	*find_append_signe_phoenix(t_token **deprecated);
 t_token	*find_delimiteur_phoenix(t_token **deprecated);
 t_token	*find_append_file_phoenix(t_token **deprecated);
 t_token	*find_delimiteur_mot_phoenix(t_token **deprecated);
-t_token	*find_append_signe_phoenix(t_token **deprecated);
 t_token	*find_outfile_signe_phoenix(t_token **deprecated);
-void	extract_redir_out_pairs(t_token **phoenix, t_token **deprecated);
-void	extract_redir_in_pairs(t_token **phoenix, t_token **deprecated);
-void	extract_heredoc_pairs(t_token **phoenix, t_token **deprecated);
-void	extract_args_after_cmd(t_token **phoenix, t_token **deprecated);
 t_token	*split_segment_at_pipe(t_token **segment, t_token **rest);
-void	process_type(t_token **phoenix, t_token *segment);
-void	append_pipe_if_needed(t_token **phoenix, t_token *pipe);
-bool	move_token_pair(t_token **phoenix, t_token **deprecated,
-			t_token **cur, t_token **prev);
-bool	is_heredoc(char	*line, int i);
-int interpret_status(int status);
+
+// t_data *
+t_data	*parse_command(t_data *data, char *input);
+t_data	*init_data(t_data *data, char **env);
+
+// pid_t
+pid_t	process_segment(t_data *data, t_token *start, int prev[2], int pipe[2]);
 
 #endif
