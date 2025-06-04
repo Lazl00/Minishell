@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:49:35 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/06/04 13:57:17 by wailas           ###   ########.fr       */
+/*   Updated: 2025/06/04 14:09:26 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,17 +92,20 @@ void	minishell_loop(t_data *data);
 void	print_str_array(char **arr);
 void	ft_child_infile(t_data *data, int fd_gen[2]);
 void	ft_parent_outfile(t_data *data, int fd_gen[2]);
-void	ft_child_cmd(t_token *token, char **env, int prev_pipe[2], int next_pipe[2]);
+void	ft_child_cmd(t_token *token, char **env,
+			int prev_pipe[2], int next_pipe[2]);
 void	ft_parent_cmd(int prev_pipe[2]);
 void	ft_exec(t_data *data);
-void	update_pipe_and_cmd(int prev_pipe[2], t_token *segment_end, t_token **cmd, int pipe_fd[2]);
+void	update_pipe_and_cmd(int prev_pipe[2], t_token *segment_end,
+			t_token **cmd, int pipe_fd[2]);
 void	handle_redirections(t_token *cmd);
 void	save_and_redirect_stdout(int fd, int *saved);
 void	restore_stdout(int saved);
 void	ft_replace_env(t_data *data, char *var, char *value);
 void	ft_error(const char *msg, const char *detail);
 void	configure_signals(t_signal_mode mode);
-void	run_child_process(t_data *data, t_token *cmd, int prev_pipe[2], int pipe_fd[2]);
+void	run_child_process(t_data *data, t_token *cmd,
+			int prev_pipe[2], int pipe_fd[2]);
 void	exit_clean(t_data *data, char **argv, int status);
 void	exit_perror(char *msg);
 void	prepare_heredocs(t_data *data, t_token *tokens);
@@ -110,7 +113,8 @@ void	move_command_to_front(t_token *segment_start);
 void	exec_loop(t_data *data);
 void	init_pipes(int *pipe_fd, int *has_pipe, t_token *segment_end);
 void	update_prev_pipe(int prev_pipe[2], int pipe_fd[2]);
-void	exec_child(t_data *data, t_token *start, int prev_pipe[2], int pipe_fd[2]);
+void	exec_child(t_data *data, t_token *start,
+			int prev_pipe[2], int pipe_fd[2]);
 void	exec_dispatch(t_data *data, t_token *start);
 void	exec_external(t_data *data, t_token *start);
 void	exit_execve_errno(void);
@@ -119,7 +123,8 @@ void	move_outfiles(t_token *segment_start);
 void	move_outfiles_to_last(t_token *segment_start);
 void	token_swap(t_token *first, t_token *second);
 void	append_token(t_token **head, t_token *to_add);
-void	add_all_matching_tokens(t_token **phoenix, t_token **deprecated, t_token *(*finder)(t_token **));
+void	add_all_matching_tokens(t_token **phoenix,
+			t_token **deprecated, t_token *(*finder)(t_token **));
 void	extract_redir_out_pairs(t_token **phoenix, t_token **deprecated);
 void	extract_redir_in_pairs(t_token **phoenix, t_token **deprecated);
 void	extract_heredoc_pairs(t_token **phoenix, t_token **deprecated);
@@ -154,7 +159,8 @@ bool	check_file(t_token *token, int *fd);
 bool	check_access(t_data *data);
 bool	update_pwd_env(t_data *data, char *oldpwd);
 bool	new_token(t_token **head, t_token *new_token);
-bool	move_token_pair(t_token **phoenix, t_token **deprecated, t_token **cur, t_token **prev);
+bool	move_token_pair(t_token **phoenix, t_token **deprecated,
+			t_token **cur, t_token **prev);
 bool	is_heredoc(char	*line, int i);
 
 // int
@@ -169,7 +175,7 @@ int		has_output_redirection(t_token *cmd);
 int		copy_clean_var(char *dst, char *src, int i);
 int		count_outfiles(t_token *segment_start);
 int		interpret_status(int status);
-int	do_heredoc(t_data *data, char *delimiter);
+int		do_heredoc(t_data *data, char *delimiter);
 
 // char *
 char	*quotes_remover(char *line);

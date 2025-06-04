@@ -6,13 +6,20 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:37:50 by wailas            #+#    #+#             */
-/*   Updated: 2025/06/04 13:31:28 by wailas           ###   ########.fr       */
+/*   Updated: 2025/06/04 14:01:06 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 pid_t	g_signal_pid;
+
+void	norme_main(t_data *data)
+{
+	lexing(data);
+	ft_exec(data);
+	free_tokens(data->tokens);
+}
 
 int	main(int argc, char **argv, char **env)
 {
@@ -54,8 +61,6 @@ void	minishell_loop(t_data *data)
 			free(line);
 			continue ;
 		}
-		lexing(data);
-		ft_exec(data);
-		free_tokens(data->tokens);
+		norme_main(data);
 	}
 }

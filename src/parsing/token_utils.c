@@ -6,26 +6,11 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:17:06 by wailas            #+#    #+#             */
-/*   Updated: 2025/06/02 18:31:13 by wailas           ###   ########.fr       */
+/*   Updated: 2025/06/04 13:58:49 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-const char	*g_nom_tokens[] = {
-	"CMD",
-	"CMD_BUILTIN",
-	"REDIR_IN",
-	"REDIR_OUT",
-	"PIPE",
-	"OUTFILE",
-	"INFILE",
-	"DELIMITEUR",
-	"DELIMITEUR_MOT",
-	"APPEND",
-	"APPEND_FILE",
-	"ARG"
-};
 
 void	token_remove_quote(t_token *list)
 {

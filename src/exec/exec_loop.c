@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:01:58 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/06/04 13:05:50 by wailas           ###   ########.fr       */
+/*   Updated: 2025/06/04 14:06:22 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,13 @@ void	exec_loop(t_data *data)
 	g_signal_pid = ctx.last_pid;
 }
 
+void	exec_in_child(t_data *data, t_token *start, int prev[2], int pipe[2])
+{
+	signal(SIGQUIT, SIG_DFL);
+	signal(SIGINT, SIG_DFL);
+	exec_child(data, start, prev, pipe);
+}
+
 pid_t	process_segment(t_data *data, t_token *start, int prev[2], int pipe[2])
 {
 	t_token	*end;
@@ -53,11 +60,7 @@ pid_t	process_segment(t_data *data, t_token *start, int prev[2], int pipe[2])
 	}
 	pid = fork();
 	if (pid == 0)
-	{
-		signal(SIGQUIT, SIG_DFL);
-		signal(SIGINT, SIG_DFL);
-		exec_child(data, start, prev, pipe);
-	}
+		exec_in_child(data, start, prev, pipe);
 	else if (pid < 0)
 	{
 		perror("fork");
