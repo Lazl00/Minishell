@@ -12,17 +12,6 @@
 
 #include "../../includes/minishell.h"
 
-int	has_output_redirection(t_token *cmd)
-{
-	while (cmd && cmd->type != PIPE)
-	{
-		if (cmd->type == REDIR_OUT || cmd->type == APPEND)
-			return (1);
-		cmd = cmd->next;
-	}
-	return (0);
-}
-
 t_token	*get_segment_end(t_token *start)
 {
 	while (start && start->type != PIPE)
@@ -49,29 +38,11 @@ void	init_pipes(int *pipe_fd, int *has_pipe, t_token *segment_end)
 	}
 }
 
-void	child_process(t_token *cmd, int prev[2], int fds[2], t_data *data)
-{
-	char	**argv;
-	t_token	*exec_cmd;
-
-	setup_pipes_and_redirects(cmd, prev, fds);
-	exec_cmd = cmd;
-	while (exec_cmd && exec_cmd->type != CMD)
-		exec_cmd = exec_cmd->next;
-	argv = build_argv(cmd);
-	if (!argv)
-		exit(1);
-	if (exec_cmd && exec_cmd->type == CMD && exec_cmd->value)
-		execve(exec_cmd->value, argv, data->env);
-	free_data(data);
-	free_tab(argv);
-	free_tokens(cmd);
-	exit_execve_errno();
-}
-
 void	exit_execve_errno(void)
 {
 	if (errno == EACCES)
+		exit(126);
+	else if (errno == ENOEXEC)
 		exit(126);
 	else if (errno == ENOENT)
 		exit(127);

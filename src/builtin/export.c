@@ -12,6 +12,22 @@
 
 #include "../../includes/minishell.h"
 
+bool	is_valid_identifier(const char *str)
+{
+	size_t	i;
+
+	if (!str || (!isalpha(str[0]) && str[0] != '_'))
+		return (false);
+	i = 1;
+	while (str[i] && str[i] != '=')
+	{
+		if (!isalnum(str[i]) && str[i] != '_')
+			return (false);
+		i++;
+	}
+	return (true);
+}
+
 bool	ft_add(t_data *data, char *name, size_t name_len)
 {
 	int	i;
@@ -62,10 +78,17 @@ bool	ft_export(t_data *data, t_token *token)
 
 	if (!data || !data->env || !token || !token->next)
 		return (false);
+	if (!is_valid_identifier(token->next->value))
+	{
+		ft_putstr_fd("export: not a valid identifier\n", 2);
+		return (false);
+	}
 	name = token->next->value;
 	name_len = 0;
 	while (name[name_len] && name[name_len] != '=')
 		name_len++;
+	if (name[name_len] != '=')
+		return (true);
 	if (ft_add(data, name, name_len))
 		return (true);
 	new_env = ft_copy_env_and_add(data, token->next->value);

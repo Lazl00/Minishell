@@ -44,11 +44,20 @@ bool	check_pipe(t_token *tokens)
 	while (tmp)
 	{
 		if (tmp->type == PIPE && tmp == tokens)
-			return (print_error("Pipe at the beginning of the line\n"));
+		{
+			ft_printf("Pipe at the beginning of the line\n");
+			return (false);
+		}
 		if (tmp->type == PIPE && tmp->next == NULL)
-			return (print_error("Pipe at the end of the line\n"));
+		{
+			ft_printf("Pipe at the end of the line\n");
+			return (false);
+		}
 		if (tmp->type == PIPE && tmp->next != NULL && tmp->next->type == PIPE)
-			return (print_error("Two pipes in a row\n"));
+		{
+			ft_printf("Two pipes in a row\n");
+			return (false);
+		}
 		tmp = tmp->next;
 	}
 	return (true);

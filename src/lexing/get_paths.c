@@ -90,7 +90,7 @@ char	*check_exec(t_token *token, char **env)
 	path = get_path(token->value, env);
 	if (!path)
 	{
-		ft_printf("command not found : %s\n", token->value);
+		write(2, "command not found\n", 19);
 		return (ft_strdup(token->value));
 	}
 	return (path);

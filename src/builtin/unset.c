@@ -39,8 +39,10 @@ bool	ft_unset(t_data *data, t_token *token)
 	int		k;
 	char	**new_env;
 
-	if (!data || !data->env || !token->next)
+	if (!data || !data->env)
 		return (false);
+	if (!token->next)
+		return (true);
 	i = 0;
 	while (data->env[i])
 		i++;

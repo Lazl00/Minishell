@@ -19,6 +19,11 @@ t_data	*parse_command(t_data *data, char *input)
 	if (!valid_quotes(input))
 		return (NULL);
 	line = expend_vars(*data, input);
+	if (*line == '\0')
+	{
+		free(line);
+		return (NULL);
+	}
 	(*data).tokens = token(line);
 	free(line);
 	return (data);

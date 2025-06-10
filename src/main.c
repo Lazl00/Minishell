@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:37:50 by wailas            #+#    #+#             */
-/*   Updated: 2025/06/04 14:20:34 by wailas           ###   ########.fr       */
+/*   Updated: 2025/06/04 14:35:41 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,24 @@ pid_t	g_signal_pid;
 
 void	norme_main(t_data *data)
 {
-	lexing(data);
+	if (lexing(data) == false)
+	{
+		data->exit_status = 1;
+		free_tokens(data->tokens);
+		data->tokens = NULL;
+		return ;
+	}
 	ft_exec(data);
 	free_tokens(data->tokens);
+}
+
+void	norm_signal(t_data *data)
+{
+	if (g_signal_pid == 130)
+	{
+		data->exit_status = 130;
+		g_signal_pid = 0;
+	}
 }
 
 int	main(int argc, char **argv, char **env)
@@ -44,23 +59,19 @@ void	minishell_loop(t_data *data)
 	{
 		line = readline("Mishell >  ");
 		if (!line)
+		{
+			printf("exit\n");
 			break ;
+		}
 		if (*line == '\0')
 		{
 			free(line);
 			continue ;
 		}
-		if (g_signal_pid == 130)
-		{
-			data->exit_status = 130;
-			g_signal_pid = 0;
-		}
+		norm_signal(data);
 		add_history(line);
 		if (!parse_command(data, line))
-		{
-			free(line);
 			continue ;
-		}
 		norme_main(data);
 	}
 }

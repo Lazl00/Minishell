@@ -40,7 +40,8 @@ void	extract_redir_in_pairs(t_token **phoenix, t_token **deprecated)
 	prev = NULL;
 	while (cur && cur->next)
 	{
-		if (cur->type == REDIR_IN && cur->next->type == INFILE)
+		if ((cur->type == REDIR_IN && cur->next->type == INFILE)
+			|| (cur->type == APPEND && cur->next->type == APPEND_FILE))
 			move_token_pair(phoenix, deprecated, &cur, &prev);
 		else
 		{

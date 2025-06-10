@@ -55,21 +55,6 @@ t_token	*find_first_cmd(t_token *segment_start)
 	return (NULL);
 }
 
-void	update_pipe_and_cmd(int p[2], t_token *s, t_token **cmd, int pipe_fd[2])
-{
-	if (p[0] != -1)
-	{
-		close(p[0]);
-		close(p[1]);
-	}
-	p[0] = pipe_fd[0];
-	p[1] = pipe_fd[1];
-	if (s)
-		*cmd = s->next;
-	else
-		*cmd = NULL;
-}
-
 void	ft_exec(t_data *data)
 {
 	int		status;

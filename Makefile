@@ -38,13 +38,11 @@ SRCS =  main.c \
 		builtin/exit.c \
 		exec/heredocs.c \
 		exec/handle_redirections.c \
-		exec/handle_utils.c \
 		signals/signals.c \
 		exec/exec_loop.c \
 		exec/exec_loop_utils.c \
 		phoenix/phoenix.c \
 		phoenix/find.c \
-		phoenix/find_utils.c \
 		phoenix/extract.c \
 		phoenix/true_phoenix.c \
 		phoenix/extract_utils.c \

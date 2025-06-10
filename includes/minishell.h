@@ -96,16 +96,12 @@ void	ft_child_cmd(t_token *token, char **env,
 			int prev_pipe[2], int next_pipe[2]);
 void	ft_parent_cmd(int prev_pipe[2]);
 void	ft_exec(t_data *data);
-void	update_pipe_and_cmd(int prev_pipe[2], t_token *segment_end,
-			t_token **cmd, int pipe_fd[2]);
 void	handle_redirections(t_token *cmd);
 void	save_and_redirect_stdout(int fd, int *saved);
 void	restore_stdout(int saved);
 void	ft_replace_env(t_data *data, char *var, char *value);
 void	ft_error(const char *msg, const char *detail);
 void	configure_signals(t_signal_mode mode);
-void	run_child_process(t_data *data, t_token *cmd,
-			int prev_pipe[2], int pipe_fd[2]);
 void	exit_clean(t_data *data, char **argv, int status);
 void	exit_perror(char *msg);
 void	prepare_heredocs(t_data *data, t_token *tokens);
@@ -162,6 +158,7 @@ bool	new_token(t_token **head, t_token *new_token);
 bool	move_token_pair(t_token **phoenix, t_token **deprecated,
 			t_token **cur, t_token **prev);
 bool	is_heredoc(char	*line, int i);
+bool	has_pipe(t_token *tokens);
 
 // int
 int		quote_counter(char *line);
@@ -171,7 +168,6 @@ int		find_outfile_fd(t_token *cmd);
 int		get_pipe(t_data *data);
 int		do_builtin(t_data *data, t_token *token);
 int		print_error(char *str);
-int		has_output_redirection(t_token *cmd);
 int		copy_clean_var(char *dst, char *src, int i);
 int		count_outfiles(t_token *segment_start);
 int		interpret_status(int status);
@@ -183,7 +179,6 @@ char	*expend_vars(t_data data, char *line);
 char	*modified_var(t_data data, char *var);
 char	*cut_var(char *var);
 char	*input_with_space(char *str);
-char	*here_doc(t_data *data, char *delimiter);
 char	*check_exec(t_token *token, char **env);
 char	*get_cmd_path(char *cmd, char **envp);
 char	*simple_expend(t_data data, char *line, char *var, int i);
@@ -202,16 +197,11 @@ t_token	*get_segment_end(t_token *start);
 t_token	*find_last_heredoc(t_token *cmd);
 t_token	*find_next_token_of_type(t_token **deprecated, t_enum_token type);
 t_token	*find_cmd_phoenix(t_token **deprecated);
-t_token	*find_pipe_phoenix(t_token **deprecated);
-t_token	*find_arg_phoenix(t_token **deprecated);
-t_token	*find_infile_signe_phoenix(t_token **deprecated);
-t_token	*find_infile_phoenix(t_token **deprecated);
 t_token	*phoenix(t_token **deprecated);
 t_token	*find_append_signe_phoenix(t_token **deprecated);
 t_token	*find_delimiteur_phoenix(t_token **deprecated);
 t_token	*find_append_file_phoenix(t_token **deprecated);
 t_token	*find_delimiteur_mot_phoenix(t_token **deprecated);
-t_token	*find_outfile_signe_phoenix(t_token **deprecated);
 t_token	*split_segment_at_pipe(t_token **segment, t_token **rest);
 
 // t_data *

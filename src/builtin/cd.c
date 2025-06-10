@@ -48,7 +48,7 @@ bool	ft_cd_oldpwd(char *oldpwd)
 	return (true);
 }
 
-bool	ft_cd(t_data *data, t_token *token)
+bool	ft_cd(t_data *data, t_token *t)
 {
 	char	*oldpwd;
 	char	*target;
@@ -56,15 +56,22 @@ bool	ft_cd(t_data *data, t_token *token)
 	oldpwd = getcwd(NULL, 0);
 	if (!oldpwd)
 		return (false);
-	if (!token->next || !token->next->value)
+	if (t->next && t->next->next)
+	{
+		write(2, "too many arguments\n", 20);
+		free(oldpwd);
+		return (false);
+	}
+	if (!t->next || !t->next->value || ft_strcmp(t->next->value, "~") == 0)
 		return (ft_cd_home(oldpwd));
-	target = token->next->value;
-	if (ft_strcmp(target, "~") == 0)
-		return (ft_cd_home(oldpwd));
-	if (ft_strcmp(target, "-") == 0)
+	if (ft_strcmp(t->next->value, "-") == 0)
 		return (ft_cd_oldpwd(oldpwd));
+	target = t->next->value;
 	if (chdir(target) == -1)
-		perror("cd");
+	{
+		free(oldpwd);
+		return (false);
+	}
 	update_pwd_env(data, oldpwd);
 	free(oldpwd);
 	return (true);

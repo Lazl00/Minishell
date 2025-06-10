@@ -17,6 +17,8 @@ bool	check_open(t_token *tokens)
 	t_token	*tmp;
 	int		fd;
 
+	if (has_pipe(tokens))
+		return (true);
 	tmp = tokens;
 	while (tmp)
 	{
@@ -76,4 +78,15 @@ bool	check_access(t_data *data)
 		tmp = tmp->next;
 	}
 	return (true);
+}
+
+bool	has_pipe(t_token *tokens)
+{
+	while (tokens)
+	{
+		if (tokens->type == PIPE)
+			return (true);
+		tokens = tokens->next;
+	}
+	return (false);
 }
