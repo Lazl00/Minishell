@@ -70,6 +70,7 @@ void	ft_exec(t_data *data)
 			data->exit_status = interpret_status(status);
 		pid = wait(&status);
 	}
+	close_all_heredocs(data->tokens);
 	signal(SIGINT, sigint_handler);
 }
 

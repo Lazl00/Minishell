@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 14:54:50 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/06/04 13:43:07 by wailas           ###   ########.fr       */
+/*   Updated: 2025/06/11 18:10:11 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	prepare_heredocs(t_data *data, t_token *tokens)
 	{
 		if (tmp->type == 7 && tmp->next && tmp->next->type == 8)
 		{
-			fd = do_heredoc(data, tmp->next->value);
+			fd = do_heredoc(data, tmp->next->value, NULL);
 			if (fd < 0)
 			{
 				perror("heredoc");
@@ -34,10 +34,10 @@ void	prepare_heredocs(t_data *data, t_token *tokens)
 	}
 }
 
-int	do_heredoc(t_data *data, char *delimiter)
+int	do_heredoc(t_data *data, char *delimiter, char *line)
 {
 	int		pipe_fd[2];
-	char	*line;
+	char	*expanded;
 
 	if (pipe(pipe_fd) == -1)
 	{
@@ -47,15 +47,17 @@ int	do_heredoc(t_data *data, char *delimiter)
 	while (1)
 	{
 		line = readline("> ");
-		line = expend_vars(*data, line);
-		if (!line || strcmp(line, delimiter) == 0)
+		if (!line)
+			break ;
+		expanded = expend_vars(*data, line, 0, 0);
+		if (strcmp(expanded, delimiter) == 0)
 		{
-			free(line);
+			free(expanded);
 			break ;
 		}
-		write(pipe_fd[1], line, strlen(line));
+		write(pipe_fd[1], expanded, strlen(expanded));
 		write(pipe_fd[1], "\n", 1);
-		free(line);
+		free(expanded);
 	}
 	close(pipe_fd[1]);
 	return (pipe_fd[0]);
@@ -73,4 +75,17 @@ t_token	*find_last_heredoc(t_token *cmd)
 		cmd = cmd->next;
 	}
 	return (last);
+}
+
+void	close_all_heredocs(t_token *tokens)
+{
+	while (tokens)
+	{
+		if (tokens->heredoc_fd != -1)
+		{
+			close(tokens->heredoc_fd);
+			tokens->heredoc_fd = -1;
+		}
+		tokens = tokens->next;
+	}
 }

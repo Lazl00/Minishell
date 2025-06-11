@@ -35,7 +35,7 @@
 
 extern pid_t	g_signal_pid;
 
-typedef enum s_token_parse {
+typedef enum e_token_parse {
 	CMD,
 	CMD_BUILTIN,
 	REDIR_IN,
@@ -81,6 +81,7 @@ typedef struct s_exec_context
 }	t_exec_context;
 
 // void
+void	close_all_heredocs(t_token *tokens);
 void	free_tokens(t_token *token);
 void	print_token_list(t_token *head);
 void	token_remove_quote(t_token *list);
@@ -96,7 +97,7 @@ void	ft_child_cmd(t_token *token, char **env,
 			int prev_pipe[2], int next_pipe[2]);
 void	ft_parent_cmd(int prev_pipe[2]);
 void	ft_exec(t_data *data);
-void	handle_redirections(t_token *cmd);
+void	handle_redirections(t_data *data, t_token *cmd);
 void	save_and_redirect_stdout(int fd, int *saved);
 void	restore_stdout(int saved);
 void	ft_replace_env(t_data *data, char *var, char *value);
@@ -114,7 +115,6 @@ void	exec_child(t_data *data, t_token *start,
 void	exec_dispatch(t_data *data, t_token *start);
 void	exec_external(t_data *data, t_token *start);
 void	exit_execve_errno(void);
-void	setup_pipes_and_redirects(t_token *cmd, int prev[2], int fds[2]);
 void	move_outfiles(t_token *segment_start);
 void	move_outfiles_to_last(t_token *segment_start);
 void	token_swap(t_token *first, t_token *second);
@@ -172,11 +172,11 @@ int		print_error(char *str);
 int		copy_clean_var(char *dst, char *src, int i);
 int		count_outfiles(t_token *segment_start);
 int		interpret_status(int status);
-int		do_heredoc(t_data *data, char *delimiter);
+int		do_heredoc(t_data *data, char *delimiter, char *line);
 
 // char *
 char	*quotes_remover(char *line);
-char	*expend_vars(t_data data, char *line);
+char	*expend_vars(t_data data, char *line, int i, int i_cake);
 char	*modified_var(t_data data, char *var);
 char	*cut_var(char *var);
 char	*input_with_space(char *str);

@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-void	handle_redir_in(t_token *cmd)
+void	handle_redir_in(t_data *data, t_token *cmd)
 {
 	int	fd;
 
@@ -20,6 +20,8 @@ void	handle_redir_in(t_token *cmd)
 	if (fd < 0)
 	{
 		perror("infile");
+		close_all_heredocs(data->tokens);
+		free_data(data);
 		exit(1);
 	}
 	dup2(fd, STDIN_FILENO);
@@ -60,7 +62,7 @@ void	handle_heredoc(t_token *cmd)
 	close(cmd->heredoc_fd);
 }
 
-void	handle_redirections(t_token *cmd)
+void	handle_redirections(t_data *data, t_token *cmd)
 {
 	t_token	*last_heredoc;
 
@@ -68,7 +70,7 @@ void	handle_redirections(t_token *cmd)
 	while (cmd && cmd->type != PIPE)
 	{
 		if (cmd->type == REDIR_IN && cmd->next)
-			handle_redir_in(cmd);
+			handle_redir_in(data, cmd);
 		else if (cmd->type == REDIR_OUT && cmd->next)
 			handle_redir_out(cmd);
 		else if (cmd->type == APPEND && cmd->next)

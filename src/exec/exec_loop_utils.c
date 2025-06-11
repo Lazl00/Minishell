@@ -36,20 +36,3 @@ void	update_prev_pipe(int prev_pipe[2], int pipe_fd[2])
 	prev_pipe[0] = pipe_fd[0];
 	prev_pipe[1] = pipe_fd[1];
 }
-
-void	setup_pipes_and_redirects(t_token *cmd, int prev[2], int fds[2])
-{
-	handle_redirections(cmd);
-	if (prev[0] != -1)
-	{
-		dup2(prev[0], STDIN_FILENO);
-		close(prev[0]);
-		close(prev[1]);
-	}
-	if (fds[1] != -1)
-	{
-		dup2(fds[1], STDOUT_FILENO);
-		close(fds[0]);
-		close(fds[1]);
-	}
-}

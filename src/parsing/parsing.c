@@ -18,7 +18,7 @@ t_data	*parse_command(t_data *data, char *input)
 
 	if (!valid_quotes(input))
 		return (NULL);
-	line = expend_vars(*data, input);
+	line = expend_vars(*data, input, 0, 0);
 	if (*line == '\0')
 	{
 		free(line);

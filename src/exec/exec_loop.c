@@ -84,7 +84,7 @@ void	exec_child(t_data *data, t_token *start, int prev[2], int pipe_fd[2])
 		close(pipe_fd[0]);
 		close(pipe_fd[1]);
 	}
-	handle_redirections(start);
+	handle_redirections(data, start);
 	exec_dispatch(data, start);
 }
 
@@ -103,6 +103,7 @@ void	exec_external(t_data *data, t_token *start)
 		free_data(data);
 		exit(1);
 	}
+	close_all_heredocs(data->tokens);
 	execve(start->value, argv, data->env);
 	free(argv);
 	free_data(data);

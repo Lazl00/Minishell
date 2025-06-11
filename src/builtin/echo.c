@@ -40,9 +40,9 @@ bool	ft_echo(t_data *data, t_token *token)
 		curr = curr->next;
 	}
 	fd = find_outfile_fd(token);
-	ft_display(curr, fd);
 	if (fd < 0)
 		return (false);
+	ft_display(curr, fd);
 	if (new_line)
 		ft_putchar_fd('\n', fd);
 	if (fd != STDOUT_FILENO)

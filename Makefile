@@ -21,7 +21,6 @@ SRCS =  main.c \
 		parsing/token_utils.c \
 		parsing/inits.c \
 		lexing/lexing.c \
-		lexing/here_doc.c \
 		lexing/lexing_utils.c \
 		lexing/accesses.c \
 		lexing/get_paths.c \
