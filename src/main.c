@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:37:50 by wailas            #+#    #+#             */
-/*   Updated: 2025/06/04 14:35:41 by wailas           ###   ########.fr       */
+/*   Updated: 2025/06/11 14:25:37 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ void	norme_main(t_data *data)
 {
 	if (lexing(data) == false)
 	{
-		data->exit_status = 1;
+		if (data->exit_status != 127)
+			data->exit_status = 1;
 		free_tokens(data->tokens);
 		data->tokens = NULL;
 		return ;

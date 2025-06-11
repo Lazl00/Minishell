@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:20:44 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/05/27 13:30:42 by wailas           ###   ########.fr       */
+/*   Updated: 2025/06/11 14:29:57 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	**get_paths_from_env(char **env)
 {
-	int		i;
+	int	i;
 
 	if (!env)
 		return (NULL);
@@ -76,7 +76,7 @@ char	*get_path(char *command, char **env)
 	return (search_in_paths(paths, command));
 }
 
-char	*check_exec(t_token *token, char **env)
+char	*check_exec(t_data *data, t_token *token, char **env)
 {
 	char	*path;
 
@@ -91,6 +91,11 @@ char	*check_exec(t_token *token, char **env)
 	if (!path)
 	{
 		write(2, "command not found\n", 19);
+		if (!data->tokens->next)
+		{
+			data->exit_status = 127;
+			return (NULL);
+		}
 		return (ft_strdup(token->value));
 	}
 	return (path);

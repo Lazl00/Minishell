@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:49:35 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/06/04 14:09:26 by wailas           ###   ########.fr       */
+/*   Updated: 2025/06/11 12:04:24 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ void	extract_heredoc_pairs(t_token **phoenix, t_token **deprecated);
 void	extract_args_after_cmd(t_token **phoenix, t_token **deprecated);
 void	process_type(t_token **phoenix, t_token *segment);
 void	append_pipe_if_needed(t_token **phoenix, t_token *pipe);
+void	sigint_handler(int sig);
 
 // bool
 bool	add_token_to_list(t_token **head, t_token **last, t_token *token);
@@ -179,7 +180,7 @@ char	*expend_vars(t_data data, char *line);
 char	*modified_var(t_data data, char *var);
 char	*cut_var(char *var);
 char	*input_with_space(char *str);
-char	*check_exec(t_token *token, char **env);
+char	*check_exec(t_data *data, t_token *token, char **env);
 char	*get_cmd_path(char *cmd, char **envp);
 char	*simple_expend(t_data data, char *line, char *var, int i);
 

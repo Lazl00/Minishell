@@ -6,11 +6,35 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:25:00 by wailas            #+#    #+#             */
-/*   Updated: 2025/06/04 13:59:34 by wailas           ###   ########.fr       */
+/*   Updated: 2025/06/11 14:29:34 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+bool	check_doable(t_data *data)
+{
+	struct stat	bail;
+
+	if (has_pipe(data->tokens) == false)
+	{
+		if (data->tokens->next == NULL)
+		{
+			if (data->tokens->value[0] != '.' && data->tokens->value[0] != '/')
+			{
+				if (stat(data->tokens->value, &bail) == 0)
+				{
+					if (S_ISDIR(bail.st_mode))
+					{
+						data->exit_status = 127;
+						return (false);
+					}
+				}
+			}
+		}
+	}
+	return (true);
+}
 
 bool	lexing(t_data *data)
 {
@@ -33,6 +57,8 @@ bool	lexing(t_data *data)
 		return (false);
 	free_tokens(data->tokens);
 	data->tokens = clean_tokens;
+	if (check_doable(data) == false)
+		return (false);
 	return (true);
 }
 
