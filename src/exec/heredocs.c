@@ -6,11 +6,19 @@
 /*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 14:54:50 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/06/20 00:28:48 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/06/20 01:04:34 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void close_all_except(int keep1, int keep2)
+{
+	for (int fd = 3; fd < 1024; fd++) {
+		if (fd != keep1 && fd != keep2)
+			close(fd);
+	}
+}
 
 int	prepare_heredocs(t_data *data, t_token *tokens)
 {
@@ -66,11 +74,12 @@ int	do_heredoc(t_data *data, char *delimiter, char *line)
 		return (-1);
 	else if (pid == 0) 
 	{
+		printf("pipe[0] = %d\n", pipe_fd[0]);
+		printf("pipe[1] = %d\n", pipe_fd[1]);
 		exit_hdoc(data);
 		exit_pipe(pipe_fd[1]);
 		signal(SIGINT, sigint_handler_heredoc);
 		signal(SIGQUIT, SIG_IGN);
-		//write(2, "enfant 1/2 fermes\n", 19);
 		close(pipe_fd[0]);
 		while (1)
 		{
@@ -95,14 +104,12 @@ int	do_heredoc(t_data *data, char *delimiter, char *line)
 		}
 		buf_manager(NULL);
 		free_data(data);
-		//write(2, "enfant 2/2 fermes\n", 19);
 		close(pipe_fd[1]);
-		close(3);
+		close_all_except(pipe_fd[1], 1);
 		exit(0);
 	}
 	else
 	{
-		//write(2, "adulte 1/2 fermes\n", 19);
 		close(pipe_fd[1]);
 		waitpid(pid, &status, 0);
 		sigaction(SIGINT, &sa_old, NULL);
