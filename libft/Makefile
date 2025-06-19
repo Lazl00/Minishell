@@ -1,7 +1,7 @@
 NAME		:=	libft.a
 BUFFER_SIZE	:=	4096
 
-CC			:=	clang
+CC			:=	gcc
 FLAGS		:= -Wall -Werror -Wextra
 
 DIR_SRCS	:=	srcs

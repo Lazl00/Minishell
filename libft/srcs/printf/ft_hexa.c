@@ -59,11 +59,6 @@ void	ft_putnbrbase_hexa(unsigned int nbr, char const *base)
 	char		result;
 
 	size_base = len(base);
-	if (nbr < 0)
-	{
-		write(1, "-", 1);
-		nbr = -nbr;
-	}
 	result = base[nbr % size_base];
 	nbr /= size_base;
 	if (nbr != 0)

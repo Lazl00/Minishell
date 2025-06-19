@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   true_phoenix.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 18:18:17 by wailas            #+#    #+#             */
-/*   Updated: 2025/06/02 18:28:12 by wailas           ###   ########.fr       */
+/*   Updated: 2025/06/19 20:36:55 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,10 @@ t_token	*phoenix(t_token **deprecated)
 t_token	*split_segment_at_pipe(t_token **segment, t_token **rest)
 {
 	t_token	*cur;
-	t_token	*prev;
 
 	cur = *segment;
-	prev = NULL;
 	while (cur && cur->type != PIPE)
 	{
-		prev = cur;
 		cur = cur->next;
 	}
 	if (cur && cur->type == PIPE)

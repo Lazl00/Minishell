@@ -85,7 +85,7 @@ $(DIR_OBJS)/%.o: $(DIR_SRCS)/%.c $(INCS) Makefile $(LIBFT)
 	@printf "\r\033[K$(GREEN)$(CHECK) Compiled: $(END)$(CYAN)$<$(END)\n"
 
 $(NAME): $(OBJS)
-	@$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) $(LIBFT) -o $@
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(LDFLAGS) -o $@
 	@echo "$(GREEN)$(CHECK) $(NAME) created!$(END)"
 
 $(LIBFT):

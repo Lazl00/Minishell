@@ -39,11 +39,6 @@ void	ft_putnbrbase(unsigned long long nbr, char const *base)
 	char		result;
 
 	size_base = len(base);
-	if (nbr < 0)
-	{
-		write(1, "-", 1);
-		nbr = -nbr;
-	}
 	result = base[nbr % size_base];
 	nbr /= size_base;
 	if (nbr != 0)
