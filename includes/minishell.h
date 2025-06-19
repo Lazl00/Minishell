@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:49:35 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/06/11 12:04:24 by wailas           ###   ########.fr       */
+/*   Updated: 2025/06/17 14:45:13 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	ft_error(const char *msg, const char *detail);
 void	configure_signals(t_signal_mode mode);
 void	exit_clean(t_data *data, char **argv, int status);
 void	exit_perror(char *msg);
-void	prepare_heredocs(t_data *data, t_token *tokens);
+int	prepare_heredocs(t_data *data, t_token *tokens);
 void	move_command_to_front(t_token *segment_start);
 void	exec_loop(t_data *data);
 void	init_pipes(int *pipe_fd, int *has_pipe, t_token *segment_end);
@@ -128,6 +128,9 @@ void	extract_args_after_cmd(t_token **phoenix, t_token **deprecated);
 void	process_type(t_token **phoenix, t_token *segment);
 void	append_pipe_if_needed(t_token **phoenix, t_token *pipe);
 void	sigint_handler(int sig);
+void    exit_line(char *line);
+void    exit_hdoc(t_data *data);
+void    exit_pipe(int fd);
 
 // bool
 bool	add_token_to_list(t_token **head, t_token **last, t_token *token);
@@ -211,5 +214,6 @@ t_data	*init_data(t_data *data, char **env);
 
 // pid_t
 pid_t	process_segment(t_data *data, t_token *start, int prev[2], int pipe[2]);
+void	print_heredocs(t_token *tokens);
 
 #endif

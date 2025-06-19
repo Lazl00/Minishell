@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:37:50 by wailas            #+#    #+#             */
-/*   Updated: 2025/06/11 14:25:37 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/06/17 16:37:59 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	norme_main(t_data *data)
 		return ;
 	}
 	ft_exec(data);
+	close_all_heredocs(data->tokens);
 	free_tokens(data->tokens);
 }
 
@@ -41,6 +42,7 @@ int	main(int argc, char **argv, char **env)
 {
 	t_data	*data;
 
+	signal(SIGPIPE, SIG_IGN);
 	data = malloc(sizeof(t_data));
 	init_data(data, env);
 	(void)argv;
@@ -49,7 +51,7 @@ int	main(int argc, char **argv, char **env)
 	configure_signals(PARENT);
 	minishell_loop(data);
 	free_data_main(data);
-	exit(EXIT_FAILURE);
+	exit(0);
 }
 
 void	minishell_loop(t_data *data)

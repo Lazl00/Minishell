@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:36:38 by wailas            #+#    #+#             */
-/*   Updated: 2025/06/11 14:30:29 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/06/17 11:52:31 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ bool	check_open(t_token *tokens)
 		else if (tmp->type == OUTFILE || tmp->type == APPEND_FILE)
 		{
 			if (!check_file(tmp, &fd))
-				return (false);
+				return (true);
 			close(fd);
 		}
 		tmp = tmp->next;

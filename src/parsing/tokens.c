@@ -63,7 +63,7 @@ char	*input_with_space(char *input)
 	j = 0;
 	if (!input)
 		return (NULL);
-	new_input = malloc(strlen(input) * 3 + 1);
+	new_input = malloc(len(input) * 3 + 1);
 	if (!new_input)
 		return (NULL);
 	while (input[i])

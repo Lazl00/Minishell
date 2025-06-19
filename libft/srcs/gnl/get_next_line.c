@@ -12,35 +12,40 @@
 
 #include "../../include/get_next_line.h"
 #include "../../include/libft.h"
-#define GNL_CLEAR 1
-#define GNL_KEEP 0
+\
 
 char	*read_line(int fd, char *str)
 {
 	char	*buffer;
-	int		read_bytes;
-	int		found_newline;
 	char	*temp;
+	ssize_t	read_bytes;
 
-	found_newline = 0;
-	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	buffer = malloc(BUFFER_SIZE + 1);
+	exit_buffer(buffer);
+	if (!buffer)
+		return (free(str), NULL);
 	if (!str)
-		str = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
-	while (!found_newline)
+	{
+		str = ft_calloc(1, sizeof(char));
+		exit_str(str, 0);
+		if (!str)
+			return (free(buffer), NULL);
+	}
+	while (1)
 	{
 		read_bytes = read(fd, buffer, BUFFER_SIZE);
-		if (read_bytes == -1)
-			return (free(str), free(buffer), NULL);
-		if (read_bytes == 0)
+		if (read_bytes <= 0)
 			break ;
-		buffer[read_bytes] = 0;
+		buffer[read_bytes] = '\0';
 		temp = str;
 		str = ft_strjoin(str, buffer);
 		free(temp);
 		if (ft_found(buffer) != -1)
-			found_newline = 1;
+			break ;
 	}
 	free(buffer);
+	if (read_bytes == -1 || !str || !*str)
+		return (NULL);
 	return (str);
 }
 
@@ -118,42 +123,22 @@ char	*get_next_line(int fd, int flag)
 	clear_gnl_buffer(&buf, flag);
 	if (fd == -1)
 	{
-		clear_gnl_buffer(&buf, GNL_CLEAR);
+		clear_gnl_buffer(&buf, 1);
 		return (NULL);
 	}
 	buf = handle(fd, &buf);
 	if (!buf)
 		return (NULL);
+	buf_manager(buf);
 	line = ft_ligne(buf);
 	if (!line)
 	{
-		clear_gnl_buffer(&buf, GNL_CLEAR);
+		clear_gnl_buffer(&buf, 1);
 		return (NULL);
 	}
 	tmp = buf;
 	buf = update_buffer(buf);
+	buf_manager(buf);
 	free(tmp);
 	return (line);
 }
-
-/*int	main(int ac, char **av)
- {
-	int			fd;
-	char		*line;
-	int			i = 0;
-
-	if (ac != 2)
-		write(1, "y'a une erreur frerot", 21);
-	fd = open(av[1], O_RDWR);
-	if (fd == -1)
-		return (1);
-	while ((i < 4))
-	{
-		line = get_next_line(fd);
-		printf("%s", line);
-		free(line);
-		i++;
-	}
-	close(fd);
-	return (0);
-}*/

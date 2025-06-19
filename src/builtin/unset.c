@@ -15,14 +15,14 @@
 void	ft_add_or_delete(t_data *data, char **new_env, int *k)
 {
 	int		i;
-	size_t	ft_strlen;
+	size_t	lenght;
 
 	i = 0;
 	while (data->env[i])
 	{
-		ft_strlen = len(data->tokens->next->value);
-		if (ft_strncmp(data->env[i], data->tokens->next->value, ft_strlen) == 0
-			&& data->env[i][ft_strlen] == '=')
+		lenght = len(data->tokens->next->value);
+		if (ft_strncmp(data->env[i], data->tokens->next->value, lenght) == 0
+			&& data->env[i][lenght] == '=')
 			free(data->env[i]);
 		else
 		{

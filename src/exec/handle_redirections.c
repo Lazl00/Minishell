@@ -28,7 +28,7 @@ void	handle_redir_in(t_data *data, t_token *cmd)
 	close(fd);
 }
 
-void	handle_redir_out(t_token *cmd)
+void	handle_redir_out(t_data *data, t_token *cmd)
 {
 	int	fd;
 
@@ -36,13 +36,15 @@ void	handle_redir_out(t_token *cmd)
 	if (fd < 0)
 	{
 		perror("outfile");
+		close_all_heredocs(data->tokens);
+		free_data(data);
 		exit(1);
 	}
 	dup2(fd, STDOUT_FILENO);
 	close(fd);
 }
 
-void	handle_append(t_token *cmd)
+void	handle_append(t_data *data, t_token *cmd)
 {
 	int	fd;
 
@@ -50,6 +52,8 @@ void	handle_append(t_token *cmd)
 	if (fd < 0)
 	{
 		perror("append");
+		close_all_heredocs(data->tokens);
+		free_data(data);
 		exit(1);
 	}
 	dup2(fd, STDOUT_FILENO);
@@ -72,9 +76,9 @@ void	handle_redirections(t_data *data, t_token *cmd)
 		if (cmd->type == REDIR_IN && cmd->next)
 			handle_redir_in(data, cmd);
 		else if (cmd->type == REDIR_OUT && cmd->next)
-			handle_redir_out(cmd);
+			handle_redir_out(data, cmd);
 		else if (cmd->type == APPEND && cmd->next)
-			handle_append(cmd);
+			handle_append(data, cmd);
 		else if (cmd->type == DELIMITEUR && cmd == last_heredoc)
 			handle_heredoc(cmd);
 		cmd = cmd->next;

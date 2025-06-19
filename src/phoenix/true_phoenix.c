@@ -60,12 +60,7 @@ void	process_type(t_token **phoenix, t_token *segment)
 		append_token(phoenix, to_add);
 	extract_args_after_cmd(phoenix, &segment);
 	extract_redir_in_pairs(phoenix, &segment);
-	extract_heredoc_pairs(phoenix, &segment);
 	extract_redir_out_pairs(phoenix, &segment);
-	add_all_matching_tokens(phoenix, &segment, find_append_signe_phoenix);
-	add_all_matching_tokens(phoenix, &segment, find_append_file_phoenix);
-	add_all_matching_tokens(phoenix, &segment, find_delimiteur_phoenix);
-	add_all_matching_tokens(phoenix, &segment, find_delimiteur_mot_phoenix);
 }
 
 void	append_pipe_if_needed(t_token **phoenix, t_token *pipe)

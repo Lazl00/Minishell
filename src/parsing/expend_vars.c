@@ -90,10 +90,10 @@ char	*simple_expend(t_data data, char *line, char *var, int i)
 	return (new_line);
 }
 
-char	*expend_vars(t_data data, char *line, int i, int i_cake)
+char	*expend_vars(t_data data, char *line, int i, int i_diff)
 {
 	char	*expended_line;
-	char	*caca;
+	char	*dupped_str;
 
 	expended_line = NULL;
 	while (line[i])
@@ -101,7 +101,7 @@ char	*expend_vars(t_data data, char *line, int i, int i_cake)
 		if (line[i] == '$' && check_quote_state(line, i, '\'') == 0)
 		{
 			if (is_heredoc(line, i) == false)
-				expended_line = simple_expend(data, line, &line[i], i_cake);
+				expended_line = simple_expend(data, line, &line[i], i_diff);
 			if (expended_line)
 			{
 				free(line);
@@ -113,9 +113,9 @@ char	*expend_vars(t_data data, char *line, int i, int i_cake)
 		else
 			i++;
 	}
-	caca = ft_strdup(line);
+	dupped_str = ft_strdup(line);
 	free(line);
-	return (caca);
+	return (dupped_str);
 }
 
 bool	is_heredoc(char	*line, int i)

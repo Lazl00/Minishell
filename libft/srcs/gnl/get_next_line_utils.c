@@ -11,7 +11,19 @@
 /* ************************************************************************** */
 
 #include "../../include/get_next_line.h"
-#define GNL_CLEAR 1
+
+void	buf_manager(char	*new_val)
+{
+	static char *buf;
+
+	if (new_val == NULL)
+	{
+		free(buf);
+		buf = NULL;
+	}
+	else
+		buf = new_val;
+}
 
 int	ft_found(const char *str)
 {
@@ -31,7 +43,7 @@ int	ft_found(const char *str)
 
 void	clear_gnl_buffer(char **buf, int flag)
 {
-	if (flag == GNL_CLEAR || *buf == NULL)
+	if (flag == 1 || *buf == NULL)
 	{
 		free(*buf);
 		*buf = NULL;

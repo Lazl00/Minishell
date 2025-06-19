@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 14:53:18 by wailas            #+#    #+#             */
-/*   Updated: 2025/04/30 16:13:16 by wailas           ###   ########.fr       */
+/*   Updated: 2025/06/17 15:31:29 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static char	is_in_set(char const *s1, char c)
 	return (0);
 }
 
-char	*ft_strtrim(char const *s1, char const *set)
+char	*ft_strtrim(char *s1, char *set)
 {
 	char	*result;
 	int		start;
@@ -52,5 +52,6 @@ char	*ft_strtrim(char const *s1, char const *set)
 		i++;
 	}
 	result[i] = '\0';
+	free(s1);
 	return (result);
 }

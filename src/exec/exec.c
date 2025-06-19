@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 12:25:16 by wailas            #+#    #+#             */
-/*   Updated: 2025/06/11 12:04:45 by wailas           ###   ########.fr       */
+/*   Updated: 2025/06/17 15:08:23 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,13 @@ void	ft_exec(t_data *data)
 
 	signal(SIGINT, SIG_IGN);
 	prepare_heredocs(data, data->tokens);
+	if (g_signal_pid == 42)
+    {
+        data->exit_status = 130;
+		g_signal_pid = 0;
+		close_all_heredocs(data->tokens);
+        return ;
+    }
 	exec_loop(data);
 	pid = wait(&status);
 	while (pid > 0)
@@ -73,6 +80,7 @@ void	ft_exec(t_data *data)
 	close_all_heredocs(data->tokens);
 	signal(SIGINT, sigint_handler);
 }
+
 
 int	interpret_status(int status)
 {

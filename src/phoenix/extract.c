@@ -21,7 +21,8 @@ void	extract_redir_out_pairs(t_token **phoenix, t_token **deprecated)
 	prev = NULL;
 	while (cur && cur->next)
 	{
-		if (cur->type == REDIR_OUT && cur->next->type == OUTFILE)
+		if ((cur->type == REDIR_OUT && cur->next->type == OUTFILE)
+			|| (cur->type == APPEND && cur->next->type == APPEND_FILE))
 			move_token_pair(phoenix, deprecated, &cur, &prev);
 		else
 		{
@@ -41,7 +42,7 @@ void	extract_redir_in_pairs(t_token **phoenix, t_token **deprecated)
 	while (cur && cur->next)
 	{
 		if ((cur->type == REDIR_IN && cur->next->type == INFILE)
-			|| (cur->type == APPEND && cur->next->type == APPEND_FILE))
+			|| (cur->type == DELIMITEUR && cur->next->type == DELIMITEUR_MOT))
 			move_token_pair(phoenix, deprecated, &cur, &prev);
 		else
 		{

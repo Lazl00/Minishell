@@ -19,11 +19,14 @@ void	exec_dispatch(t_data *data, t_token *start)
 	if (is_builtin(start))
 	{
 		exit_code = do_builtin(data, start);
+		close_all_heredocs(data->tokens);
 		free_data(data);
 		exit(exit_code);
 	}
 	else
+	{
 		exec_external(data, start);
+	}
 }
 
 void	update_prev_pipe(int prev_pipe[2], int pipe_fd[2])
