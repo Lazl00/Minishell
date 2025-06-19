@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:49:35 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/06/17 14:45:13 by wailas           ###   ########.fr       */
+/*   Updated: 2025/06/20 01:18:45 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,8 @@ void	sigint_handler(int sig);
 void    exit_line(char *line);
 void    exit_hdoc(t_data *data);
 void    exit_pipe(int fd);
+void	close_all_except(int keep1, int keep2);
+void	sigint_handler_heredoc(int sig);
 
 // bool
 bool	add_token_to_list(t_token **head, t_token **last, t_token *token);
@@ -215,5 +217,8 @@ t_data	*init_data(t_data *data, char **env);
 // pid_t
 pid_t	process_segment(t_data *data, t_token *start, int prev[2], int pipe[2]);
 void	print_heredocs(t_token *tokens);
-
+int		do_heredoc(t_data *data, char *delimiter, char *line);
+void	heredoc_child(t_data *data, char *delimiter, int pipe_fd[2]);
+int		heredoc_parent(int pipe_fd[2], pid_t pid);
+void	heredoc_child_exit(t_data *data, int write_end, char *trimmed);
 #endif
