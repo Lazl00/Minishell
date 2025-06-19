@@ -28,30 +28,26 @@ static char	is_in_set(char const *s1, char c)
 
 char	*ft_strtrim(char *s1, char *set)
 {
-	char	*result;
+	char	*res;
 	int		start;
 	int		end;
 	int		i;
 
-	start = 0;
 	if (!s1 || !set)
 		return (NULL);
-	while (s1[start] && (is_in_set(set, s1[start]) == 1))
+	start = 0;
+	while (s1[start] && is_in_set(set, s1[start]))
 		start++;
 	end = len(s1) - 1;
 	while (end >= start && is_in_set(set, s1[end]))
 		end--;
-	result = (char *)malloc(sizeof(char) * (end - start + 2));
-	if (!result)
+	res = malloc(end - start + 2);
+	if (!res)
 		return (NULL);
-	i = 0;
-	while (start <= end)
-	{
-		result[i] = s1[start];
-		start++;
-		i++;
-	}
-	result[i] = '\0';
+	i = -1;
+	while (++i + start <= end)
+		res[i] = s1[i + start];
+	res[i] = '\0';
 	free(s1);
-	return (result);
+	return (res);
 }

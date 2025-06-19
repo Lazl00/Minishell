@@ -6,46 +6,26 @@
 /*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 15:35:05 by wailas            #+#    #+#             */
-/*   Updated: 2025/04/24 18:10:36 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/06/20 01:55:55 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/get_next_line.h"
 #include "../../include/libft.h"
-\
 
 char	*read_line(int fd, char *str)
 {
 	char	*buffer;
-	char	*temp;
-	ssize_t	read_bytes;
 
 	buffer = malloc(BUFFER_SIZE + 1);
 	exit_buffer(buffer);
 	if (!buffer)
 		return (free(str), NULL);
+	str = init_str(str, buffer);
 	if (!str)
-	{
-		str = ft_calloc(1, sizeof(char));
-		exit_str(str, 0);
-		if (!str)
-			return (free(buffer), NULL);
-	}
-	while (1)
-	{
-		read_bytes = read(fd, buffer, BUFFER_SIZE);
-		if (read_bytes <= 0)
-			break ;
-		buffer[read_bytes] = '\0';
-		temp = str;
-		str = ft_strjoin(str, buffer);
-		free(temp);
-		if (ft_found(buffer) != -1)
-			break ;
-	}
-	free(buffer);
-	if (read_bytes == -1 || !str || !*str)
 		return (NULL);
+	str = read_loop(fd, buffer, str);
+	free(buffer);
 	return (str);
 }
 

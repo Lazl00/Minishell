@@ -6,18 +6,25 @@
 /*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 14:54:50 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/06/20 01:22:21 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/06/20 01:53:01 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void close_all_except(int keep1, int keep2)
+void	close_all_except(int keep1, int keep2)
 {
-	for (int fd = 3; fd < 1024; fd++) {
-		if (fd != keep1 && fd != keep2)
-			close(fd);
+	static int	fd = 3;
+
+	if (fd >= 1024)
+	{
+		fd = 3;
+		return ;
 	}
+	if (fd != keep1 && fd != keep2)
+		close(fd);
+	fd++;
+	close_all_except(keep1, keep2);
 }
 
 int	prepare_heredocs(t_data *data, t_token *tokens)
