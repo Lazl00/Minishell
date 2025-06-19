@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_loop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:01:58 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/06/04 14:06:22 by wailas           ###   ########.fr       */
+/*   Updated: 2025/06/19 21:32:41 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ pid_t	process_segment(t_data *data, t_token *start, int prev[2], int pipe[2])
 		data->exit_status = do_builtin(data, start);
 		return (-1);
 	}
+	write(2, "fork exec\n", 11);
 	pid = fork();
 	if (pid == 0)
 		exec_in_child(data, start, prev, pipe);

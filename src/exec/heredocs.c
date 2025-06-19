@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredocs.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 14:54:50 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/06/19 13:45:49 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/06/19 21:42:34 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,11 @@ int	do_heredoc(t_data *data, char *delimiter, char *line)
 		exit_pipe(pipe_fd[1]);
 		signal(SIGINT, sigint_handler_heredoc);
 		signal(SIGQUIT, SIG_IGN);
-		write(2, "enfant 1/2 fermes\n", 19);
+		write(2, "salope salope salope\n", 22);
+		write(2, "salope salope salope\n", 22);
+		write(2, "salope salope salope\n", 22);
+		write(2, "salope salope salope\n", 22);
+		//write(2, "enfant 1/2 fermes\n", 19);
 		close(pipe_fd[0]);
 		while (1)
 		{
@@ -95,13 +99,14 @@ int	do_heredoc(t_data *data, char *delimiter, char *line)
 		}
 		buf_manager(NULL);
 		free_data(data);
-		write(2, "enfant 2/2 fermes\n", 19);
+		//write(2, "enfant 2/2 fermes\n", 19);
 		close(pipe_fd[1]);
+		close(3);
 		exit(0);
 	}
 	else
 	{
-		write(2, "adulte 1/2 fermes\n", 19);
+		//write(2, "adulte 1/2 fermes\n", 19);
 		close(pipe_fd[1]);
 		waitpid(pid, &status, 0);
 		sigaction(SIGINT, &sa_old, NULL);
