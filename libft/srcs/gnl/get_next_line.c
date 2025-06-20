@@ -12,7 +12,6 @@
 
 #include "../../include/get_next_line.h"
 #include "../../include/libft.h"
-\
 
 char	*read_line(int fd, char *str)
 {

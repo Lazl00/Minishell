@@ -14,7 +14,7 @@
 
 void	exit_fd(void *fill)
 {
-	int fd;
+	int	fd;
 
 	(void)fill;
 	fd = 3;
@@ -25,25 +25,26 @@ void	exit_fd(void *fill)
 	}
 }
 
-void    close_all_except(int keep1, int keep2)
+void	close_all_except(int keep1, int keep2)
 {
-    static int    fd = 3;
+	static int	fd;
 
-    if (fd >= 1024)
-    {
-        fd = 3;
-        return ;
-    }
-    if (fd != keep1 && fd != keep2)
-        close(fd);
-    fd++;
-    close_all_except(keep1, keep2);
+	fd = 3;
+	if (fd >= 1024)
+	{
+		fd = 3;
+		return ;
+	}
+	if (fd != keep1 && fd != keep2)
+		close(fd);
+	fd++;
+	close_all_except(keep1, keep2);
 }
 
 int	prepare_heredocs(t_data *data, t_token *tokens)
 {
 	t_token	*tmp;
-	int fd;
+	int		fd;
 
 	tmp = tokens;
 	while (tmp)

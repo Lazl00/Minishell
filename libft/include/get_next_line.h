@@ -38,8 +38,8 @@ void	clear_gnl_buffer(char **buf, int flag);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 char	*str_join_and_free(char *s1, const char *s2);
 int		find_newline(const char *str);
-void    buf_manager(char *str);
-void    exit_str(char *line, int check);
-void    exit_buffer(char *line);
+void	buf_manager(char *str);
+void	exit_str(char *line, int check);
+void	exit_buffer(char *line);
 
 #endif
