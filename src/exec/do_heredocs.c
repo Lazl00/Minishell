@@ -89,18 +89,14 @@ int	do_heredoc(t_data *data, char *delimiter)
 {
 	int		pipe_fd[2];
 	pid_t	pid;
-	struct sigaction	sa_new;
-	struct sigaction	sa_old;
+	void	(*prev_handler)(int);
 
 	if (pipe(pipe_fd) == -1)
 		return (-1);
-	sa_new.sa_handler = SIG_IGN;
-	sigemptyset(&sa_new.sa_mask);
-	sa_new.sa_flags = 0;
-	sigaction(SIGINT, &sa_new, &sa_old);
+	prev_handler = signal(SIGINT, SIG_IGN);
 	pid = hdoc_fork(data, delimiter, pipe_fd);
 	if (pid < 0)
 		return (-1);
-	sigaction(SIGINT, &sa_old, NULL);
+	signal(SIGINT, prev_handler);
 	return (hdoc_wait(pid, pipe_fd));
 }

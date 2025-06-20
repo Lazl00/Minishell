@@ -61,6 +61,7 @@
     "ft_printf.h": "c",
     "unistd.h": "c",
     "minishell.h": "c",
-    "type_traits": "c"
+    "type_traits": "c",
+    "types.h": "c"
   }
 }
