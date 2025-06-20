@@ -12,6 +12,18 @@
 
 #include "../../includes/minishell.h"
 
+bool	is_n_option(const char *str)
+{
+	if (!str || str[0] != '-' || str[1] != 'n')
+		return (false);
+	for (int i = 2; str[i]; i++)
+	{
+		if (str[i] != 'n')
+			return (false);
+	}
+	return (true);
+}
+
 void	ft_display(t_token *curr, int fd)
 {
 	while (curr && curr->type == ARG)
@@ -25,27 +37,22 @@ void	ft_display(t_token *curr, int fd)
 
 bool	ft_echo(t_data *data, t_token *token)
 {
-	int		fd;
-	bool	new_line;
+		bool	new_line;
 	t_token	*curr;
 
-	fd = STDOUT_FILENO;
 	new_line = true;
 	curr = token->next;
 	if (!data || !token)
 		return (false);
-	while (curr && curr->type == ARG && ft_strncmp(curr->value, "-n", 3) == 0)
+	while (curr && curr->type == ARG && is_n_option(curr->value))
 	{
 		new_line = false;
 		curr = curr->next;
 	}
-	fd = find_outfile_fd(token);
-	if (fd < 0)
-		return (false);
-	ft_display(curr, fd);
+	ft_display(curr, find_outfile_fd(token));
 	if (new_line)
-		ft_putchar_fd('\n', fd);
-	if (fd != STDOUT_FILENO)
-		close(fd);
+		ft_putchar_fd('\n', find_outfile_fd(token));
+	if (find_outfile_fd(token) != STDOUT_FILENO)
+		close(find_outfile_fd(token));
 	return (true);
 }

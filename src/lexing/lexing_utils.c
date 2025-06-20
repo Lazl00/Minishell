@@ -12,23 +12,25 @@
 
 #include "../../includes/minishell.h"
 
-bool	check_append(t_token *tokens)
+bool	check_append(t_data *data)
 {
 	t_token	*tmp;
 
-	tmp = tokens;
+	tmp = data->tokens;
 	while (tmp)
 	{
 		if (tmp->type == APPEND)
 		{
 			if (tmp->next == NULL)
 			{
-				ft_printf("Missing file after append operator\n");
+				write(2, "Missing file after append operator\n", 36);
+				data->exit_status = 2;
 				return (false);
 			}
 			if (tmp->next->type != ARG)
 			{
-				ft_printf("Expected filename after append\n");
+				write(2, "Expected filename after append\n", 32);
+				data->exit_status = 2;
 				return (false);
 			}
 			tmp = tmp->next;
@@ -39,23 +41,25 @@ bool	check_append(t_token *tokens)
 	return (true);
 }
 
-bool	check_infile(t_token *token)
+bool	check_infile(t_data *data)
 {
 	t_token	*tmp;
 
-	tmp = token;
+	tmp = data->tokens;
 	while (tmp)
 	{
 		if (tmp->type == REDIR_IN)
 		{
 			if (tmp->next == NULL)
 			{
-				ft_printf("Missing file or delimiter after input redirection\n");
+				write(2, "Missing file or delimiter after input redirection\n", 21);
+				data->exit_status = 2;
 				return (false);
 			}
 			if (tmp->next->type != ARG)
 			{
-				ft_printf("Expected filename or delimiter\n");
+				write(2, "Expected filename or delimiter\n", 32);
+				data->exit_status = 2;
 				return (false);
 			}
 			tmp = tmp->next;
@@ -66,23 +70,25 @@ bool	check_infile(t_token *token)
 	return (true);
 }
 
-bool	check_delimiter(t_token *token)
+bool	check_delimiter(t_data *data)
 {
 	t_token	*tmp;
 
-	tmp = token;
+	tmp = data->tokens;
 	while (tmp)
 	{
 		if (tmp->type == DELIMITEUR)
 		{
 			if (tmp->next == NULL)
 			{
-				ft_printf("Missing delimiter after here-doc\n");
+				write(2, "Missing delimiter after here-doc\n", 34);
+				data->exit_status = 2;
 				return (false);
 			}
 			if (tmp->next->type != ARG)
 			{
-				ft_printf("Expected delimiter after here-doc\n");
+				write(2, "Expected delimiter after here-doc\n", 35);
+				data->exit_status = 2;
 				return (false);
 			}
 			tmp = tmp->next;

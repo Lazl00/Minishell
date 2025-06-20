@@ -18,7 +18,7 @@ void	norme_main(t_data *data)
 {
 	if (lexing(data) == false)
 	{
-		if (data->exit_status != 127)
+		if (data->exit_status != 127 && data->exit_status != 2) //chelou
 			data->exit_status = 1;
 		free_tokens(data->tokens);
 		data->tokens = NULL;
@@ -41,7 +41,10 @@ void	norm_signal(t_data *data)
 int	main(int argc, char **argv, char **env)
 {
 	t_data	*data;
+	int		exit_code;
 
+	exit_code = 0;
+	rl_outstream = stderr;
 	signal(SIGPIPE, SIG_IGN);
 	data = malloc(sizeof(t_data));
 	init_data(data, env);
@@ -50,8 +53,10 @@ int	main(int argc, char **argv, char **env)
 	rl_catch_signals = 0;
 	configure_signals(PARENT);
 	minishell_loop(data);
+	exit_code = data->exit_status;
 	free_data_main(data);
-	exit(0);
+	rl_clear_history();
+	exit(exit_code);
 }
 
 void	minishell_loop(t_data *data)

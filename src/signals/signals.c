@@ -12,6 +12,11 @@
 
 #include "../../includes/minishell.h"
 
+// void	tampon_130(void)
+// {
+// 	static int	
+// }
+
 void	sigint_handler(int sig)
 {
 	(void)sig;

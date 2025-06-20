@@ -40,11 +40,11 @@ bool	lexing(t_data *data)
 {
 	t_token	*clean_tokens;
 
-	if (!check_pipe(data->tokens))
+	if (!check_pipe(data))
 		return (false);
-	if (!check_outfile(data->tokens) || !check_append(data->tokens))
+	if (!check_outfile(data) || !check_append(data))
 		return (false);
-	if (!check_infile(data->tokens) || !check_delimiter(data->tokens))
+	if (!check_infile(data) || !check_delimiter(data))
 		return (false);
 	if (!check_cmd(data->tokens))
 		return (false);
@@ -62,26 +62,17 @@ bool	lexing(t_data *data)
 	return (true);
 }
 
-bool	check_pipe(t_token *tokens)
+bool	check_pipe(t_data *data)
 {
 	t_token	*tmp;
 
-	tmp = tokens;
+	tmp = data->tokens;
 	while (tmp)
 	{
-		if (tmp->type == PIPE && tmp == tokens)
+		if ((tmp->type == PIPE && tmp == data->tokens) || (tmp->type == PIPE && tmp->next == NULL) || (tmp->type == PIPE && tmp->next != NULL && tmp->next->type == PIPE))
 		{
-			ft_printf("Pipe at the beginning of the line\n");
-			return (false);
-		}
-		if (tmp->type == PIPE && tmp->next == NULL)
-		{
-			ft_printf("Pipe at the end of the line\n");
-			return (false);
-		}
-		if (tmp->type == PIPE && tmp->next != NULL && tmp->next->type == PIPE)
-		{
-			ft_printf("Two pipes in a row\n");
+			write(2, "Pipe syntax error.\n", 20);
+			data->exit_status = 2;
 			return (false);
 		}
 		tmp = tmp->next;
@@ -89,23 +80,25 @@ bool	check_pipe(t_token *tokens)
 	return (true);
 }
 
-bool	check_outfile(t_token *tokens)
+bool	check_outfile(t_data *data)
 {
 	t_token	*tmp;
 
-	tmp = tokens;
+	tmp = data->tokens;
 	while (tmp)
 	{
 		if (tmp->type == REDIR_OUT)
 		{
 			if (tmp->next == NULL)
 			{
-				ft_printf("Missing file after redirection operator\n");
+				write(2, "Missing file after redirection operator\n", 41);
+				data->exit_status = 2;
 				return (false);
 			}
 			if (tmp->next->type != ARG)
 			{
-				ft_printf("Expected filename after redirection\n");
+				write(2, "Expected filename after redirection\n", 37);
+				data->exit_status = 2;
 				return (false);
 			}
 			tmp = tmp->next;
