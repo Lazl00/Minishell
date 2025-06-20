@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   frees.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 18:48:25 by wailas            #+#    #+#             */
-/*   Updated: 2025/06/20 01:56:16 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/05/27 13:22:32 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,37 +57,4 @@ void	free_data_main(t_data *data)
 		free(data->env);
 	}
 	free(data);
-}
-
-char	*read_loop(int fd, char *buf, char *str)
-{
-	char	*tmp;
-	ssize_t	r;
-
-	while ((r = read(fd, buf, BUFFER_SIZE)) > 0)
-	{
-		buf[r] = '\0';
-		tmp = str;
-		str = ft_strjoin(str, buf);
-		free(tmp);
-		if (ft_found(buf) != -1)
-			break ;
-	}
-	if (r == -1 || !str || !*str)
-		return (free(str), NULL);
-	return (str);
-}
-char	*init_str(char *str, char *buffer)
-{
-	if (!str)
-	{
-		str = ft_calloc(1, sizeof(char));
-		exit_str(str, 0);
-		if (!str)
-		{
-			free(buffer);
-			return (NULL);
-		}
-	}
-	return (str);
 }

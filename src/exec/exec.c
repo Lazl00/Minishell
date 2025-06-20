@@ -63,12 +63,12 @@ void	ft_exec(t_data *data)
 	signal(SIGINT, SIG_IGN);
 	prepare_heredocs(data, data->tokens);
 	if (g_signal_pid == 42)
-	{
-		data->exit_status = 130;
+    {
+        data->exit_status = 130;
 		g_signal_pid = 0;
 		close_all_heredocs(data->tokens);
-		return ;
-	}
+        return ;
+    }
 	exec_loop(data);
 	pid = wait(&status);
 	while (pid > 0)
@@ -80,6 +80,7 @@ void	ft_exec(t_data *data)
 	close_all_heredocs(data->tokens);
 	signal(SIGINT, sigint_handler);
 }
+
 
 int	interpret_status(int status)
 {

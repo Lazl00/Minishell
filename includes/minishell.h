@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:49:35 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/06/20 01:56:29 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/06/20 11:02:35 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	print_str_array(char **arr);
 void	ft_child_infile(t_data *data, int fd_gen[2]);
 void	ft_parent_outfile(t_data *data, int fd_gen[2]);
 void	ft_child_cmd(t_token *token, char **env,
-		int prev_pipe[2], int next_pipe[2]);
+			int prev_pipe[2], int next_pipe[2]);
 void	ft_parent_cmd(int prev_pipe[2]);
 void	ft_exec(t_data *data);
 void	handle_redirections(t_data *data, t_token *cmd);
@@ -111,7 +111,7 @@ void	exec_loop(t_data *data);
 void	init_pipes(int *pipe_fd, int *has_pipe, t_token *segment_end);
 void	update_prev_pipe(int prev_pipe[2], int pipe_fd[2]);
 void	exec_child(t_data *data, t_token *start,
-		int prev_pipe[2], int pipe_fd[2]);
+			int prev_pipe[2], int pipe_fd[2]);
 void	exec_dispatch(t_data *data, t_token *start);
 void	exec_external(t_data *data, t_token *start);
 void	exit_execve_errno(void);
@@ -120,7 +120,7 @@ void	move_outfiles_to_last(t_token *segment_start);
 void	token_swap(t_token *first, t_token *second);
 void	append_token(t_token **head, t_token *to_add);
 void	add_all_matching_tokens(t_token **phoenix,
-		t_token **deprecated, t_token *(*finder)(t_token **));
+			t_token **deprecated, t_token *(*finder)(t_token **));
 void	extract_redir_out_pairs(t_token **phoenix, t_token **deprecated);
 void	extract_redir_in_pairs(t_token **phoenix, t_token **deprecated);
 void	extract_heredoc_pairs(t_token **phoenix, t_token **deprecated);
@@ -128,11 +128,10 @@ void	extract_args_after_cmd(t_token **phoenix, t_token **deprecated);
 void	process_type(t_token **phoenix, t_token *segment);
 void	append_pipe_if_needed(t_token **phoenix, t_token *pipe);
 void	sigint_handler(int sig);
-void	exit_line(char *line);
-void	exit_hdoc(t_data *data);
-void	exit_pipe(int fd);
-void	close_all_except(int keep1, int keep2);
-void	sigint_handler_heredoc(int sig);
+void    exit_line(char *line);
+void    exit_hdoc(t_data *data);
+void    exit_pipe(int fd);
+void	exit_fd(void *fill);
 
 // bool
 bool	add_token_to_list(t_token **head, t_token **last, t_token *token);
@@ -162,7 +161,7 @@ bool	check_access(t_data *data);
 bool	update_pwd_env(t_data *data, char *oldpwd);
 bool	new_token(t_token **head, t_token *new_token);
 bool	move_token_pair(t_token **phoenix, t_token **deprecated,
-		t_token **cur, t_token **prev);
+			t_token **cur, t_token **prev);
 bool	is_heredoc(char	*line, int i);
 bool	has_pipe(t_token *tokens);
 
@@ -188,8 +187,6 @@ char	*input_with_space(char *str);
 char	*check_exec(t_data *data, t_token *token, char **env);
 char	*get_cmd_path(char *cmd, char **envp);
 char	*simple_expend(t_data data, char *line, char *var, int i);
-char	*init_str(char *str, char *buffer);
-char	*read_loop(int fd, char *buf, char *str);
 
 // char **
 char	**build_argv(t_token *cmd);
@@ -219,8 +216,5 @@ t_data	*init_data(t_data *data, char **env);
 // pid_t
 pid_t	process_segment(t_data *data, t_token *start, int prev[2], int pipe[2]);
 void	print_heredocs(t_token *tokens);
-int		do_heredoc(t_data *data, char *delimiter, char *line);
-void	heredoc_child(t_data *data, char *delimiter, int pipe_fd[2]);
-int		heredoc_parent(int pipe_fd[2], pid_t pid);
-void	heredoc_child_exit(t_data *data, int write_end, char *trimmed);
+
 #endif
