@@ -41,6 +41,8 @@ SRCS =  main.c \
 		signals/signals.c \
 		exec/exec_loop.c \
 		exec/exec_loop_utils.c \
+		exec/do_heredocs.c \
+		exec/norminette.c \
 		phoenix/phoenix.c \
 		phoenix/find.c \
 		phoenix/extract.c \

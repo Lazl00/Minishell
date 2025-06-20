@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:49:35 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/06/20 11:02:35 by wailas           ###   ########.fr       */
+/*   Updated: 2025/06/20 12:13:26 by lcournoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,13 @@ typedef struct s_token {
 	bool			ignore;
 }	t_token;
 
+typedef struct s_hd
+{
+	char	*line;
+	char	*trim;
+	char	*exp;
+}	t_hd;
+
 typedef struct s_data {
 	char	**env;
 	t_token	*tokens;
@@ -105,7 +112,6 @@ void	ft_error(const char *msg, const char *detail);
 void	configure_signals(t_signal_mode mode);
 void	exit_clean(t_data *data, char **argv, int status);
 void	exit_perror(char *msg);
-int		prepare_heredocs(t_data *data, t_token *tokens);
 void	move_command_to_front(t_token *segment_start);
 void	exec_loop(t_data *data);
 void	init_pipes(int *pipe_fd, int *has_pipe, t_token *segment_end);
@@ -128,10 +134,15 @@ void	extract_args_after_cmd(t_token **phoenix, t_token **deprecated);
 void	process_type(t_token **phoenix, t_token *segment);
 void	append_pipe_if_needed(t_token **phoenix, t_token *pipe);
 void	sigint_handler(int sig);
+void	sigint_handler_heredoc(int sig);
 void	exit_line(char *line);
 void	exit_hdoc(t_data *data);
 void	exit_pipe(int fd);
 void	exit_fd(void *fill);
+void	close_all_except(int keep1, int keep2);
+void	handle_input(t_data *data, char *line, char *delimiter, int write_fd);
+void	norminette_hd(t_data *data, int write_fd);
+void	norminette_hd2(void);
 
 // bool
 bool	add_token_to_list(t_token **head, t_token **last, t_token *token);
@@ -176,7 +187,8 @@ int		print_error(char *str);
 int		copy_clean_var(char *dst, char *src, int i);
 int		count_outfiles(t_token *segment_start);
 int		interpret_status(int status);
-int		do_heredoc(t_data *data, char *delimiter, char *line);
+int		do_heredoc(t_data *data, char *delimiter);
+int		prepare_heredocs(t_data *data, t_token *tokens);
 
 // char *
 char	*quotes_remover(char *line);
