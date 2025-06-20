@@ -6,7 +6,7 @@
 /*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 15:35:09 by wailas            #+#    #+#             */
-/*   Updated: 2025/05/13 15:10:12 by wailas           ###   ########.fr       */
+/*   Updated: 2025/06/20 11:41:49 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,6 @@ int		find_newline(const char *str);
 void	buf_manager(char *str);
 void	exit_str(char *line, int check);
 void	exit_buffer(char *line);
+char	*handle(int fd, char **buffer);
 
 #endif

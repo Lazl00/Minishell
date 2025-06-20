@@ -60,8 +60,6 @@ LST_SRCS	:=	ft_atoi.c \
 				printf/ft_printf.c \
 				printf/ft_putnbrbase.c \
 				gnl/get_next_line.c \
-				gnl/get_next_line_bonus.c \
-				gnl/get_next_line_utils_bonus.c \
 				gnl/get_next_line_utils.c \
 
 LST_OBJS	:=	$(LST_SRCS:.c=.o)

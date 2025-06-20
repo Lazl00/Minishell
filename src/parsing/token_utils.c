@@ -12,21 +12,6 @@
 
 #include "../../includes/minishell.h"
 
-const char	*g_nom_tokens[] = {
-	"CMD",
-	"CMD_BUILTIN",
-	"REDIR_IN",
-	"REDIR_OUT",
-	"PIPE",
-	"OUTFILE",
-	"INFILE",
-	"DELIMITEUR",
-	"DELIMITEUR_MOT",
-	"APPEND",
-	"APPEND_FILE",
-	"ARG"
-};
-
 void	token_remove_quote(t_token *list)
 {
 	t_token	*tmp;

@@ -12,17 +12,6 @@
 
 #include "../../includes/minishell.h"
 
-void	print_heredocs(t_token *tokens)
-{
-	t_token	*tmp;
-
-	tmp = tokens;
-	while (tmp)
-	{
-		printf("%s\t%d\n", tmp->value, tmp->heredoc_fd);
-		tmp = tmp->next;
-	}
-}
 void	exec_loop(t_data *data)
 {
 	t_exec_context	ctx;
@@ -122,4 +111,3 @@ void	exec_external(t_data *data, t_token *start)
 	free_data(data);
 	exit_execve_errno();
 }
-//cat << s | cat << d | cat << f | cat << g

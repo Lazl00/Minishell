@@ -3,33 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lcournoy <lcournoy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 15:35:05 by wailas            #+#    #+#             */
-/*   Updated: 2025/04/24 18:10:36 by lcournoy         ###   ########.fr       */
+/*   Updated: 2025/06/20 11:39:44 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/get_next_line.h"
 #include "../../include/libft.h"
 
-char	*read_line(int fd, char *str)
+static char	*read_line_loop(int fd, char *buffer, char *str)
 {
-	char	*buffer;
-	char	*temp;
 	ssize_t	read_bytes;
+	char	*temp;
 
-	buffer = malloc(BUFFER_SIZE + 1);
-	exit_buffer(buffer);
-	if (!buffer)
-		return (free(str), NULL);
-	if (!str)
-	{
-		str = ft_calloc(1, sizeof(char));
-		exit_str(str, 0);
-		if (!str)
-			return (free(buffer), NULL);
-	}
 	while (1)
 	{
 		read_bytes = read(fd, buffer, BUFFER_SIZE);
@@ -46,6 +34,24 @@ char	*read_line(int fd, char *str)
 	if (read_bytes == -1 || !str || !*str)
 		return (NULL);
 	return (str);
+}
+
+char	*read_line(int fd, char *str)
+{
+	char	*buffer;
+
+	buffer = malloc(BUFFER_SIZE + 1);
+	exit_buffer(buffer);
+	if (!buffer)
+		return (free(str), NULL);
+	if (!str)
+	{
+		str = ft_calloc(1, sizeof(char));
+		exit_str(str, 0);
+		if (!str)
+			return (free(buffer), NULL);
+	}
+	return (read_line_loop(fd, buffer, str));
 }
 
 char	*update_buffer(char *buffer)
@@ -98,7 +104,7 @@ char	*ft_ligne(char *buffer)
 	return (str);
 }
 
-static char	*handle(int fd, char **buffer)
+char	*handle(int fd, char **buffer)
 {
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 	{
@@ -111,33 +117,4 @@ static char	*handle(int fd, char **buffer)
 	}
 	*buffer = read_line(fd, *buffer);
 	return (*buffer);
-}
-
-char	*get_next_line(int fd, int flag)
-{
-	static char	*buf;
-	char		*line;
-	char		*tmp;
-
-	clear_gnl_buffer(&buf, flag);
-	if (fd == -1)
-	{
-		clear_gnl_buffer(&buf, 1);
-		return (NULL);
-	}
-	buf = handle(fd, &buf);
-	if (!buf)
-		return (NULL);
-	buf_manager(buf);
-	line = ft_ligne(buf);
-	if (!line)
-	{
-		clear_gnl_buffer(&buf, 1);
-		return (NULL);
-	}
-	tmp = buf;
-	buf = update_buffer(buf);
-	buf_manager(buf);
-	free(tmp);
-	return (line);
 }

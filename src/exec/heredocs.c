@@ -27,9 +27,8 @@ void	exit_fd(void *fill)
 
 void	close_all_except(int keep1, int keep2)
 {
-	static int	fd;
+	static int	fd = 3;
 
-	fd = 3;
 	if (fd >= 1024)
 	{
 		fd = 3;

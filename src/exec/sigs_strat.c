@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sigs_strat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lcournoy <lcournoy@student.42.fr>          #+#  +:+       +#+        */
+/*   By: wailas <wailas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-06-19 11:37:44 by lcournoy          #+#    #+#             */
-/*   Updated: 2025/06/19 13:49:58 by lcournoy         ###   ########.fr       */
+/*   Created: 2025/06/19 11:37:44 by lcournoy          #+#    #+#             */
+/*   Updated: 2025/06/20 11:47:01 by wailas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void	exit_buffer(char *line)
 		backup = NULL;
 	}
 }
+
 void	exit_str(char *line, int check)
 {
 	static char	*backup;
